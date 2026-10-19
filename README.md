@@ -38,3 +38,14 @@ NumPy/Pillow.
 - WCAG contrast of hero text measured from painted pixels: 13.0:1 headline.
 - Real Tab-press focus ring, reduced-motion honoured, images lazy-load, zero
   third-party requests, HTML parser-clean, AX tree landmarks present.
+
+## Video
+
+`hyperframes/` holds a HyperFrames (HeyGen) composition: 20s, 1920×1080, 30fps
+title video for the site — "AURA HARNESS · the machine that built this page".
+Rendered copy: `dist/assets/video/aura-harness-intro.mp4` (8.9 MB, h264).
+
+Composition facts: one standalone timeline, four scenes (hero title card with
+Ken Burns, three plate crossfades, end card), system fonts only, 11/11 WCAG AA
+text checks, `check` passes with 0 errors. Render: beginframe capture, hardware
+GPU, 36s wall time.

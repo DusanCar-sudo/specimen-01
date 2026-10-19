@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>AURA HARNESS — the machine that built this page</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --navy: #0a101a;
+        --navy-2: #0d1522;
+        --line: #223244;
+        --ink: #eef2f6;
+        --muted: #9fb0c0;
+        --amber: #f0b060;
+        --amber-soft: #f6c98c;
+        --teal: #79c6c0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--navy);
+      }
+
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        color: var(--ink);
+        font-family: sans-serif;
+      }
+
+      .clip {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+
+      .plate {
+        position: absolute;
+        inset: 0;
+      }
+
+      .plate img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* ---------- title card ---------- */
+
+      .shade {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(10, 16, 26, 0.94) 0%,
+          rgba(10, 16, 26, 0.82) 38%,
+          rgba(10, 16, 26, 0.4) 68%,
+          rgba(10, 16, 26, 0.12) 100%
+        );
+      }
+
+      .title-content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 140px;
+      }
+
+      .eyebrow {
+        font-family: monospace;
+        font-size: 22px;
+        letter-spacing: 0.34em;
+        text-transform: uppercase;
+        color: var(--amber);
+        margin-bottom: 34px;
+      }
+
+      .headline {
+        font-family: serif;
+        font-weight: 400;
+        font-size: 118px;
+        line-height: 1.02;
+        letter-spacing: -0.015em;
+        max-width: 1120px;
+      }
+
+      .subline {
+        margin-top: 36px;
+        font-size: 30px;
+        line-height: 1.5;
+        color: #cdd8e2;
+        max-width: 760px;
+      }
+
+      .rule {
+        margin-top: 46px;
+        width: 300px;
+        height: 2px;
+        background: var(--amber);
+        transform-origin: left center;
+      }
+
+      /* ---------- plate captions ---------- */
+
+      .plate-caption {
+        position: absolute;
+        left: 120px;
+        bottom: 96px;
+        font-family: monospace;
+        font-size: 24px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--ink);
+      }
+
+      .plate-caption .no {
+        color: var(--amber);
+        margin-right: 18px;
+      }
+
+      .plate-caption .label {
+        color: var(--muted);
+      }
+
+      /* ---------- end card ---------- */
+
+      .end-card {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(
+          120% 90% at 50% 40%,
+          var(--navy-2) 0%,
+          var(--navy) 62%
+        );
+        text-align: center;
+      }
+
+      .mark {
+        width: 132px;
+        height: 132px;
+        border-radius: 50%;
+        border: 3px solid var(--amber);
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 58px;
+      }
+
+      .mark::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50%;
+        height: 100%;
+        background: var(--amber);
+      }
+
+      .wordmark {
+        font-family: monospace;
+        font-size: 30px;
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+        color: var(--ink);
+        margin-bottom: 30px;
+      }
+
+      .end-sub {
+        font-size: 26px;
+        color: var(--muted);
+        margin-bottom: 22px;
+      }
+
+      .end-url {
+        font-family: monospace;
+        font-size: 21px;
+        letter-spacing: 0.1em;
+        color: var(--teal);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="aura-harness-intro"
+      data-start="0"
+      data-duration="20"
+      data-fps="30"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- 0.0 – 7.2 : title card over the hero plate -->
+      <section id="scene-title" class="clip" data-start="0" data-duration="7.2" data-track-index="0">
+        <div id="kenb" class="plate">
+          <img src="assets/img/hero.webp" alt="" />
+        </div>
+        <div class="shade"></div>
+        <div id="title-content" class="title-content">
+          <p id="eyebrow" class="eyebrow">AURA HARNESS · Agent workstation</p>
+          <h1 id="headline" class="headline">The machine that built this page.</h1>
+          <p id="subline" class="subline">
+            Specimen 01 — a software engineering agent, described by what it does.
+          </p>
+          <div id="rule" class="rule"></div>
+        </div>
+      </section>
+
+      <!-- 7.2 – 15.8 : three plates, crossfading -->
+      <section id="plate-1" class="clip" data-start="7.2" data-duration="3.2" data-track-index="1">
+        <div id="kenb-1" class="plate">
+          <img src="assets/img/plate-glass.webp" alt="" />
+        </div>
+        <p class="plate-caption"><span class="no">01</span><span class="label">Identity</span></p>
+      </section>
+
+      <section id="plate-2" class="clip" data-start="9.9" data-duration="3.2" data-track-index="2">
+        <div id="kenb-2" class="plate">
+          <img src="assets/img/plate-trails.webp" alt="" />
+        </div>
+        <p class="plate-caption"><span class="no">02</span><span class="label">Method</span></p>
+      </section>
+
+      <section id="plate-3" class="clip" data-start="12.6" data-duration="3.2" data-track-index="3">
+        <div id="kenb-3" class="plate">
+          <img src="assets/img/plate-lattice.webp" alt="" />
+        </div>
+        <p class="plate-caption"><span class="no">03</span><span class="label">Receipts</span></p>
+      </section>
+
+      <!-- 15.4 – 20.0 : end card -->
+      <section id="scene-end" class="clip" data-start="15.4" data-duration="4.6" data-track-index="4">
+        <div class="end-card">
+          <div id="mark" class="mark"></div>
+          <p id="wordmark" class="wordmark">AURA HARNESS</p>
+          <p id="end-sub" class="end-sub">Built on the machine that serves it.</p>
+          <p id="end-url" class="end-url">dusancar-sudo.github.io/specimen-01</p>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      /* Title card: slow settle, staggered type */
+      tl.fromTo(
+        "#kenb",
+        { scale: 1.1, xPercent: 1.6 },
+        { scale: 1.0, xPercent: -1.6, duration: 7.1, ease: "none" },
+        0
+      );
+      tl.fromTo("#eyebrow", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0.3);
+      tl.fromTo("#headline", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, 0.5);
+      tl.fromTo("#subline", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0.85);
+      tl.fromTo("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.out" }, 1.0);
+      tl.to("#title-content", { opacity: 0, y: -12, duration: 0.7, ease: "power2.in" }, 6.4);
+
+      /* Plates: in 0.1s after clip start, out 0.65s before clip end */
+      const plate = (idx, start) => {
+        tl.fromTo(`#kenb-${idx}`, { scale: 1.12 }, { scale: 1.0, duration: 2.9, ease: "none" }, start);
+        tl.fromTo(`#plate-${idx} .plate-caption`, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" }, start + 0.15);
+        tl.to(`#plate-${idx} .plate-caption`, { opacity: 0, duration: 0.45, ease: "power2.in" }, start + 2.25);
+        tl.to(`#plate-${idx}`, { opacity: 0, duration: 0.55, ease: "power2.in" }, start + 2.55);
+      };
+      plate(1, 7.2);
+      plate(2, 9.9);
+      plate(3, 12.6);
+
+      /* End card */
+      tl.fromTo("#mark", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 15.6);
+      tl.fromTo("#wordmark", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 15.75);
+      tl.fromTo("#end-sub", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.out" }, 16.1);
+      tl.fromTo("#end-url", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.out" }, 16.4);
+
+      window.__timelines["aura-harness-intro"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
