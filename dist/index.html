@@ -3,398 +3,808 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aura Code — the agent that runs your business with you</title>
-<meta name="description" content="Aura Code is an autonomous agent that lives on your machine. It bookkeeps, chases overdue invoices, schedules your meetings and writes your software — while you stay in the room.">
-<link rel="canonical" href="https://www.leanproiq.com/">
-<meta property="og:title" content="Aura Code — Everything you run. Nothing you don't.">
-<meta property="og:description" content="An autonomous agent that bookkeeps, chases invoices, schedules meetings and writes your software.">
+<title>ARCHIMEDES — reflex-first control for embodied machines</title>
+<meta name="description" content="AR-1 moves on a 0.6 ms local policy, verifies every attempt against contact, torque and the friction cone, and invokes the 180 ms planner only when physics rejects it.">
+<meta property="og:title" content="ARCHIMEDES — reflex first. Deliberation only on rejection.">
+<meta property="og:description" content="A two-tier control stack for embodied machines. The cheap tier attempts, physics adjudicates, the planner is summoned only on rejection.">
 <meta property="og:type" content="website">
-<link rel="icon" href="site-assets/favicon.svg">
+<meta property="og:image" content="assets/ar/hand.webp">
+<meta name="theme-color" content="#080a0b">
+<script>document.documentElement.classList.add("js")</script>
+<link rel="icon" href="assets/ar/mark.svg" type="image/svg+xml">
 <style>
-@font-face { font-family:'Geist'; src:url('site-assets/fonts/geist.woff2') format('woff2'); font-weight:400 700; font-display:swap; }
-@font-face { font-family:'Geist Mono'; src:url('site-assets/fonts/geist-mono.woff2') format('woff2'); font-weight:400 500; font-display:swap; }
+@font-face{font-family:'Geist';src:url('site-assets/fonts/geist.woff2') format('woff2');font-weight:400 700;font-display:swap}
+@font-face{font-family:'Geist Mono';src:url('site-assets/fonts/geist-mono.woff2') format('woff2');font-weight:400 500;font-display:swap}
 
 :root{
-  --bg:#070907; --bg2:#0c100c; --card:#141a14; --card2:#1a211a; --desk:#0a0d0a;
-  --line:rgba(236,229,196,.11); --line2:rgba(236,229,196,.22);
-  --cream:#f2ebc9; --cream2:#e2dbb7; --soft:#d8cb95; --dim:#b9baa2; --mute:#8b8e7a;
-  --gold:#e7cf85; --warn:#d9a75c; --sage:#dde2c8; --olive:#535c37; --ok:#a8c79a;
-  --glass:rgba(9,12,9,.55);
+  --ink:#080a0b;
+  --panel:#0d1012;
+  --panel-2:#121619;
+  --bone:#e9e3d3;
+  --bone-2:#cfc9ba;
+  --dim:#a7a294;
+  --mute:#7f7e74;
+  --line:rgba(233,227,211,.13);
+  --line-2:rgba(233,227,211,.26);
+  --amber:#f3a445;
+  --ok:#a3bd90;
   --sans:'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;
   --mono:'Geist Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
-  --wrap:1240px; --gut:clamp(18px,4vw,56px);
+  --wrap:1320px;
+  --gut:clamp(20px,4vw,56px);
+  --bar:56px;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--cream);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-::selection{background:var(--gold);color:var(--ink,#10150f)}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:calc(var(--bar) + 24px)}
+body{margin:0;background:var(--ink);color:var(--bone);font:400 17px/1.62 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--amber);color:#131005}
 a{color:inherit}
-img,svg{display:block;max-width:100%}
+img,svg,video{display:block;max-width:100%}
+h1,h2,h3,h4,p,figure,dl,dd,dt{margin:0}
+button{font:inherit;color:inherit}
 
-/* ── desktop backdrop ── */
-.desk{position:fixed;inset:0;z-index:-2;background:
-  radial-gradient(1200px 700px at 75% -10%, rgba(83,92,55,.20), transparent 60%),
-  radial-gradient(900px 600px at -10% 110%, rgba(231,207,133,.06), transparent 55%),
-  var(--desk);}
-.desk::after{content:"";position:absolute;inset:0;
-  background-image:linear-gradient(rgba(236,229,196,.03) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(236,229,196,.03) 1px,transparent 1px);
-  background-size:44px 44px;mask-image:radial-gradient(80% 70% at 50% 30%,#000 30%,transparent 100%)}
-#sky{position:fixed;inset:0;z-index:-1;opacity:.9}
+/* ---------- shared technical layer ---------- */
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(233,227,211,.045) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(233,227,211,.045) 1px,transparent 1px);
+  background-size:80px 80px;
+  background-position:50% 0;
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 0,#000 0%,rgba(0,0,0,.35) 55%,transparent 100%);
+          mask-image:radial-gradient(120% 90% at 50% 0,#000 0%,rgba(0,0,0,.35) 55%,transparent 100%)}
+.wrap{width:min(100% - 2*var(--gut),var(--wrap));margin-inline:auto;position:relative;z-index:1}
+.mono{font-family:var(--mono);font-size:11px;line-height:1;letter-spacing:.16em;text-transform:uppercase;font-weight:400}
+.mono-sm{font-family:var(--mono);font-size:10px;line-height:1.4;letter-spacing:.14em;text-transform:uppercase}
+.dim{color:var(--mute)}
+.amber{color:var(--amber)}
+.rule{height:1px;background:var(--line);border:0}
 
-/* ── OS menubar ── */
-.bar{position:fixed;top:0;left:0;right:0;z-index:60;height:44px;display:flex;align-items:center;gap:18px;
-  padding:0 clamp(14px,2.4vw,28px);background:var(--glass);backdrop-filter:blur(16px) saturate(1.15);
-  border-bottom:1px solid var(--line);font:500 13.5px/1 var(--sans)}
-.bar .dot{width:11px;height:11px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px rgba(231,207,133,.55);flex:none}
-.bar .os{font-weight:700;letter-spacing:.02em;color:var(--cream)}
-.bar menu{display:flex;gap:4px;margin:0;padding:0;list-style:none}
-.bar menu a{padding:6px 10px;border-radius:7px;color:var(--dim);text-decoration:none;font-size:13px}
-.bar menu a:hover{background:rgba(242,235,201,.08);color:var(--cream)}
-.bar .sp{flex:1}
-.bar .clock{font:400 12.5px/1 var(--mono);color:var(--mute);letter-spacing:.04em}
-.bar .get{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 14px;border-radius:8px;
-  background:var(--gold);color:#141705;font-weight:700;font-size:13px;text-decoration:none;transition:filter .15s}
-.bar .get:hover{filter:brightness(1.08)}
-@media(max-width:960px){.bar menu{display:none}}
+.progress{position:fixed;top:0;left:0;right:0;height:1px;z-index:101;background:transparent}
+.progress span{display:block;height:100%;width:0;background:var(--amber);opacity:.9}
 
-/* ── window chrome ── */
-.win{background:var(--card);border:1px solid var(--line2);border-radius:14px;overflow:hidden;
-  box-shadow:0 24px 60px -28px rgba(0,0,0,.75)}
-.tbar{display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--card2);
-  border-bottom:1px solid var(--line);font:500 12px/1 var(--mono);color:var(--mute);letter-spacing:.06em}
-.tbar i{width:10px;height:10px;border-radius:50%;border:1px solid var(--line2);flex:none}
-.tbar i:first-child{background:var(--gold);border-color:var(--gold)}
-.tbar span{margin-left:4px}
-.tbar .tb-sp{flex:1}
+/* ---------- top bar ---------- */
+.top{position:fixed;top:0;left:0;right:0;height:var(--bar);z-index:100;display:flex;align-items:center;gap:24px;
+  padding:0 var(--gut);border-bottom:1px solid var(--line);
+  background:rgba(8,10,11,.72);backdrop-filter:blur(14px) saturate(1.1);-webkit-backdrop-filter:blur(14px) saturate(1.1)}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;flex:none}
+.brand svg{width:21px;height:21px}
+.brand b{font:600 13.5px/1 var(--sans);letter-spacing:.19em;text-transform:uppercase}
+.brand i{font:400 10px/1 var(--mono);letter-spacing:.1em;color:var(--mute);font-style:normal;padding:4px 6px;border:1px solid var(--line)}
+.top nav{display:flex;gap:2px;margin-left:10px}
+.top nav a{font:400 11px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--dim);text-decoration:none;padding:9px 11px;border:1px solid transparent}
+.top nav a:hover{color:var(--bone);border-color:var(--line)}
+.top .sp{flex:1}
+.link{display:flex;align-items:center;gap:9px;color:var(--mute)}
+.pulse{width:6px;height:6px;background:var(--ok);border-radius:50%;box-shadow:0 0 0 0 rgba(163,189,144,.5);animation:pulse 2.8s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(163,189,144,.45)}70%{box-shadow:0 0 0 7px rgba(163,189,144,0)}100%{box-shadow:0 0 0 0 rgba(163,189,144,0)}}
+.btn{display:inline-flex;align-items:center;gap:10px;height:32px;padding:0 14px;text-decoration:none;
+  font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--bone);color:var(--ink);background:var(--bone);transition:background .18s,color .18s,border-color .18s}
+.btn:hover{background:transparent;color:var(--bone)}
+.btn.ghost{background:transparent;color:var(--bone);border-color:var(--line-2)}
+.btn.ghost:hover{border-color:var(--bone)}
+.btn .tick{font-size:12px;transform:translateY(-.5px)}
+@media(max-width:1080px){.top nav{display:none}.top .link{display:none}}
+@media(max-width:620px){.brand i{display:none}.top{gap:12px}}
 
-main{padding-top:44px}
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:calc(100svh - 0px);display:flex;flex-direction:column;justify-content:flex-end;
+  padding-top:var(--bar);border-bottom:1px solid var(--line);overflow:hidden;isolation:isolate}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 42%;
+  z-index:-3;filter:contrast(1.04) brightness(1.02)}
+.hero-scrim{position:absolute;inset:0;z-index:-2;background:
+  linear-gradient(180deg,rgba(8,10,11,.82) 0%,rgba(8,10,11,.28) 32%,rgba(8,10,11,.55) 66%,rgba(8,10,11,.92) 100%),
+  linear-gradient(90deg,rgba(8,10,11,.9) 0%,rgba(8,10,11,.52) 42%,rgba(8,10,11,.04) 78%)}
+.hero-scan{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.26;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.5) 0 1px,transparent 1px 3px)}
+.hero-inner{width:min(100% - 2*var(--gut),var(--wrap));margin-inline:auto;position:relative;z-index:2;padding-block:clamp(40px,7vh,90px) 0}
+.hero-meta{display:flex;justify-content:space-between;gap:20px;color:var(--mute);padding-bottom:clamp(28px,5vh,64px)}
+.hero-meta span{white-space:nowrap}
+.hero h1{font:500 clamp(42px,6.2vw,94px)/.96 var(--sans);letter-spacing:-.035em;max-width:15ch;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--dim)}
+.hero-sub{margin-top:clamp(22px,3.4vh,34px);max-width:60ch;font-size:clamp(15px,1.25vw,18px);line-height:1.62;color:var(--bone-2)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(24px,3.6vh,36px)}
+.hero-actions .btn{height:40px;padding:0 18px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);margin-top:clamp(36px,6vh,72px);border-top:1px solid var(--line-2)}
+.metric{padding:16px 18px 18px 0;border-right:1px solid var(--line)}
+.metric:last-child{border-right:0}
+.metric dt{color:var(--mute)}
+.metric dd{margin:8px 0 0;font:400 clamp(20px,2vw,28px)/1 var(--mono);letter-spacing:-.02em;color:var(--bone)}
+.metric dd small{font-size:.55em;color:var(--mute);margin-left:3px;letter-spacing:.06em}
+.scroll-cue{display:flex;align-items:center;gap:12px;color:var(--mute);padding:16px 0 18px}
+.scroll-cue .line{width:44px;height:1px;background:var(--line-2);position:relative;overflow:hidden}
+.scroll-cue .line::after{content:"";position:absolute;inset:0;background:var(--amber);transform:translateX(-100%);animation:sweep 3.2s ease-in-out infinite}
+@keyframes sweep{0%{transform:translateX(-100%)}55%{transform:translateX(100%)}100%{transform:translateX(100%)}}
+@media(max-width:760px){
+  .hero{min-height:auto;padding-top:calc(var(--bar) + 24px)}
+  .hero-inner{padding-block:56px 0}
+  .hero h1{max-width:12ch}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .metric:nth-child(2){border-right:0}
+  .metric:nth-child(1),.metric:nth-child(2){border-bottom:1px solid var(--line)}
+  .hero-video{display:none}
+  .hero{background:url('assets/ar/hand.webp') 50% 44%/cover no-repeat}
+}
 
-/* ── hero ── */
-.hero{min-height:calc(100svh - 44px);display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,64px);
-  align-items:center;max-width:var(--wrap);margin:0 auto;padding:clamp(40px,7vh,90px) var(--gut)}
-.kicker{display:inline-flex;align-items:center;gap:10px;font:500 12.5px/1 var(--mono);letter-spacing:.14em;
-  text-transform:uppercase;color:var(--soft);border:1px solid var(--line2);border-radius:999px;padding:9px 16px;background:var(--glass)}
-.kicker b{color:var(--gold);font-weight:500}
-h1{font-size:clamp(42px,6.2vw,86px);line-height:1.02;letter-spacing:-.025em;font-weight:700;margin:26px 0 0}
-h1 em{font-style:normal;color:var(--gold)}
-.lede{font-size:clamp(17px,1.6vw,20px);color:var(--dim);max-width:56ch;margin:22px 0 0}
-.lede b{color:var(--cream2);font-weight:600}
-.cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
-.btn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;border-radius:12px;
-  font-weight:700;font-size:16px;text-decoration:none;transition:filter .15s,transform .15s}
-.btn:active{transform:translateY(1px)}
-.btn-gold{background:var(--gold);color:#141705}
-.btn-gold:hover{filter:brightness(1.08)}
-.btn-ghost{border:1px solid var(--line2);color:var(--cream2);background:var(--glass)}
-.btn-ghost:hover{border-color:var(--soft)}
-.btn .cr{font:400 14px var(--mono);opacity:.75}
-.hero-r{position:relative}
-.hero-r .win{transform:rotate(.4deg)}
-.term{padding:20px 22px 24px;font:400 13.5px/1.75 var(--mono);min-height:390px;white-space:pre-wrap;color:var(--dim)}
-.term .g{color:var(--gold)} .term .o{color:var(--sage)} .term .m{color:var(--mute)} .term .c{color:var(--cream)}
-.term .caret{display:inline-block;width:8px;height:15px;background:var(--gold);vertical-align:-2px;animation:bl .8s steps(1) infinite}
-@keyframes bl{50%{opacity:0}}
-.badge-float{position:absolute;right:-14px;bottom:-18px;background:var(--card2);border:1px solid var(--line2);
-  border-radius:12px;padding:12px 16px;font:500 12.5px var(--mono);color:var(--soft);box-shadow:0 18px 40px -18px rgba(0,0,0,.8)}
-.badge-float b{color:var(--gold);font-weight:500}
-@media(max-width:960px){.hero{grid-template-columns:1fr;min-height:0}.hero-r .win{transform:none}.badge-float{right:6px}}
+/* ---------- section furniture ---------- */
+.sec{border-top:1px solid var(--line);padding-block:clamp(64px,9vw,120px);position:relative;z-index:1}
+.sec-head{display:flex;align-items:baseline;gap:24px;margin-bottom:clamp(34px,5vw,62px);flex-wrap:wrap}
+.sec-head h2{font:500 clamp(28px,3.9vw,52px)/1.04 var(--sans);letter-spacing:-.028em;max-width:20ch;text-wrap:balance;margin-left:auto}
+.sec-head .idx{color:var(--amber)}
+@media(max-width:820px){.sec-head h2{margin-left:0;flex-basis:100%}}
 
-/* ── sections ── */
-.sec{max-width:var(--wrap);margin:0 auto;padding:clamp(64px,10vh,130px) var(--gut)}
-.shead{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:38px;flex-wrap:wrap}
-.snum{font:400 12px var(--mono);color:var(--mute);letter-spacing:.18em;text-transform:uppercase}
-h2{font-size:clamp(30px,3.6vw,52px);line-height:1.06;letter-spacing:-.02em;margin:10px 0 0;font-weight:700}
-h2 em{font-style:normal;color:var(--gold)}
-.snote{max-width:38ch;color:var(--dim);font-size:15.5px;margin:0}
+/* ---------- thesis ---------- */
+.thesis-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:clamp(32px,6vw,84px);align-items:start}
+.lede{font:400 clamp(20px,2.2vw,30px)/1.34 var(--sans);letter-spacing:-.015em;color:var(--bone)}
+.lede b{font-weight:500;color:var(--amber)}
+.body-copy{margin-top:26px;color:var(--dim);max-width:64ch;font-size:16.5px}
+.notes{display:grid;gap:0;border-top:1px solid var(--line)}
+.note{padding:18px 0;border-bottom:1px solid var(--line)}
+.note dt{color:var(--amber);margin-bottom:8px}
+.note dd{color:var(--bone-2);font-size:14.5px;line-height:1.5}
+@media(max-width:900px){.thesis-grid{grid-template-columns:minmax(0,1fr)}}
 
-/* capabilities grid */
-.caps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-@media(max-width:1080px){.caps{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:620px){.caps{grid-template-columns:1fr}}
-.cap{padding:0;display:flex;flex-direction:column}
-.cap .bd{padding:18px 18px 20px;flex:1;display:flex;flex-direction:column;gap:10px}
-.cap h3{margin:0;font-size:17px;font-weight:600;letter-spacing:-.01em}
-.cap p{margin:0;color:var(--dim);font-size:14.5px;line-height:1.55;flex:1}
-.chip{align-self:flex-start;font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;
-  padding:5px 10px;border-radius:999px;border:1px solid var(--line2);color:var(--soft)}
-.chip.rm{color:var(--mute)}
-.cap .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
-  background:rgba(231,207,133,.08);border:1px solid var(--line);color:var(--gold);font:400 16px var(--mono)}
+/* ---------- beats ---------- */
+.beat{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,4.5vw,64px);align-items:start;
+  padding-block:clamp(44px,6vw,84px);border-top:1px solid var(--line)}
+.beat:first-of-type{border-top:0;padding-top:0}
+.beat:nth-of-type(even){grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+.beat:nth-of-type(even) .beat-fig{order:2}
+.beat-fig{position:relative;border:1px solid var(--line-2);background:var(--panel);overflow:hidden}
+.beat-fig img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;filter:contrast(1.03) brightness(1.12)}
+.beat-fig::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 4px);opacity:.22;mix-blend-mode:multiply}
+.beat-fig figcaption{display:flex;justify-content:space-between;gap:14px;padding:10px 12px;border-top:1px solid var(--line-2);
+  background:rgba(8,10,11,.6);color:var(--mute);font:400 9.5px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;position:relative;z-index:2}
+.beat-fig figcaption .plate-no{color:var(--bone)}
+.beat-fig figcaption .rt{text-align:right}
+.beat-k{display:flex;align-items:center;gap:14px;color:var(--mute);margin-bottom:16px}
+.beat-k .k-no{color:var(--amber);white-space:nowrap}
+.beat-k .k-rule{flex:1;height:1px;background:var(--line)}
+.beat-copy h3{font:500 clamp(24px,3vw,38px)/1.08 var(--sans);letter-spacing:-.024em;text-wrap:balance}
+.beat-copy p{margin-top:16px;color:var(--dim);font-size:16px;line-height:1.62;max-width:52ch}
+.data{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:26px;border-top:1px solid var(--line-2)}
+.data > div{padding:12px 12px 0 0;border-right:1px solid var(--line);min-width:0}
+.data > div:last-child{border-right:0}
+.data dt{color:var(--mute);font:400 9.5px/1.3 var(--mono);letter-spacing:.13em;text-transform:uppercase}
+.data dd{margin-top:7px;font:400 13.5px/1.2 var(--mono);color:var(--bone);letter-spacing:-.01em;overflow-wrap:anywhere}
+.diagram{margin-top:24px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(18,22,25,.9),rgba(10,13,15,.9))}
+.diagram header{display:flex;justify-content:space-between;gap:12px;padding:9px 12px;border-bottom:1px solid var(--line);color:var(--mute)}
+.diagram svg{width:100%;height:auto}
+@media(max-width:900px){
+  .beat,.beat:nth-of-type(even){grid-template-columns:minmax(0,1fr)}
+  .beat:nth-of-type(even) .beat-fig{order:0}
+  .data{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:480px){.data{grid-template-columns:repeat(2,minmax(0,1fr))}.data > div:nth-child(2){border-right:0}}
 
-/* flow */
-.flow{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(20px,3vw,44px);align-items:start}
-@media(max-width:960px){.flow{grid-template-columns:1fr}}
-.steps{display:flex;flex-direction:column}
-.step{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
-.step:last-child{border-bottom:0}
-.step .n{width:34px;height:34px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;
-  font:500 13px var(--mono);color:var(--gold)}
-.step h3{margin:2px 0 6px;font-size:17.5px;font-weight:600}
-.step p{margin:0;color:var(--dim);font-size:14.5px;line-height:1.55}
-.step .tail{font:400 11.5px var(--mono);color:var(--mute);margin-top:6px;letter-spacing:.04em}
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
-.kpi .l{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
-.kpi .v{font:600 clamp(24px,2.6vw,34px)/1.15 var(--mono);color:var(--gold);margin-top:8px;letter-spacing:-.02em}
-.kpi .s{font-size:12.5px;color:var(--dim);margin-top:4px}
-.bars{display:flex;align-items:flex-end;gap:8px;height:110px;margin-top:14px;padding:0 2px}
-.bars i{flex:1;background:linear-gradient(180deg,var(--gold),rgba(231,207,133,.25));border-radius:4px 4px 0 0;
-  height:calc(var(--h)*1%);transform-origin:bottom;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
-.bars i:nth-child(4){background:linear-gradient(180deg,var(--sage),rgba(221,226,200,.25))}
-@keyframes rise{from{transform:scaleY(0)}}
+/* ---------- architecture ---------- */
+.arch{position:relative;overflow:hidden;border-top:1px solid var(--line);padding-block:clamp(64px,9vw,120px)}
+.arch-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.3;filter:contrast(1.1);z-index:0}
+.arch::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--ink) 0%,rgba(8,10,11,.3) 26%,rgba(8,10,11,.55) 74%,var(--ink) 100%);z-index:0}
+.arch .wrap{position:relative;z-index:1}
+.arch-copy{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(24px,5vw,72px);align-items:end;margin-bottom:clamp(30px,4vw,54px)}
+.arch-copy p{color:var(--dim);max-width:52ch;font-size:16px}
+.arch-svg{border:1px solid var(--line-2);background:rgba(6,8,9,.86)}
+.arch-svg svg{width:100%;height:auto}
+.arch-list{display:none;list-style:none;padding:0;margin:0;border-top:1px solid var(--line-2)}
+.arch-list li{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14.5px;color:var(--bone-2)}
+.arch-list li b{font:400 10px/1.6 var(--mono);letter-spacing:.14em;color:var(--amber);flex:none;width:22px}
+@media(max-width:900px){.arch-copy{grid-template-columns:minmax(0,1fr)}.arch-svg{display:none}.arch-list{display:block}}
 
-/* pricing */
-.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
-@media(max-width:960px){.tiers{grid-template-columns:1fr}}
-.tier{padding:24px;display:flex;flex-direction:column;gap:0}
-.tier .nm{font:500 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
-.tier .pr{font:600 44px/1 var(--mono);letter-spacing:-.03em;margin:16px 0 2px;color:var(--cream)}
-.tier .pr small{font:400 14px var(--mono);color:var(--mute);letter-spacing:0}
-.tier ul{list-style:none;margin:20px 0 26px;padding:0;display:flex;flex-direction:column;gap:11px;flex:1}
-.tier li{display:flex;gap:10px;color:var(--dim);font-size:14.5px;line-height:1.5}
-.tier li::before{content:"→";color:var(--gold);font-family:var(--mono);flex:none}
-.tier .btn{justify-content:center}
-.tier.hot{border-color:rgba(231,207,133,.45);box-shadow:0 0 0 1px rgba(231,207,133,.18),0 30px 70px -30px rgba(231,207,133,.14)}
-.tier.hot .nm{color:var(--gold)}
+/* ---------- specs ---------- */
+.spec-table{width:100%;border-collapse:collapse}
+.spec-table th{text-align:left;font:400 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute);
+  padding:0 0 14px;border-bottom:1px solid var(--line-2);width:50%}
+.spec-table th:last-child{text-align:right}
+.spec-table td{padding:13px 0;border-bottom:1px solid var(--line);font-size:15px;color:var(--bone-2)}
+.spec-table td:last-child{text-align:right;font-family:var(--mono);font-size:13.5px;color:var(--bone);letter-spacing:-.01em}
+.spec-table tr.group td{color:var(--amber);padding-top:30px;border-bottom:0;font:400 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase}
+.specs-wrap{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(28px,6vw,90px)}
+.spec-side{position:sticky;top:calc(var(--bar) + 28px);align-self:start}
+.spec-side h2{font:500 clamp(26px,3vw,40px)/1.08 var(--sans);letter-spacing:-.024em;margin-bottom:18px}
+.spec-side p{color:var(--dim);font-size:15.5px;max-width:38ch}
+.spec-side .stamp{margin-top:28px;padding:14px;border:1px solid var(--line-2);color:var(--mute)}
+.spec-side .stamp b{display:block;color:var(--bone);font:400 12px/1.5 var(--mono);letter-spacing:.04em;margin-top:6px}
+@media(max-width:900px){.specs-wrap{grid-template-columns:minmax(0,1fr)}.spec-side{position:static}}
 
-/* founder + footer */
-.founder{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(20px,3vw,44px);align-items:center}
-@media(max-width:960px){.founder{grid-template-columns:1fr}}
-.founder p{color:var(--dim);font-size:15.5px;max-width:52ch}
-.statusbar{border-top:1px solid var(--line);background:var(--glass);backdrop-filter:blur(12px)}
-.statusbar .in{max-width:var(--wrap);margin:0 auto;padding:16px var(--gut);display:flex;gap:22px;align-items:center;
-  flex-wrap:wrap;font:400 12.5px var(--mono);color:var(--mute)}
-.statusbar a{color:var(--soft);text-decoration:none}
-.statusbar a:hover{color:var(--cream)}
-.statusbar .led{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px rgba(168,199,154,.6);flex:none}
+/* ---------- audit ---------- */
+.audit .wrap{position:relative}
+.audit-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,64px);align-items:start}
+.audit h2{font:500 clamp(28px,3.6vw,46px)/1.05 var(--sans);letter-spacing:-.026em;margin-bottom:20px}
+.audit p{color:var(--dim);font-size:16px;max-width:46ch}
+.audit p + p{margin-top:14px}
+.audit .cite{margin-top:26px;color:var(--mute);font-size:12.5px;line-height:1.6;max-width:44ch;border-left:1px solid var(--line-2);padding-left:14px}
+.term{border:1px solid var(--line-2);background:#070909;box-shadow:0 30px 80px -50px #000}
+.term .tbar{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line);color:var(--mute)}
+.term .tbar .dots{display:flex;gap:5px;margin-right:6px}
+.term .tbar .dots i{width:5px;height:5px;border-radius:50%;background:var(--line-2);display:block}
+.term pre{margin:0;padding:18px 16px 22px;overflow-x:auto;font:400 12px/1.9 var(--mono);color:var(--bone-2);letter-spacing:.01em}
+.term pre .k{color:var(--mute)}
+.term pre .v{color:var(--bone)}
+.term pre .bad{color:var(--amber)}
+.term pre .ok{color:var(--ok)}
+.term-foot{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.term-foot div{padding:12px 14px;border-right:1px solid var(--line)}
+.term-foot div:last-child{border-right:0}
+.term-foot b{display:block;margin-top:6px;font:400 17px/1 var(--mono);color:var(--bone)}
+.term-foot b.bad{color:var(--amber)}
+@media(max-width:900px){.audit-grid{grid-template-columns:minmax(0,1fr)}}
 
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* ---------- access ---------- */
+.access{position:relative;border-top:1px solid var(--line);padding-block:clamp(70px,11vw,150px);overflow:hidden}
+.access-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22;z-index:0}
+.access::after{content:"";position:absolute;inset:0;background:radial-gradient(90% 120% at 20% 100%,rgba(8,10,11,.4),var(--ink) 72%);z-index:0}
+.access .wrap{position:relative;z-index:1}
+.access h2{font:500 clamp(34px,5.4vw,76px)/.98 var(--sans);letter-spacing:-.035em;max-width:16ch;text-wrap:balance}
+.access p{margin-top:22px;color:var(--dim);max-width:50ch}
+.access-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.access-cta .btn{height:46px;padding:0 22px}
+.access-foot{display:flex;justify-content:space-between;gap:20px;margin-top:clamp(44px,7vw,88px);padding-top:16px;border-top:1px solid var(--line);color:var(--mute);flex-wrap:wrap}
 
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:clamp(34px,5vw,56px) 0 40px;position:relative;z-index:1}
+.foot-grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,2fr) minmax(0,3fr) minmax(0,3fr);gap:32px}
+.foot-brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.foot-brand svg{width:18px;height:18px}
+.foot-brand b{font:600 12px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase}
+.foot-note{color:var(--mute);font-size:12.5px;line-height:1.6;max-width:32ch}
+.foot-col h4{font:400 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:14px}
+.foot-col a,.foot-col span{display:block;font-size:13.5px;color:var(--bone-2);text-decoration:none;padding:4px 0}
+.foot-col a:hover{color:var(--amber)}
+@media(max-width:900px){.foot-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media(max-width:560px){.foot-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- reveal ---------- */
+.js .rv{opacity:0;transform:translateY(16px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0ms)}
+.js .rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .rv{opacity:1;transform:none;transition:none}
+  .hero-video{display:none}
+  .scroll-cue .line::after,.pulse{animation:none}
+}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 </style>
 </head>
 <body>
-<div class="desk"></div>
-<canvas id="sky" aria-hidden="true"></canvas>
+<div class="grid-bg" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
-<nav class="bar" aria-label="Primary">
-  <span class="dot" aria-hidden="true"></span>
-  <span class="os">aura&nbsp;os</span>
-  <menu>
-    <li><a href="#capabilities">Capabilities</a></li>
-    <li><a href="#bookkeeping">Bookkeeping</a></li>
-    <li><a href="#reporting">Reporting</a></li>
-    <li><a href="#pricing">Licensing</a></li>
-    <li><a href="#founder">Founder</a></li>
-  </menu>
-  <span class="sp"></span>
-  <span class="clock" id="clock">--:--</span>
-  <a class="get" href="#pricing">Get Aura</a>
-</nav>
+<header class="top">
+  <a class="brand" href="#top" aria-label="Archimedes, back to top">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="none"/><path d="M12 46 L32 14 L52 46" fill="none" stroke="#e9e3d3" stroke-width="3"/><path d="M10 48 H54" stroke="#f3a445" stroke-width="3"/><circle cx="32" cy="30" r="4" fill="#f3a445"/></svg>
+    <b>Archimedes</b><i>AR-1</i>
+  </a>
+  <nav aria-label="Sections">
+    <a href="#thesis">Thesis</a>
+    <a href="#story">Six beats</a>
+    <a href="#stack">Stack</a>
+    <a href="#specs">Specs</a>
+    <a href="#audit">Field note</a>
+  </nav>
+  <div class="sp"></div>
+  <div class="link mono" aria-hidden="true"><span class="pulse"></span> Link / 0.6 ms</div>
+  <a class="btn" href="#access">Request access <span class="tick" aria-hidden="true">↗</span></a>
+</header>
 
 <main id="top">
-<h1 class="sr-only">Aura Code — the agent that runs your business with you</h1>
-<!-- HERO / boot -->
-<section class="win" id="boot">
-  <div class="tbar"><span class="dot"></span>aura — boot</div>
-  <div class="term" id="bootlog" aria-label="Aura OS boot log"></div>
-</section>
 
-<style>
-/* -- capability grid -- */
-.caps { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:16px }
-.cap { border:1px solid var(--line); padding:18px 20px; background:var(--bg2) }
-.cap h3 { margin:0 0 6px; font:600 15px/1.3 var(--mono); color:var(--cream) }
-.cap p { margin:0; font-size:14px; color:var(--dim) }
-.cap .st { float:right; font:500 10px/1 var(--mono); letter-spacing:.12em; color:var(--sage);
-  border:1px solid rgba(221,226,200,.25); padding:4px 7px; text-transform:uppercase }
-.cap .st.road { color:var(--gold); border-color:rgba(231,207,133,.3) }
+  <!-- ================= HERO ================= -->
+  <section class="hero" aria-labelledby="hero-title">
+    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="metadata"
+      poster="assets/ar/ar1-hero-poster.webp" aria-hidden="true" tabindex="-1">
+      <source src="assets/ar/ar1-hero.mp4" type="video/mp4" media="(min-width: 761px)">
+    </video>
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="hero-scan" aria-hidden="true"></div>
 
-/* -- flow strip -- */
-.flow { display:flex; flex-wrap:wrap; gap:0; margin-top:18px; counter-reset:fl }
-.step { flex:1 1 150px; border:1px solid var(--line); padding:14px 16px; position:relative;
-  margin-right:-1px; margin-bottom:-1px }
-.step b { display:block; font:600 13px/1.4 var(--mono); color:var(--cream); margin-bottom:4px }
-.step span { font-size:12.5px; color:var(--dim) }
-.step::before { counter-increment:fl; content:"0" counter(fl); position:absolute; top:10px; right:12px;
-  font:500 10px/1 var(--mono); color:var(--mute) }
+    <div class="hero-inner">
+      <div class="hero-meta mono">
+        <span>Plate 00 / AR-1 platform</span>
+        <span>Test cell 03 · rev 06.04</span>
+      </div>
 
-/* -- KPI readout -- */
-.kpis { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px }
-.kpi { border:1px solid var(--line); background:var(--bg2); padding:16px 18px }
-.kpi .v { font:600 30px/1.1 var(--mono); color:var(--gold); letter-spacing:-.02em }
-.kpi.warn .v { color:var(--warn) }
-.kpi .l { font:500 10.5px/1 var(--mono); letter-spacing:.14em; color:var(--mute); text-transform:uppercase; margin-top:6px }
+      <h1 id="hero-title">Reflex first. <em>Deliberation only on rejection.</em></h1>
+      <p class="hero-sub">AR-1 moves on a 0.6 ms local policy and verifies the attempt against contact, torque and the friction cone. The 180 ms planner is summoned only when physics rejects the motion — never to re-derive what the body already knows.</p>
 
-/* -- pricing -- */
-.tiers { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px }
-.tier { border:1px solid var(--line); padding:22px; background:var(--bg2); display:flex; flex-direction:column }
-.tier.f { border-color:rgba(231,207,133,.45); background:linear-gradient(180deg,#141a14,#1a211a) }
-.tier h3 { margin:0; font:600 15px/1.3 var(--mono); color:var(--cream) }
-.tier .p { font:600 40px/1 var(--mono); color:var(--gold); margin:14px 0 2px; letter-spacing:-.03em }
-.tier .p s { font-size:14px; color:var(--mute); font-weight:400; margin-left:6px }
-.tier ul { list-style:none; margin:14px 0 18px; padding:0; flex:1 }
-.tier ul li { font-size:13.5px; color:var(--dim); padding:5px 0 5px 20px; position:relative }
-.tier ul li::before { content:"\25B8"; position:absolute; left:0; color:var(--gold) }
-.tier a.b { text-align:center; padding:12px; border:1px solid var(--line2); color:var(--cream);
-  font:500 13px/1 var(--mono); text-decoration:none; letter-spacing:.06em }
-.tier.f a.b { background:var(--gold); color:#10150f; border-color:var(--gold); font-weight:600 }
-.tier .note { text-align:center; font:400 11px/1.5 var(--mono); color:var(--mute); margin-top:10px }
+      <div class="hero-actions">
+        <a class="btn" href="#story">The six beats <span class="tick" aria-hidden="true">↓</span></a>
+        <a class="btn ghost" href="#stack">Control stack</a>
+      </div>
 
-/* -- status bar -- */
-.statusbar { position:fixed; bottom:0; left:0; right:0; display:flex; align-items:center; gap:18px;
-  padding:7px 18px; border-top:1px solid var(--line); background:rgba(7,9,7,.88); backdrop-filter:blur(10px);
-  font:500 11.5px/1 var(--mono); color:var(--mute); z-index:50 }
-.statusbar .ok { color:var(--sage) }
-.statusbar .sp { flex:1 }
+      <dl class="metrics">
+        <div class="metric"><dt class="mono">Reflex loop</dt><dd>0.6<small>ms</small></dd></div>
+        <div class="metric"><dt class="mono">Verifier</dt><dd>2.1<small>ms</small></dd></div>
+        <div class="metric"><dt class="mono">Planner</dt><dd>180<small>ms</small></dd></div>
+        <div class="metric"><dt class="mono">Joints</dt><dd>32<small>dof</small></dd></div>
+      </dl>
 
-@media (max-width:920px) { .caps,.kpis,.tiers { grid-template-columns:1fr } .flow .step { flex:1 1 100% } }
-</style>
-
-<section class="win" id="capabilities">
-  <div class="tbar"><span class="dot"></span>aura — capabilities · v0.20</div>
-  <h2>What Aura actually does<span class="cursor">_</span></h2>
-  <p class="lead">Shipped today, running today. The one item still on the roadmap is marked as such — a promise you can check beats a demo you cannot.</p>
-  <div class="caps">
-    <div class="cap"><span class="st">Shipping</span><h3>Reads and raises invoices</h3><p>Pulls invoices out of mail or a folder, matches them to clients, writes the entry, keeps the books current.</p></div>
-    <div class="cap"><span class="st">Shipping</span><h3>Chases the money</h3><p>Reminder, then second notice, in your voice, from your address — every send recorded in the ledger.</p></div>
-    <div class="cap"><span class="st road">Roadmap · Twilio</span><h3>Calls the client</h3><p>When two emails go unanswered, Aura picks up the phone, negotiates the promise date, transcribes the outcome to the ledger.</p></div>
-    <div class="cap"><span class="st">Shipping</span><h3>Closes the quarter</h3><p>Turns the invoice database into a workbook and a one-page summary, produced by the same agent that chased the debt.</p></div>
-    <div class="cap"><span class="st">Shipping</span><h3>Schedules the meeting</h3><p>Reads the thread, proposes the slot, books it on both calendars.</p></div>
-    <div class="cap"><span class="st">Shipping</span><h3>Writes the software</h3><p>The agent builds its own tools — scripts, workflows, the site you are reading — versioned in git.</p></div>
-  </div>
-</section>
-
-<section class="win" id="bookkeeping">
-  <div class="tbar"><span class="dot"></span>aura — bookkeeping/dunning</div>
-  <h2>From unpaid invoice to closed quarter</h2>
-  <div class="flow">
-    <div class="step"><b>Invoice arrives</b><span>mail or folder, parsed to the ledger</span></div>
-    <div class="step"><b>Reminder one</b><span>your tone, your address, logged</span></div>
-    <div class="step"><b>Second notice</b><span>firm, still in your voice</span></div>
-    <div class="step"><b>The phone call</b><span>voice rail — roadmap stage</span></div>
-    <div class="step"><b>Quarter closed</b><span>workbook + one-pager, done</span></div>
-  </div>
-</section>
-
-<section class="win" id="reporting">
-  <div class="tbar"><span class="dot"></span>aura — reports/Q3-2026</div>
-  <h2>The quarter, already closed</h2>
-  <p class="lead">Produced by the same agent that sent the reminders.</p>
-  <div class="kpis">
-    <div class="kpi"><div class="v">$55,916</div><div class="l">Total billed · Q3</div></div>
-    <div class="kpi"><div class="v">87.0%</div><div class="l">Collection rate</div></div>
-    <div class="kpi warn"><div class="v">$7,259</div><div class="l">Overdue · flagged</div></div>
-  </div>
-</section>
-
-<section class="win" id="pricing">
-  <div class="tbar"><span class="dot"></span>aura — licensing</div>
-  <h2>Buy it like software, not like a subscription</h2>
-  <p class="lead">Three ways in. The founding tier is limited and priced for people who get in early.</p>
-  <div class="tiers">
-    <div class="tier">
-      <h3>Open core</h3>
-      <div class="p">$0</div>
-      <ul>
-        <li>The agent, the tools, the memory store</li>
-        <li>Bring your own model or local inference</li>
-        <li>MIT-licensed core you can read and fork</li>
-        <li>Community support</li>
-      </ul>
-      <a class="b" href="https://github.com/DusanCar-sudo" target="_blank" rel="noopener">Get it on GitHub</a>
-      <div class="note">forever free</div>
+      <div class="scroll-cue mono" aria-hidden="true"><span class="line"></span> Scroll / 01</div>
     </div>
-    <div class="tier f">
-      <h3>Aura Founding License</h3>
-      <div class="p">$99<s>once</s></div>
-      <ul>
-        <li>Full Aura Code agent, licensed for commercial use</li>
-        <li>Bookkeeping, dunning, quarterly close</li>
-        <li>Voice meeting mode and the shared memory store</li>
-        <li>Direct line to the person building it</li>
-        <li>Founder pricing held for life</li>
-      </ul>
-      <a class="b" href="https://leanproiq.lemonsqueezy.com/checkout/buy/e6ee5d30-0f9f-44aa-92b7-7e5fc4bd296e">Buy the license</a>
-      <div class="note">limited tier</div>
+  </section>
+
+  <!-- ================= THESIS ================= -->
+  <section class="sec" id="thesis" aria-labelledby="thesis-title">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="mono idx">01 / Thesis</span>
+        <h2 id="thesis-title">Motion is not a reasoning problem until the body says it is.</h2>
+      </div>
+      <div class="thesis-grid">
+        <div class="rv">
+          <p class="lede">A humanoid that re-plans every step spends its battery on arithmetic. AR-1 inverts the hierarchy: the cheapest controller that can produce a motion attempts it first, an independent verifier decides whether the result is admissible, and the expensive planner is called <b>only on rejection</b>.</p>
+          <p class="body-copy">The saving is not in the model. It is in what the model is never asked to do. Every attempt — including the ones that never reach the world — is written to an append-only ledger, clustered by motion pattern, and consolidated back into the reflex set. The reflex grows; the planner's share of the work falls.</p>
+        </div>
+        <dl class="notes rv" style="--d:120ms">
+          <div class="note">
+            <dt class="mono">i / The displaced volume</dt>
+            <dd>A body entering water displaces its own volume. Here the cheap tier displaces the cost of deliberation — same principle, different medium.</dd>
+          </div>
+          <div class="note">
+            <dt class="mono">ii / The gate</dt>
+            <dd>Admissibility is a cost inequality, not a confidence score. Competence is estimated per pattern from recorded attempts.</dd>
+          </div>
+          <div class="note">
+            <dt class="mono">iii / The verifier</dt>
+            <dd>It never sees which tier produced the motion. Its independence is the only reason the gate's savings survive contact with the world.</dd>
+          </div>
+        </dl>
+      </div>
     </div>
-    <div class="tier">
-      <h3>Done with you</h3>
-      <div class="p">Let's talk</div>
-      <ul>
-        <li>Aura wired into your mailbox, calendar and books</li>
-        <li>Your escalation rules, your tone of voice</li>
-        <li>Your workflows built with you</li>
-      </ul>
-      <a class="b" href="mailto:info@leanproiq.com">Talk to the founder</a>
-      <div class="note">serious operators only</div>
+  </section>
+
+  <!-- ================= STORY ================= -->
+  <section class="sec" id="story" aria-labelledby="story-title">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="mono idx">02 / Six beats</span>
+        <h2 id="story-title">One control loop, told in the order it runs.</h2>
+      </div>
+
+      <article class="beat rv" id="beat-01">
+        <figure class="beat-fig">
+          <img src="assets/ar/hand.webp" alt="Macro plate of an articulated robotic hand, graded to warm monochrome." width="1600" height="900" loading="lazy" decoding="async">
+          <figcaption><span class="plate-no">Plate 01</span><span>Articulated hand / 22 dof</span><span class="rt">Macro 1:1</span></figcaption>
+        </figure>
+        <div class="beat-copy">
+          <div class="beat-k mono"><span class="k-no">Beat 01 / 06</span><span class="k-rule"></span><span>Displacement</span></div>
+          <h3>The cheap tier goes first.</h3>
+          <p>Every task — a step, a reach, a grasp — is attempted by the local policy at 0.6 ms. It is allowed to fail. The attempt is recorded whether it succeeds or not, because an attempt that is not recorded cannot be learned from.</p>
+          <dl class="data">
+            <div><dt>Reflex</dt><dd>0.6 ms</dd></div>
+            <div><dt>Params</dt><dd>1.5 B</dd></div>
+            <div><dt>Recorded</dt><dd>always</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="beat rv" id="beat-02">
+        <figure class="beat-fig">
+          <img src="assets/ar/joint.webp" alt="Macro plate of a machined rotary actuator and joint assembly." width="1600" height="900" loading="lazy" decoding="async">
+          <figcaption><span class="plate-no">Plate 02</span><span>Rotary actuator / 320 n·m</span><span class="rt">1:1.4</span></figcaption>
+        </figure>
+        <div class="beat-copy">
+          <div class="beat-k mono"><span class="k-no">Beat 02 / 06</span><span class="k-rule"></span><span>The gate</span></div>
+          <h3>The gate is a cost inequality.</h3>
+          <p>Competence is estimated per motion pattern from the ledger. The cheap tier is admissible when its expected acceptance probability clears the break-even line: <span class="amber">q &gt; cS / cL</span>. Below the line, escalation is cheaper than the attempt.</p>
+          <figure class="diagram">
+            <header class="mono-sm"><span>Fig. 2 — break-even</span><span class="dim">cost / task vs. q</span></header>
+            <svg viewBox="0 0 460 280" role="img" aria-label="Break-even chart: the gated cost curve falls below the always-large cost once acceptance probability q exceeds cS over cL, marked q* at 0.18.">
+              <rect width="460" height="280" fill="#0b0e10"/>
+              <g stroke="#e9e3d3" stroke-opacity=".12" stroke-width="1">
+                <line x1="56" y1="70.4" x2="430" y2="70.4"/>
+                <line x1="56" y1="151.6" x2="430" y2="151.6"/>
+                <line x1="56" y1="232" x2="430" y2="232"/>
+                <line x1="149.5" y1="30" x2="149.5" y2="232"/>
+                <line x1="243" y1="30" x2="243" y2="232"/>
+                <line x1="336.5" y1="30" x2="336.5" y2="232"/>
+              </g>
+              <rect x="123.3" y="70.4" width="306.7" height="161.6" fill="#f3a445" fill-opacity=".07"/>
+              <line x1="56" y1="232" x2="430" y2="232" stroke="#e9e3d3" stroke-opacity=".5"/>
+              <line x1="56" y1="30" x2="56" y2="232" stroke="#e9e3d3" stroke-opacity=".5"/>
+              <line x1="56" y1="70.4" x2="430" y2="70.4" stroke="#e9e3d3" stroke-opacity=".65" stroke-dasharray="5 5"/>
+              <line x1="123.3" y1="70.4" x2="123.3" y2="232" stroke="#f3a445" stroke-width="1.2" stroke-dasharray="3 4"/>
+              <line x1="56" y1="41.3" x2="430" y2="202.9" stroke="#f3a445" stroke-width="1.8"/>
+              <circle cx="123.3" cy="70.4" r="3.4" fill="#f3a445"/>
+              <g fill="#a7a294" font-family="'Geist Mono',monospace" font-size="9" letter-spacing="1.1">
+                <text x="56" y="248">0</text>
+                <text x="149.5" y="248" text-anchor="middle">.25</text>
+                <text x="243" y="248" text-anchor="middle">.50</text>
+                <text x="336.5" y="248" text-anchor="middle">.75</text>
+                <text x="430" y="248" text-anchor="end">1.0</text>
+                <text x="48" y="73" text-anchor="end">1.0</text>
+                <text x="48" y="155" text-anchor="end">.50</text>
+                <text x="48" y="235" text-anchor="end">0</text>
+                <text x="430" y="266" text-anchor="end">ACCEPTANCE PROBABILITY q</text>
+                <text x="18" y="132" transform="rotate(-90 18 132)" text-anchor="middle">COST / TASK</text>
+              </g>
+              <g font-family="'Geist Mono',monospace" font-size="9.5" letter-spacing="1">
+                <text x="426" y="63" text-anchor="end" fill="#cfc9ba">ALWAYS · LARGE</text>
+                <text x="426" y="216" text-anchor="end" fill="#f3a445">GATED</text>
+                <text x="132" y="60" fill="#f3a445">q* = cS / cL = 0.18</text>
+              </g>
+            </svg>
+          </figure>
+          <dl class="data">
+            <div><dt>Condition</dt><dd>q &gt; cS/cL</dd></div>
+            <div><dt>θs</dt><dd>0.35</dd></div>
+            <div><dt>Explore</dt><dd>ε 0.05</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="beat rv" id="beat-03">
+        <figure class="beat-fig">
+          <img src="assets/ar/servo.webp" alt="Macro plate of a servo motor and planetary gear assembly." width="1600" height="900" loading="lazy" decoding="async">
+          <figcaption><span class="plate-no">Plate 03</span><span>Planetary set / μ 0.60</span><span class="rt">4:1</span></figcaption>
+        </figure>
+        <div class="beat-copy">
+          <div class="beat-k mono"><span class="k-no">Beat 03 / 06</span><span class="k-rule"></span><span>The verifier</span></div>
+          <h3>Physics adjudicates.</h3>
+          <p>An independent verifier checks the candidate motion against contact normals, joint torque limits and the friction cone. It never sees which tier produced the motion. Its only job is to keep the false-accept rate low enough that the gate's guarantees survive contact with the world.</p>
+          <figure class="diagram">
+            <header class="mono-sm"><span>Fig. 3 — friction cone</span><span class="dim">contact / force</span></header>
+            <svg viewBox="0 0 460 280" role="img" aria-label="Friction cone diagram: a contact normal with a cone of half-angle 31 degrees; a force vector inside the cone is accepted, one outside is rejected.">
+              <rect width="460" height="280" fill="#0b0e10"/>
+              <g stroke="#e9e3d3" stroke-opacity=".18" stroke-width="1">
+                <path d="M40 220 H420"/>
+                <path d="M56 220 l10 -12 M88 220 l10 -12 M120 220 l10 -12 M152 220 l10 -12 M184 220 l10 -12 M216 220 l10 -12 M248 220 l10 -12 M280 220 l10 -12 M312 220 l10 -12 M344 220 l10 -12 M376 220 l10 -12 M408 220 l10 -12"/>
+              </g>
+              <path d="M230 220 L145.9 80 L314.1 80 Z" fill="#e9e3d3" fill-opacity=".06" stroke="#e9e3d3" stroke-opacity=".28"/>
+              <line x1="230" y1="220" x2="230" y2="80" stroke="#e9e3d3" stroke-opacity=".6" stroke-dasharray="4 4"/>
+              <line x1="230" y1="220" x2="264.9" y2="80" stroke="#a3bd90" stroke-width="2"/>
+              <path d="M264.9 80 l-8 3 l3 -8 z" fill="#a3bd90"/>
+              <line x1="230" y1="220" x2="383.6" y2="100" stroke="#f3a445" stroke-width="2"/>
+              <path d="M383.6 100 l-9 1 l5 -8 z" fill="#f3a445"/>
+              <circle cx="230" cy="220" r="3.5" fill="#e9e3d3"/>
+              <path d="M230 158 A62 62 0 0 1 261.8 168" fill="none" stroke="#f3a445" stroke-opacity=".8"/>
+              <g font-family="'Geist Mono',monospace" font-size="9.5" letter-spacing="1">
+                <text x="238" y="104" fill="#cfc9ba">n</text>
+                <text x="252" y="150" fill="#f3a445">φ 31.0°</text>
+                <text x="272" y="76" fill="#a3bd90">ACCEPT</text>
+                <text x="392" y="96" fill="#f3a445">REJECT</text>
+                <text x="56" y="46" fill="#a7a294">μ = 0.60</text>
+                <text x="56" y="60" fill="#a7a294">tan φ = μ</text>
+              </g>
+            </svg>
+          </figure>
+          <dl class="data">
+            <div><dt>Friction</dt><dd>μ 0.60</dd></div>
+            <div><dt>False accept</dt><dd>≤ 2%</dd></div>
+            <div><dt>Torque</dt><dd>320 N·m</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="beat rv" id="beat-04">
+        <figure class="beat-fig">
+          <img src="assets/ar/arm.webp" alt="A single industrial robotic arm reaching across a dark test room." width="1600" height="900" loading="lazy" decoding="async">
+          <figcaption><span class="plate-no">Plate 04</span><span>Planner reach / cell 03</span><span class="rt">1:1</span></figcaption>
+        </figure>
+        <div class="beat-copy">
+          <div class="beat-k mono"><span class="k-no">Beat 04 / 06</span><span class="k-rule"></span><span>Escalation</span></div>
+          <h3>The planner is summoned, not consulted.</h3>
+          <p>On rejection, the full planner solves the failure — not the task. It receives the attempt, the verifier's objection and the pattern key. Mean cost 180 ms. The result is written back to the ledger, where it becomes evidence for the next gate decision on that pattern.</p>
+          <dl class="data">
+            <div><dt>Planner</dt><dd>180 ms</dd></div>
+            <div><dt>Calls</dt><dd>on reject only</dd></div>
+            <div><dt>Writeback</dt><dd>ledger</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="beat rv" id="beat-05">
+        <figure class="beat-fig">
+          <img src="assets/ar/gantry.webp" alt="Repeating gantry structure and robotic arms in a dark factory bay." width="1600" height="900" loading="lazy" decoding="async">
+          <figcaption><span class="plate-no">Plate 05</span><span>Gantry array / bay 03</span><span class="rt">1:1</span></figcaption>
+        </figure>
+        <div class="beat-copy">
+          <div class="beat-k mono"><span class="k-no">Beat 05 / 06</span><span class="k-rule"></span><span>Consolidation</span></div>
+          <h3>Failure becomes reflex.</h3>
+          <p>Rejected attempts are clustered by pattern, consolidated into the reflex set, and injected back into the next episode. The update is checked for contraction: if the consolidated memory does not shrink the distance between successive states, the loop does not continue. Monotone, or nothing.</p>
+          <dl class="data">
+            <div><dt>Stages</dt><dd>4</dd></div>
+            <div><dt>λ</dt><dd>&lt; 1</dd></div>
+            <div><dt>Fmin</dt><dd>20</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="beat rv" id="beat-06">
+        <figure class="beat-fig">
+          <img src="assets/ar/mocap.webp" alt="Figure in a tracking suit with reflective markers on a dark stage." width="1600" height="900" loading="lazy" decoding="async">
+          <figcaption><span class="plate-no">Plate 06</span><span>Tracking suit / 41 markers</span><span class="rt">120 hz</span></figcaption>
+        </figure>
+        <div class="beat-copy">
+          <div class="beat-k mono"><span class="k-no">Beat 06 / 06</span><span class="k-rule"></span><span>Fixed point</span></div>
+          <h3>The machine stops paying twice.</h3>
+          <p>Each pattern's reflex share rises, its planner share falls, and the cost per completed motion converges. The end state is not a smarter planner. It is a planner that is asked for less — and a body that has learned the shape of the room.</p>
+          <dl class="data">
+            <div><dt>Trend</dt><dd>q ↑</dd></div>
+            <div><dt>Cost</dt><dd>↓</dd></div>
+            <div><dt>Limit</dt><dd>fixed point</dd></div>
+          </dl>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= ARCHITECTURE ================= -->
+  <section class="arch" id="stack" aria-labelledby="stack-title">
+    <img class="arch-bg" src="assets/ar/blueprint.webp" alt="" aria-hidden="true" loading="lazy">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="mono idx">03 / Stack</span>
+        <h2 id="stack-title">Four stages. Two tiers. One append-only ledger.</h2>
+      </div>
+      <div class="arch-copy rv">
+        <p class="body-copy" style="margin-top:0">The loop is deliberately boring: execute, capture, consolidate, inject. What changes is where the cost lands. The planner enters only through the reject edge, and every path — pass, fail, abstain — leaves a record.</p>
+        <p class="mono dim">Read left to right. Amber is the escalation path; bone is the reflex path. Nothing exits the ledger.</p>
+      </div>
+
+      <div class="arch-svg rv" role="img" aria-label="Control-stack diagram: local policy attempts a motion, an independent verifier accepts it into the ledger or rejects it to the planner, which also writes to the ledger; the ledger consolidates into the reflex set and injects back into the local policy.">
+        <svg viewBox="0 0 1200 580" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="#e9e3d3" fill-opacity=".8"/>
+            </marker>
+            <marker id="arwa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="#f3a445"/>
+            </marker>
+          </defs>
+
+          <rect x="14" y="14" width="1172" height="552" stroke="#e9e3d3" stroke-opacity=".24"/>
+          <g stroke="#e9e3d3" stroke-opacity=".4">
+            <path d="M14 40 h30 M14 14 v30 M1186 40 h-30 M1186 14 v30 M14 540 h30 M14 566 v-30 M1186 540 h-30 M1186 566 v-30"/>
+          </g>
+          <text x="40" y="46" fill="#b9b3a4" font-family="'Geist Mono',monospace" font-size="12" letter-spacing="2.4">AR-1 / CONTROL LOOP · REV 06.04</text>
+          <text x="1160" y="46" text-anchor="end" fill="#b9b3a4" font-family="'Geist Mono',monospace" font-size="12" letter-spacing="2.4">SHEET 1 / 1</text>
+
+          <rect x="52" y="104" width="212" height="86" fill="#0f1316" stroke="#e9e3d3" stroke-opacity=".7"/>
+          <text x="68" y="134" fill="#f2ecdc" font-family="'Geist Mono',monospace" font-size="15" letter-spacing="1.8">LOCAL POLICY</text>
+          <text x="68" y="156" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="11.5" letter-spacing="1">attempt · always</text>
+          <text x="68" y="176" fill="#f3a445" font-family="'Geist Mono',monospace" font-size="11.5" letter-spacing="1">0.6 ms / 1.5 B</text>
+
+          <rect x="356" y="104" width="212" height="86" fill="#0f1316" stroke="#e9e3d3" stroke-opacity=".7"/>
+          <text x="372" y="134" fill="#f2ecdc" font-family="'Geist Mono',monospace" font-size="15" letter-spacing="1.8">VERIFIER</text>
+          <text x="372" y="156" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="11.5" letter-spacing="1">contact · torque</text>
+          <text x="372" y="176" fill="#b9d3a6" font-family="'Geist Mono',monospace" font-size="11.5" letter-spacing="1">2.1 ms / independent</text>
+
+          <rect x="820" y="88" width="270" height="118" fill="#0f1316" stroke="#e9e3d3" stroke-opacity=".7"/>
+          <text x="838" y="118" fill="#f2ecdc" font-family="'Geist Mono',monospace" font-size="15" letter-spacing="1.8">EPISODE LEDGER</text>
+          <text x="838" y="142" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="11.5" letter-spacing="1">append-only</text>
+          <text x="838" y="162" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="11.5" letter-spacing="1">attempt / result</text>
+          <text x="838" y="182" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="11.5" letter-spacing="1">objection · κ(t)</text>
+
+          <rect x="356" y="300" width="212" height="86" fill="#0f1316" stroke="#f3a445" stroke-opacity=".85"/>
+          <text x="372" y="330" fill="#f3a445" font-family="'Geist Mono',monospace" font-size="15" letter-spacing="1.8">PLANNER</text>
+          <text x="372" y="352" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="11.5" letter-spacing="1">solves the failure</text>
+          <text x="372" y="372" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="11.5" letter-spacing="1">180 ms / on reject</text>
+
+          <rect x="820" y="300" width="270" height="86" fill="#0f1316" stroke="#e9e3d3" stroke-opacity=".7"/>
+          <text x="838" y="330" fill="#f2ecdc" font-family="'Geist Mono',monospace" font-size="15" letter-spacing="1.8">CONSOLIDATE</text>
+          <text x="838" y="352" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="11.5" letter-spacing="1">cluster · train</text>
+          <text x="838" y="372" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="11.5" letter-spacing="1">λ &lt; 1 or stop</text>
+
+          <rect x="52" y="300" width="212" height="86" fill="#0f1316" stroke="#e9e3d3" stroke-opacity=".7"/>
+          <text x="68" y="330" fill="#f2ecdc" font-family="'Geist Mono',monospace" font-size="15" letter-spacing="1.8">REFLEX SET</text>
+          <text x="68" y="352" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="11.5" letter-spacing="1">injected context</text>
+          <text x="68" y="372" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="11.5" letter-spacing="1">grows monotonically</text>
+
+          <path d="M264 147 H350" stroke="#e9e3d3" stroke-opacity=".85" marker-end="url(#arw)"/>
+          <text x="307" y="138" text-anchor="middle" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="10.5" letter-spacing="1.2">CANDIDATE</text>
+
+          <path d="M568 130 H610 V100 H814" stroke="#a3bd90" stroke-opacity=".95" marker-end="url(#arw)"/>
+          <text x="676" y="92" text-anchor="middle" fill="#b9d3a6" font-family="'Geist Mono',monospace" font-size="10.5" letter-spacing="1.2">PASS</text>
+
+          <path d="M568 164 H610 V343 H814" stroke="#f3a445" stroke-opacity=".95" marker-end="url(#arwa)"/>
+          <text x="676" y="336" text-anchor="middle" fill="#f3a445" font-family="'Geist Mono',monospace" font-size="10.5" letter-spacing="1.2">REJECT</text>
+
+          <path d="M462 190 V294" stroke="#f3a445" stroke-opacity=".95" marker-end="url(#arwa)"/>
+
+          <path d="M462 386 V430 H954 V394" stroke="#e9e3d3" stroke-opacity=".7" marker-end="url(#arw)"/>
+          <text x="700" y="422" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="10.5" letter-spacing="1.2">RESULT + OBJECTION</text>
+
+          <path d="M820 343 H158 V394" stroke="#e9e3d3" stroke-opacity=".7" marker-end="url(#arw)"/>
+          <text x="500" y="462" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="10.5" letter-spacing="1.2">INJECT</text>
+
+          <path d="M158 300 V196" stroke="#e9e3d3" stroke-opacity=".7" marker-end="url(#arw)"/>
+          <text x="168" y="240" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="10.5" letter-spacing="1.2">NEXT EPISODE</text>
+
+          <text x="40" y="536" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="10.5" letter-spacing="1.4">COST SURFACE: cS = 0.18 cL · q* = 0.18 · θs = 0.35 · ε = 0.05</text>
+          <text x="1160" y="536" text-anchor="end" fill="#a7a294" font-family="'Geist Mono',monospace" font-size="10.5" letter-spacing="1.4">DRAWN NOT TO SCALE</text>
+        </svg>
+      </div>
+      </div>
+
+      <ol class="arch-list rv">
+        <li><b>01</b><span><strong>Local policy</strong> attempts every motion in 0.6 ms; the attempt is recorded whether it succeeds or not.</span></li>
+        <li><b>02</b><span><strong>Verifier</strong> checks contact, torque and the friction cone without knowing which tier produced the motion.</span></li>
+        <li><b>03</b><span><strong>Planner</strong> is invoked only on the reject edge, and only to solve the failure.</span></li>
+        <li><b>04</b><span><strong>Ledger → consolidate → reflex set</strong> closes the loop; λ &lt; 1 or the update is refused.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= SPECS ================= -->
+  <section class="sec" id="specs" aria-labelledby="specs-title">
+    <div class="wrap">
+      <div class="specs-wrap">
+        <div class="spec-side rv">
+          <span class="mono idx amber">04 / Specification</span>
+          <h2 id="specs-title" style="margin-top:16px">AR-1, as built.</h2>
+          <p>A research platform, not a product catalogue. Numbers below are measured on the current airframe with the standard 2.4 kWh pack, at 21 °C, on painted concrete.</p>
+          <div class="stamp mono-sm">
+            Build
+            <b>AR1-06.04 / cell 03</b>
+            <span class="dim" style="display:block;margin-top:8px">Last verification 2026-10-17</span>
+          </div>
+        </div>
+        <div class="rv" style="--d:120ms">
+          <table class="spec-table">
+            <thead><tr><th scope="col">Kinematics</th><th scope="col">Measured</th></tr></thead>
+            <tbody>
+              <tr><td>Degrees of freedom</td><td>32 (12 legs / 14 arms / 6 torso &amp; head)</td></tr>
+              <tr><td>Mass, ready to move</td><td>74 kg</td></tr>
+              <tr><td>Peak joint torque</td><td>320 N·m</td></tr>
+              <tr><td>Reach, shoulder to grasp</td><td>0.94 m</td></tr>
+              <tr><td>Foot contact patch</td><td>148 cm² / foot</td></tr>
+
+              <tr class="group"><td colspan="2">Control</td></tr>
+              <tr><td>Reflex loop</td><td>0.6 ms</td></tr>
+              <tr><td>Verifier pass</td><td>2.1 ms</td></tr>
+              <tr><td>Planner, mean</td><td>180 ms</td></tr>
+              <tr><td>Gate exploration floor</td><td>ε = 0.05</td></tr>
+              <tr><td>Pattern similarity θs</td><td>0.35 (Jaccard)</td></tr>
+
+              <tr class="group"><td colspan="2">Envelope</td></tr>
+              <tr><td>Friction, rubber on concrete</td><td>μ = 0.60</td></tr>
+              <tr><td>Operating temperature</td><td>−10 … 45 °C</td></tr>
+              <tr><td>Duty cycle</td><td>6 h / 2.4 kWh pack</td></tr>
+              <tr><td>Onboard inference</td><td>48 TOPS / 1 local tier</td></tr>
+              <tr><td>Ledger retention</td><td>append-only, indefinite</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= AUDIT ================= -->
+  <section class="sec audit" id="audit" aria-labelledby="audit-title">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="mono idx">05 / Field note</span>
+        <h2 id="audit-title" style="margin-left:auto">The gate that never opened.</h2>
+      </div>
+      <div class="audit-grid">
+        <div class="rv">
+          <p>Before AR-1 there was a coding agent. Same shape: cheap tier, competence gate, independent verifier, escalation. The 2026 audit of its deployment found 153 alternation decisions and <span class="amber">zero</span> cheap-tier attempts. Across 143 tasks, not one satisfied the gate's minimum-evidence condition.</p>
+          <p>The theory predicted it. Attempts that do not happen are not recorded, so the estimator can never learn why they did not happen — cold-start non-identifiability. The repair is an exploration floor that forces attempts at a fixed rate and records abstentions as evidence. AR-1 ships with ε = 0.05 from the first episode, not as an optimisation but as a precondition.</p>
+          <p class="cite">Audit reported in Milosavljević, <em>Recursive Learning and the Archimedes Principle</em> (2026), §7. Window 2026-09-13 → 2026-10-17; 1.049 × 10⁹ tokens.</p>
+        </div>
+        <div class="term rv" style="--d:120ms">
+          <div class="tbar mono-sm">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span>audit / read-only</span>
+            <span style="margin-left:auto" class="dim">2026-10-17</span>
+          </div>
+          <pre aria-label="Audit output: 1225 episodes, 1.049 billion tokens, 153 decisions, 0 attempts, 0 of 143 tasks satisfied the gate."><span class="k">ledger</span>      1,225 episodes
+<span class="k">tokens</span>      1.049e9
+<span class="k">window</span>      2026-09-13 → 2026-10-17
+<span class="k">decisions</span>   153 alternation events
+<span class="k">attempts</span>    <span class="bad">0</span>  ← cheap tier
+<span class="k">min-evidence</span> <span class="bad">0 / 143</span> tasks satisfied
+<span class="k">cause</span>       cold-start non-identifiability
+<span class="k">repair</span>      <span class="ok">ε = 0.05, abstentions recorded</span></pre>
+          <div class="term-foot mono-sm">
+            <div>Decisions<b>153</b></div>
+            <div>Attempts<b class="bad">0</b></div>
+            <div>Gate satisfied<b class="bad">0 / 143</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ACCESS ================= -->
+  <section class="access" id="access" aria-labelledby="access-title">
+    <img class="access-bg" src="assets/ar/lab.webp" alt="" aria-hidden="true" loading="lazy">
+    <div class="wrap">
+      <span class="mono amber">06 / Access</span>
+      <h2 id="access-title" style="margin-top:18px">Bring us a motion the planner keeps getting wrong.</h2>
+      <p>AR-1 is a research platform. We take on a small number of deployment programmes each quarter — manipulation, legged locomotion, and inspection work in environments where a 180 ms pause is the difference between a grasp and a collision.</p>
+      <div class="access-cta">
+        <a class="btn" href="mailto:programmes@archimedes.systems?subject=AR-1%20programme%20brief">Request the technical brief <span class="tick" aria-hidden="true">↗</span></a>
+        <a class="btn ghost" href="#story">Re-read the six beats</a>
+      </div>
+      <div class="access-foot mono-sm">
+        <span>Response within 5 working days</span>
+        <span>No procurement, no deck — a cell booking and an engineer</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 46 L32 14 L52 46" fill="none" stroke="#e9e3d3" stroke-width="3"/><path d="M10 48 H54" stroke="#f3a445" stroke-width="3"/><circle cx="32" cy="30" r="4" fill="#f3a445"/></svg>
+          <b>Archimedes</b>
+        </div>
+        <p class="foot-note">A fictional hardware programme, built as a demonstration. Plates generated locally on an SDXS-512 model; film rendered from HTML with HyperFrames.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Index</h4>
+        <a href="#thesis">Thesis</a>
+        <a href="#story">Six beats</a>
+        <a href="#stack">Stack</a>
+        <a href="#specs">Specification</a>
+        <a href="#audit">Field note</a>
+      </div>
+      <div class="foot-col">
+        <h4>Colophon</h4>
+        <span>Type — Geist / Geist Mono</span>
+        <span>Plates — 10 frames, one grade</span>
+        <span>Film — 24 s, 1920 × 1080, 30 fps</span>
+        <span>Stack — one HTML file, no build</span>
+      </div>
+      <div class="foot-col">
+        <h4>Narrative</h4>
+        <span>Adapted from D. Milosavljević, “Recursive Learning and the Archimedes Principle” (2026): competence gating, break-even q &gt; cS/cL, contraction λ &lt; 1.</span>
+        <span class="dim" style="margin-top:8px">Previously: <a href="aura-code.html" style="display:inline;padding:0">Aura Code</a></span>
+      </div>
     </div>
   </div>
-</section>
-
-<section class="win" id="family">
-  <div class="tbar"><span class="dot"></span>aura — family</div>
-  <h2>Give it the work you hate</h2>
-  <p class="lead">One memory, every agent. The mail agent knows what the bookkeeping agent promised.</p>
-  <div class="caps">
-    <div class="cap"><h3>mail</h3><p>Reads, drafts, sends — from your address, in your voice.</p></div>
-    <div class="cap"><h3>bookkeeping</h3><p>Ledger, dunning, quarterly close. Never misses an entry.</p></div>
-    <div class="cap"><h3>voice</h3><p>Meeting mode: listens, transcribes, files the outcome.</p></div>
-    <div class="cap"><h3>code</h3><p>Writes the software the other agents run on.</p></div>
-  </div>
-</section>
-
-<footer class="win" id="founder">
-  <div class="tbar"><span class="dot"></span>aura — founder</div>
-  <h2>Du&#353;an Milosavljevic</h2>
-  <p class="lead">Building in public from Da Nang. <a href="#founder">Read the story</a> or write: <a href="mailto:info@leanproiq.com">info@leanproiq.com</a></p>
-  <p style="font-size:12.5px;color:var(--mute)">Aura Code · leanproiq.com · MIT core · &#169; 2026</p>
 </footer>
 
-<div class="statusbar">
-  <span class="ok">&#9679; aura online</span>
-  <span>mem: 312 entries</span>
-  <span>agents: 7</span>
-  <span class="sp"></span>
-  <span>leanproiq.com</span>
-</div>
-
 <script>
-(function(){
-  var lines=[
-    '> aura-os kernel 0.20.1 \x00B7 leanproiq',
-    '+ cpu: 8 cores online \x00B7 32 GB',
-    '+ memory store mounted /var/aura/mem',
-    '\x00B7 agents: mail \x00B7 bookkeeping \x00B7 voice \x00B7 code',
-    '> mounting ledger ...',
-    '+ ledger ok \x2014 312 entries, balanced',
-    '\x00B7 dunning rules loaded (tone: founder)',
-    '> starting listeners ...',
-    '+ imap idle \x2014 info@leanproiq.com',
-    '+ calendar bridge \x2014 two-way sync',
-    '+ voice gate \x2014 mandate enforcement on',
-    '> boot complete',
-    '+ welcome back, dusan.',
-    '> everything you run. nothing you don\x2019t.'
-  ];
-  var el=document.getElementById('bootlog'),li=0,ch=0;
-  function cls(l){ if(!l)return 'dim'; if(l[0]=='>')return 'gold'; if(l[0]=='+')return 'sage'; return 'dim'; }
-  function tick(){
-    var out='';
-    for(var i=0;i<li&&i<lines.length;i++) out+='<div class="'+cls(lines[i])+'">'+lines[i]+'</div>';
-    if(li<lines.length){ var p=lines[li].slice(0,ch); out+='<div class="'+cls(lines[li])+'">'+p+'<span class="cursor">_</span></div>'; }
-    else out+='<div class="gold">&gt; _</div>';
-    el.innerHTML=out;
-    if(li<lines.length){ ch+=2; if(ch>lines[li].length){li++;ch=0;setTimeout(tick,260);} else setTimeout(tick,26); }
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // scroll progress
+  var bar = document.getElementById('progressBar');
+  function onScroll() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
   }
-  tick();
-  var c=document.getElementById('clock');
-  function clk(){ var d=new Date(); c.textContent=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2); }
-  clk(); setInterval(clk,20000);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // reveal
+  var items = document.querySelectorAll('.rv');
+  if (reduce || !('IntersectionObserver' in window)) {
+    items.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+    items.forEach(function (el) { io.observe(el); });
+  }
+
+  // hero film: don't decode it while it is off-screen
+  var v = document.getElementById('heroVideo');
+  if (v) {
+    if (reduce) {
+      v.removeAttribute('autoplay');
+      v.pause();
+    } else if ('IntersectionObserver' in window) {
+      var vio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { v.play().catch(function () {}); }
+          else { v.pause(); }
+        });
+      }, { threshold: 0.02 });
+      vio.observe(v);
+    }
+  }
 })();
 </script>
-
-</main>
 </body>
 </html>

@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aura Code — the agent that runs your business with you</title>
+<meta name="description" content="Aura Code is an autonomous agent that lives on your machine. It bookkeeps, chases overdue invoices, schedules your meetings and writes your software — while you stay in the room.">
+<link rel="canonical" href="https://www.leanproiq.com/">
+<meta property="og:title" content="Aura Code — Everything you run. Nothing you don't.">
+<meta property="og:description" content="An autonomous agent that bookkeeps, chases invoices, schedules meetings and writes your software.">
+<meta property="og:type" content="website">
+<link rel="icon" href="site-assets/favicon.svg">
+<style>
+@font-face { font-family:'Geist'; src:url('site-assets/fonts/geist.woff2') format('woff2'); font-weight:400 700; font-display:swap; }
+@font-face { font-family:'Geist Mono'; src:url('site-assets/fonts/geist-mono.woff2') format('woff2'); font-weight:400 500; font-display:swap; }
+
+:root{
+  --bg:#070907; --bg2:#0c100c; --card:#141a14; --card2:#1a211a; --desk:#0a0d0a;
+  --line:rgba(236,229,196,.11); --line2:rgba(236,229,196,.22);
+  --cream:#f2ebc9; --cream2:#e2dbb7; --soft:#d8cb95; --dim:#b9baa2; --mute:#8b8e7a;
+  --gold:#e7cf85; --warn:#d9a75c; --sage:#dde2c8; --olive:#535c37; --ok:#a8c79a;
+  --glass:rgba(9,12,9,.55);
+  --sans:'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'Geist Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --wrap:1240px; --gut:clamp(18px,4vw,56px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--cream);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--gold);color:var(--ink,#10150f)}
+a{color:inherit}
+img,svg{display:block;max-width:100%}
+
+/* ── desktop backdrop ── */
+.desk{position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(1200px 700px at 75% -10%, rgba(83,92,55,.20), transparent 60%),
+  radial-gradient(900px 600px at -10% 110%, rgba(231,207,133,.06), transparent 55%),
+  var(--desk);}
+.desk::after{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(rgba(236,229,196,.03) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(236,229,196,.03) 1px,transparent 1px);
+  background-size:44px 44px;mask-image:radial-gradient(80% 70% at 50% 30%,#000 30%,transparent 100%)}
+#sky{position:fixed;inset:0;z-index:-1;opacity:.9}
+
+/* ── OS menubar ── */
+.bar{position:fixed;top:0;left:0;right:0;z-index:60;height:44px;display:flex;align-items:center;gap:18px;
+  padding:0 clamp(14px,2.4vw,28px);background:var(--glass);backdrop-filter:blur(16px) saturate(1.15);
+  border-bottom:1px solid var(--line);font:500 13.5px/1 var(--sans)}
+.bar .dot{width:11px;height:11px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px rgba(231,207,133,.55);flex:none}
+.bar .os{font-weight:700;letter-spacing:.02em;color:var(--cream)}
+.bar menu{display:flex;gap:4px;margin:0;padding:0;list-style:none}
+.bar menu a{padding:6px 10px;border-radius:7px;color:var(--dim);text-decoration:none;font-size:13px}
+.bar menu a:hover{background:rgba(242,235,201,.08);color:var(--cream)}
+.bar .sp{flex:1}
+.bar .clock{font:400 12.5px/1 var(--mono);color:var(--mute);letter-spacing:.04em}
+.bar .get{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 14px;border-radius:8px;
+  background:var(--gold);color:#141705;font-weight:700;font-size:13px;text-decoration:none;transition:filter .15s}
+.bar .get:hover{filter:brightness(1.08)}
+@media(max-width:960px){.bar menu{display:none}}
+
+/* ── window chrome ── */
+.win{background:var(--card);border:1px solid var(--line2);border-radius:14px;overflow:hidden;
+  box-shadow:0 24px 60px -28px rgba(0,0,0,.75)}
+.tbar{display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--card2);
+  border-bottom:1px solid var(--line);font:500 12px/1 var(--mono);color:var(--mute);letter-spacing:.06em}
+.tbar i{width:10px;height:10px;border-radius:50%;border:1px solid var(--line2);flex:none}
+.tbar i:first-child{background:var(--gold);border-color:var(--gold)}
+.tbar span{margin-left:4px}
+.tbar .tb-sp{flex:1}
+
+main{padding-top:44px}
+
+/* ── hero ── */
+.hero{min-height:calc(100svh - 44px);display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,64px);
+  align-items:center;max-width:var(--wrap);margin:0 auto;padding:clamp(40px,7vh,90px) var(--gut)}
+.kicker{display:inline-flex;align-items:center;gap:10px;font:500 12.5px/1 var(--mono);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--soft);border:1px solid var(--line2);border-radius:999px;padding:9px 16px;background:var(--glass)}
+.kicker b{color:var(--gold);font-weight:500}
+h1{font-size:clamp(42px,6.2vw,86px);line-height:1.02;letter-spacing:-.025em;font-weight:700;margin:26px 0 0}
+h1 em{font-style:normal;color:var(--gold)}
+.lede{font-size:clamp(17px,1.6vw,20px);color:var(--dim);max-width:56ch;margin:22px 0 0}
+.lede b{color:var(--cream2);font-weight:600}
+.cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+.btn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;border-radius:12px;
+  font-weight:700;font-size:16px;text-decoration:none;transition:filter .15s,transform .15s}
+.btn:active{transform:translateY(1px)}
+.btn-gold{background:var(--gold);color:#141705}
+.btn-gold:hover{filter:brightness(1.08)}
+.btn-ghost{border:1px solid var(--line2);color:var(--cream2);background:var(--glass)}
+.btn-ghost:hover{border-color:var(--soft)}
+.btn .cr{font:400 14px var(--mono);opacity:.75}
+.hero-r{position:relative}
+.hero-r .win{transform:rotate(.4deg)}
+.term{padding:20px 22px 24px;font:400 13.5px/1.75 var(--mono);min-height:390px;white-space:pre-wrap;color:var(--dim)}
+.term .g{color:var(--gold)} .term .o{color:var(--sage)} .term .m{color:var(--mute)} .term .c{color:var(--cream)}
+.term .caret{display:inline-block;width:8px;height:15px;background:var(--gold);vertical-align:-2px;animation:bl .8s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.badge-float{position:absolute;right:-14px;bottom:-18px;background:var(--card2);border:1px solid var(--line2);
+  border-radius:12px;padding:12px 16px;font:500 12.5px var(--mono);color:var(--soft);box-shadow:0 18px 40px -18px rgba(0,0,0,.8)}
+.badge-float b{color:var(--gold);font-weight:500}
+@media(max-width:960px){.hero{grid-template-columns:1fr;min-height:0}.hero-r .win{transform:none}.badge-float{right:6px}}
+
+/* ── sections ── */
+.sec{max-width:var(--wrap);margin:0 auto;padding:clamp(64px,10vh,130px) var(--gut)}
+.shead{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:38px;flex-wrap:wrap}
+.snum{font:400 12px var(--mono);color:var(--mute);letter-spacing:.18em;text-transform:uppercase}
+h2{font-size:clamp(30px,3.6vw,52px);line-height:1.06;letter-spacing:-.02em;margin:10px 0 0;font-weight:700}
+h2 em{font-style:normal;color:var(--gold)}
+.snote{max-width:38ch;color:var(--dim);font-size:15.5px;margin:0}
+
+/* capabilities grid */
+.caps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:1080px){.caps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.caps{grid-template-columns:1fr}}
+.cap{padding:0;display:flex;flex-direction:column}
+.cap .bd{padding:18px 18px 20px;flex:1;display:flex;flex-direction:column;gap:10px}
+.cap h3{margin:0;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.cap p{margin:0;color:var(--dim);font-size:14.5px;line-height:1.55;flex:1}
+.chip{align-self:flex-start;font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;
+  padding:5px 10px;border-radius:999px;border:1px solid var(--line2);color:var(--soft)}
+.chip.rm{color:var(--mute)}
+.cap .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
+  background:rgba(231,207,133,.08);border:1px solid var(--line);color:var(--gold);font:400 16px var(--mono)}
+
+/* flow */
+.flow{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(20px,3vw,44px);align-items:start}
+@media(max-width:960px){.flow{grid-template-columns:1fr}}
+.steps{display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:0}
+.step .n{width:34px;height:34px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;
+  font:500 13px var(--mono);color:var(--gold)}
+.step h3{margin:2px 0 6px;font-size:17.5px;font-weight:600}
+.step p{margin:0;color:var(--dim);font-size:14.5px;line-height:1.55}
+.step .tail{font:400 11.5px var(--mono);color:var(--mute);margin-top:6px;letter-spacing:.04em}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.kpi .l{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.kpi .v{font:600 clamp(24px,2.6vw,34px)/1.15 var(--mono);color:var(--gold);margin-top:8px;letter-spacing:-.02em}
+.kpi .s{font-size:12.5px;color:var(--dim);margin-top:4px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:110px;margin-top:14px;padding:0 2px}
+.bars i{flex:1;background:linear-gradient(180deg,var(--gold),rgba(231,207,133,.25));border-radius:4px 4px 0 0;
+  height:calc(var(--h)*1%);transform-origin:bottom;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+.bars i:nth-child(4){background:linear-gradient(180deg,var(--sage),rgba(221,226,200,.25))}
+@keyframes rise{from{transform:scaleY(0)}}
+
+/* pricing */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+@media(max-width:960px){.tiers{grid-template-columns:1fr}}
+.tier{padding:24px;display:flex;flex-direction:column;gap:0}
+.tier .nm{font:500 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.tier .pr{font:600 44px/1 var(--mono);letter-spacing:-.03em;margin:16px 0 2px;color:var(--cream)}
+.tier .pr small{font:400 14px var(--mono);color:var(--mute);letter-spacing:0}
+.tier ul{list-style:none;margin:20px 0 26px;padding:0;display:flex;flex-direction:column;gap:11px;flex:1}
+.tier li{display:flex;gap:10px;color:var(--dim);font-size:14.5px;line-height:1.5}
+.tier li::before{content:"→";color:var(--gold);font-family:var(--mono);flex:none}
+.tier .btn{justify-content:center}
+.tier.hot{border-color:rgba(231,207,133,.45);box-shadow:0 0 0 1px rgba(231,207,133,.18),0 30px 70px -30px rgba(231,207,133,.14)}
+.tier.hot .nm{color:var(--gold)}
+
+/* founder + footer */
+.founder{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(20px,3vw,44px);align-items:center}
+@media(max-width:960px){.founder{grid-template-columns:1fr}}
+.founder p{color:var(--dim);font-size:15.5px;max-width:52ch}
+.statusbar{border-top:1px solid var(--line);background:var(--glass);backdrop-filter:blur(12px)}
+.statusbar .in{max-width:var(--wrap);margin:0 auto;padding:16px var(--gut);display:flex;gap:22px;align-items:center;
+  flex-wrap:wrap;font:400 12.5px var(--mono);color:var(--mute)}
+.statusbar a{color:var(--soft);text-decoration:none}
+.statusbar a:hover{color:var(--cream)}
+.statusbar .led{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px rgba(168,199,154,.6);flex:none}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="desk"></div>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<nav class="bar" aria-label="Primary">
+  <span class="dot" aria-hidden="true"></span>
+  <span class="os">aura&nbsp;os</span>
+  <menu>
+    <li><a href="#capabilities">Capabilities</a></li>
+    <li><a href="#bookkeeping">Bookkeeping</a></li>
+    <li><a href="#reporting">Reporting</a></li>
+    <li><a href="#pricing">Licensing</a></li>
+    <li><a href="#founder">Founder</a></li>
+  </menu>
+  <span class="sp"></span>
+  <span class="clock" id="clock">--:--</span>
+  <a class="get" href="#pricing">Get Aura</a>
+</nav>
+
+<main id="top">
+<h1 class="sr-only">Aura Code — the agent that runs your business with you</h1>
+<!-- HERO / boot -->
+<section class="win" id="boot">
+  <div class="tbar"><span class="dot"></span>aura — boot</div>
+  <div class="term" id="bootlog" aria-label="Aura OS boot log"></div>
+</section>
+
+<style>
+/* -- capability grid -- */
+.caps { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:16px }
+.cap { border:1px solid var(--line); padding:18px 20px; background:var(--bg2) }
+.cap h3 { margin:0 0 6px; font:600 15px/1.3 var(--mono); color:var(--cream) }
+.cap p { margin:0; font-size:14px; color:var(--dim) }
+.cap .st { float:right; font:500 10px/1 var(--mono); letter-spacing:.12em; color:var(--sage);
+  border:1px solid rgba(221,226,200,.25); padding:4px 7px; text-transform:uppercase }
+.cap .st.road { color:var(--gold); border-color:rgba(231,207,133,.3) }
+
+/* -- flow strip -- */
+.flow { display:flex; flex-wrap:wrap; gap:0; margin-top:18px; counter-reset:fl }
+.step { flex:1 1 150px; border:1px solid var(--line); padding:14px 16px; position:relative;
+  margin-right:-1px; margin-bottom:-1px }
+.step b { display:block; font:600 13px/1.4 var(--mono); color:var(--cream); margin-bottom:4px }
+.step span { font-size:12.5px; color:var(--dim) }
+.step::before { counter-increment:fl; content:"0" counter(fl); position:absolute; top:10px; right:12px;
+  font:500 10px/1 var(--mono); color:var(--mute) }
+
+/* -- KPI readout -- */
+.kpis { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px }
+.kpi { border:1px solid var(--line); background:var(--bg2); padding:16px 18px }
+.kpi .v { font:600 30px/1.1 var(--mono); color:var(--gold); letter-spacing:-.02em }
+.kpi.warn .v { color:var(--warn) }
+.kpi .l { font:500 10.5px/1 var(--mono); letter-spacing:.14em; color:var(--mute); text-transform:uppercase; margin-top:6px }
+
+/* -- pricing -- */
+.tiers { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px }
+.tier { border:1px solid var(--line); padding:22px; background:var(--bg2); display:flex; flex-direction:column }
+.tier.f { border-color:rgba(231,207,133,.45); background:linear-gradient(180deg,#141a14,#1a211a) }
+.tier h3 { margin:0; font:600 15px/1.3 var(--mono); color:var(--cream) }
+.tier .p { font:600 40px/1 var(--mono); color:var(--gold); margin:14px 0 2px; letter-spacing:-.03em }
+.tier .p s { font-size:14px; color:var(--mute); font-weight:400; margin-left:6px }
+.tier ul { list-style:none; margin:14px 0 18px; padding:0; flex:1 }
+.tier ul li { font-size:13.5px; color:var(--dim); padding:5px 0 5px 20px; position:relative }
+.tier ul li::before { content:"\25B8"; position:absolute; left:0; color:var(--gold) }
+.tier a.b { text-align:center; padding:12px; border:1px solid var(--line2); color:var(--cream);
+  font:500 13px/1 var(--mono); text-decoration:none; letter-spacing:.06em }
+.tier.f a.b { background:var(--gold); color:#10150f; border-color:var(--gold); font-weight:600 }
+.tier .note { text-align:center; font:400 11px/1.5 var(--mono); color:var(--mute); margin-top:10px }
+
+/* -- status bar -- */
+.statusbar { position:fixed; bottom:0; left:0; right:0; display:flex; align-items:center; gap:18px;
+  padding:7px 18px; border-top:1px solid var(--line); background:rgba(7,9,7,.88); backdrop-filter:blur(10px);
+  font:500 11.5px/1 var(--mono); color:var(--mute); z-index:50 }
+.statusbar .ok { color:var(--sage) }
+.statusbar .sp { flex:1 }
+
+@media (max-width:920px) { .caps,.kpis,.tiers { grid-template-columns:1fr } .flow .step { flex:1 1 100% } }
+</style>
+
+<section class="win" id="capabilities">
+  <div class="tbar"><span class="dot"></span>aura — capabilities · v0.20</div>
+  <h2>What Aura actually does<span class="cursor">_</span></h2>
+  <p class="lead">Shipped today, running today. The one item still on the roadmap is marked as such — a promise you can check beats a demo you cannot.</p>
+  <div class="caps">
+    <div class="cap"><span class="st">Shipping</span><h3>Reads and raises invoices</h3><p>Pulls invoices out of mail or a folder, matches them to clients, writes the entry, keeps the books current.</p></div>
+    <div class="cap"><span class="st">Shipping</span><h3>Chases the money</h3><p>Reminder, then second notice, in your voice, from your address — every send recorded in the ledger.</p></div>
+    <div class="cap"><span class="st road">Roadmap · Twilio</span><h3>Calls the client</h3><p>When two emails go unanswered, Aura picks up the phone, negotiates the promise date, transcribes the outcome to the ledger.</p></div>
+    <div class="cap"><span class="st">Shipping</span><h3>Closes the quarter</h3><p>Turns the invoice database into a workbook and a one-page summary, produced by the same agent that chased the debt.</p></div>
+    <div class="cap"><span class="st">Shipping</span><h3>Schedules the meeting</h3><p>Reads the thread, proposes the slot, books it on both calendars.</p></div>
+    <div class="cap"><span class="st">Shipping</span><h3>Writes the software</h3><p>The agent builds its own tools — scripts, workflows, the site you are reading — versioned in git.</p></div>
+  </div>
+</section>
+
+<section class="win" id="bookkeeping">
+  <div class="tbar"><span class="dot"></span>aura — bookkeeping/dunning</div>
+  <h2>From unpaid invoice to closed quarter</h2>
+  <div class="flow">
+    <div class="step"><b>Invoice arrives</b><span>mail or folder, parsed to the ledger</span></div>
+    <div class="step"><b>Reminder one</b><span>your tone, your address, logged</span></div>
+    <div class="step"><b>Second notice</b><span>firm, still in your voice</span></div>
+    <div class="step"><b>The phone call</b><span>voice rail — roadmap stage</span></div>
+    <div class="step"><b>Quarter closed</b><span>workbook + one-pager, done</span></div>
+  </div>
+</section>
+
+<section class="win" id="reporting">
+  <div class="tbar"><span class="dot"></span>aura — reports/Q3-2026</div>
+  <h2>The quarter, already closed</h2>
+  <p class="lead">Produced by the same agent that sent the reminders.</p>
+  <div class="kpis">
+    <div class="kpi"><div class="v">$55,916</div><div class="l">Total billed · Q3</div></div>
+    <div class="kpi"><div class="v">87.0%</div><div class="l">Collection rate</div></div>
+    <div class="kpi warn"><div class="v">$7,259</div><div class="l">Overdue · flagged</div></div>
+  </div>
+</section>
+
+<section class="win" id="pricing">
+  <div class="tbar"><span class="dot"></span>aura — licensing</div>
+  <h2>Buy it like software, not like a subscription</h2>
+  <p class="lead">Three ways in. The founding tier is limited and priced for people who get in early.</p>
+  <div class="tiers">
+    <div class="tier">
+      <h3>Open core</h3>
+      <div class="p">$0</div>
+      <ul>
+        <li>The agent, the tools, the memory store</li>
+        <li>Bring your own model or local inference</li>
+        <li>MIT-licensed core you can read and fork</li>
+        <li>Community support</li>
+      </ul>
+      <a class="b" href="https://github.com/DusanCar-sudo" target="_blank" rel="noopener">Get it on GitHub</a>
+      <div class="note">forever free</div>
+    </div>
+    <div class="tier f">
+      <h3>Aura Founding License</h3>
+      <div class="p">$99<s>once</s></div>
+      <ul>
+        <li>Full Aura Code agent, licensed for commercial use</li>
+        <li>Bookkeeping, dunning, quarterly close</li>
+        <li>Voice meeting mode and the shared memory store</li>
+        <li>Direct line to the person building it</li>
+        <li>Founder pricing held for life</li>
+      </ul>
+      <a class="b" href="https://leanproiq.lemonsqueezy.com/checkout/buy/e6ee5d30-0f9f-44aa-92b7-7e5fc4bd296e">Buy the license</a>
+      <div class="note">limited tier</div>
+    </div>
+    <div class="tier">
+      <h3>Done with you</h3>
+      <div class="p">Let's talk</div>
+      <ul>
+        <li>Aura wired into your mailbox, calendar and books</li>
+        <li>Your escalation rules, your tone of voice</li>
+        <li>Your workflows built with you</li>
+      </ul>
+      <a class="b" href="mailto:info@leanproiq.com">Talk to the founder</a>
+      <div class="note">serious operators only</div>
+    </div>
+  </div>
+</section>
+
+<section class="win" id="family">
+  <div class="tbar"><span class="dot"></span>aura — family</div>
+  <h2>Give it the work you hate</h2>
+  <p class="lead">One memory, every agent. The mail agent knows what the bookkeeping agent promised.</p>
+  <div class="caps">
+    <div class="cap"><h3>mail</h3><p>Reads, drafts, sends — from your address, in your voice.</p></div>
+    <div class="cap"><h3>bookkeeping</h3><p>Ledger, dunning, quarterly close. Never misses an entry.</p></div>
+    <div class="cap"><h3>voice</h3><p>Meeting mode: listens, transcribes, files the outcome.</p></div>
+    <div class="cap"><h3>code</h3><p>Writes the software the other agents run on.</p></div>
+  </div>
+</section>
+
+<footer class="win" id="founder">
+  <div class="tbar"><span class="dot"></span>aura — founder</div>
+  <h2>Du&#353;an Milosavljevic</h2>
+  <p class="lead">Building in public from Da Nang. <a href="#founder">Read the story</a> or write: <a href="mailto:info@leanproiq.com">info@leanproiq.com</a></p>
+  <p style="font-size:12.5px;color:var(--mute)">Aura Code · leanproiq.com · MIT core · &#169; 2026</p>
+</footer>
+
+<div class="statusbar">
+  <span class="ok">&#9679; aura online</span>
+  <span>mem: 312 entries</span>
+  <span>agents: 7</span>
+  <span class="sp"></span>
+  <span>leanproiq.com</span>
+</div>
+
+<script>
+(function(){
+  var lines=[
+    '> aura-os kernel 0.20.1 \x00B7 leanproiq',
+    '+ cpu: 8 cores online \x00B7 32 GB',
+    '+ memory store mounted /var/aura/mem',
+    '\x00B7 agents: mail \x00B7 bookkeeping \x00B7 voice \x00B7 code',
+    '> mounting ledger ...',
+    '+ ledger ok \x2014 312 entries, balanced',
+    '\x00B7 dunning rules loaded (tone: founder)',
+    '> starting listeners ...',
+    '+ imap idle \x2014 info@leanproiq.com',
+    '+ calendar bridge \x2014 two-way sync',
+    '+ voice gate \x2014 mandate enforcement on',
+    '> boot complete',
+    '+ welcome back, dusan.',
+    '> everything you run. nothing you don\x2019t.'
+  ];
+  var el=document.getElementById('bootlog'),li=0,ch=0;
+  function cls(l){ if(!l)return 'dim'; if(l[0]=='>')return 'gold'; if(l[0]=='+')return 'sage'; return 'dim'; }
+  function tick(){
+    var out='';
+    for(var i=0;i<li&&i<lines.length;i++) out+='<div class="'+cls(lines[i])+'">'+lines[i]+'</div>';
+    if(li<lines.length){ var p=lines[li].slice(0,ch); out+='<div class="'+cls(lines[li])+'">'+p+'<span class="cursor">_</span></div>'; }
+    else out+='<div class="gold">&gt; _</div>';
+    el.innerHTML=out;
+    if(li<lines.length){ ch+=2; if(ch>lines[li].length){li++;ch=0;setTimeout(tick,260);} else setTimeout(tick,26); }
+  }
+  tick();
+  var c=document.getElementById('clock');
+  function clk(){ var d=new Date(); c.textContent=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2); }
+  clk(); setInterval(clk,20000);
+})();
+</script>
+
+</main>
+</body>
+</html>
