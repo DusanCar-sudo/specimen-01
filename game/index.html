@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Best Picture! — Character Viewer</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: system-ui, sans-serif;
+    background: linear-gradient(180deg, #1b2735 0%, #090a0f 100%);
+    color: #e8ecf1; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  header { padding: 18px 16px 8px; text-align: center; }
+  h1 { margin: 0; font-size: 22px; letter-spacing: 0.5px; }
+  h1 span { color: #ffd166; }
+  header p { margin: 6px 0 0; color: #9fb0c3; font-size: 14px; }
+  #viewer {
+    width: min(92vw, 420px); height: min(70vh, 560px);
+    border: 1px solid #2e3d4f; border-radius: 12px;
+    background: radial-gradient(circle at 50% 30%, #33465e 0%, #141c26 70%);
+    position: relative; overflow: hidden;
+  }
+  #viewer canvas { display: block; }
+  #badge {
+    position: absolute; left: 12px; bottom: 12px;
+    background: rgba(10, 15, 22, 0.75); border: 1px solid #3a4c61;
+    padding: 6px 12px; border-radius: 8px; font-size: 13px;
+  }
+  #badge b { color: #ffd166; }
+  #hint { color: #7f8fa4; font-size: 12px; margin: 10px 0 24px; }
+  .meta { margin-top: 4px; color: #67788c; font-size: 12px; }
+  #err { color: #ff7b72; font-size: 13px; margin: 12px; display: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>BEST PICTURE! <span>📸</span></h1>
+  <p>Character 1 of 4 — meet <b style="color:#ff8c42">LUCA</b>, the Selfie Kid</p>
+</header>
+<div id="viewer">
+  <div id="badge">Luca · <b>“One sec! Gotta get my angle!”</b></div>
+</div>
+<p id="hint">drag to orbit · scroll to zoom</p>
+<p id="err"></p>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const el = document.getElementById('viewer');
+const errBox = document.getElementById('err');
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(el.clientWidth, el.clientHeight);
+el.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x1a2433);
+
+const camera = new THREE.PerspectiveCamera(40, el.clientWidth / el.clientHeight, 0.1, 100);
+camera.position.set(2.2, 1.9, 3.2);
+
+const key = new THREE.DirectionalLight(0xffffff, 2.2);
+key.position.set(3, 5, 4);
+scene.add(key);
+const rim = new THREE.DirectionalLight(0x88aaff, 1.2);
+rim.position.set(-4, 3, -3);
+scene.add(rim);
+scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+
+const disc = new THREE.Mesh(
+  new THREE.CylinderGeometry(1.05, 1.05, 0.05, 48),
+  new THREE.MeshStandardMaterial({ color: 0x2e4159 })
+);
+disc.position.y = -0.02;
+scene.add(disc);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 1.1, 0);
+controls.enableDamping = true;
+controls.minDistance = 1.5; controls.maxDistance = 8;
+controls.maxPolarAngle = Math.PI * 0.55;
+
+new GLTFLoader().load(
+  '../assets/models/boy.glb',
+  (g) => {
+    scene.add(g.scene);
+    const box = new THREE.Box3().setFromObject(g.scene);
+    const size = box.getSize(new THREE.Vector3());
+    document.getElementById('badge').insertAdjacentHTML(
+      'afterend',
+      `<div class="meta">model: ${size.x.toFixed(2)} × ${size.z.toFixed(2)} × ${size.y.toFixed(2)} m · character 1 of 4</div>`
+    );
+  },
+  undefined,
+  (e) => {
+    errBox.style.display = 'block';
+    errBox.textContent = 'Failed to load model: ' + (e.message || e.type || 'unknown error');
+  }
+);
+
+renderer.setAnimationLoop(() => {
+  controls.update();
+  renderer.render(scene, camera);
+});
+</script>
+</body>
+</html>
