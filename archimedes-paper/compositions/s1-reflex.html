@@ -1,0 +1,77 @@
+<template>
+  <style>
+    #root { position:absolute; inset:0; overflow:hidden;
+      background:var(--ground);
+      background-image:radial-gradient(circle at 1px 1px, rgba(20,26,30,.055) 1px, transparent 0);
+      background-size:4px 4px; }
+    .box { fill:none; stroke:var(--ink); stroke-width:2.4; }
+    .hair { fill:none; stroke:var(--ink); stroke-width:1.2; stroke-linecap:round; }
+    .mono { font-family:var(--font-mono); font-size:22px; letter-spacing:.14em;
+      text-transform:uppercase; fill:var(--muted); }
+    .num  { font-family:var(--font-mono); font-size:30px; letter-spacing:.06em; fill:var(--ink); }
+    .h1t  { font-family:var(--font-display); font-size:78px; fill:var(--ink); letter-spacing:-.015em; }
+    .big  { font-family:var(--font-display); font-size:210px; fill:var(--ink); letter-spacing:-.03em; }
+  </style>
+
+  <div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+    <svg id="stage" viewBox="0 0 1920 1080" width="1920" height="1080">
+      <defs>
+        <pattern id="field" width="18" height="18" patternUnits="userSpaceOnUse">
+          <line x1="2" y1="9" x2="7" y2="9" stroke="#141a1e" stroke-width="1.1" opacity=".30"/>
+        </pattern>
+        <clipPath id="bandCut"><rect x="150" y="640" width="1620" height="150" rx="1"/></clipPath>
+      </defs>
+
+      <!-- parameter field: 1.5B parameters as a printed hatch band -->
+      <g id="fieldG" clip-path="url(#bandCut)">
+        <rect x="150" y="640" width="1620" height="150" fill="url(#field)"/>
+      </g>
+      <text id="fieldLbl" class="mono" x="150" y="826" style="font-size:19px">1.5b parameters</text>
+
+      <!-- diagram, part 1: the reflex box -->
+      <g id="reflex">
+        <rect id="rbox" class="box" x="660" y="330" width="600" height="240"/>
+        <text id="rname" class="mono" x="690" y="378" style="fill:#141a1e">reflex</text>
+        <text id="rsub" class="num" x="690" y="540" style="font-size:26px">one forward pass</text>
+      </g>
+
+      <!-- the number -->
+      <text id="big" class="big" x="150" y="290">0.0</text>
+      <text id="bigU" class="num" x="640" y="290" style="font-size:46px;fill:#7a878d">ms</text>
+
+      <text id="l1" class="h1t" x="150" y="470" style="font-size:64px;fill:#7a878d">Something moved</text>
+      <text id="l2" class="h1t" x="150" y="552" style="font-size:64px">before you thought.</text>
+    </svg>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({paused:true});
+    const D = 6.8728;
+    const draw = (sel, at, dur, ease) => {
+      const el = document.querySelector(sel);
+      if (!el) return;
+      const len = el.getTotalLength ? el.getTotalLength() : 1600;
+      gsap.set(el, {strokeDasharray:len, strokeDashoffset:len});
+      tl.to(el, {strokeDashoffset:0, duration:dur, ease:ease||'power2.out'}, at);
+    };
+
+    tl.fromTo('#fieldG', {opacity:0}, {opacity:1, duration:.9, ease:'power2.out'}, 0);
+    tl.fromTo('#fieldLbl', {opacity:0}, {opacity:.9, duration:.6}, .5);
+    draw('#rbox', .25, .85, 'power2.inOut');
+    tl.fromTo('#rname', {opacity:0}, {opacity:1, duration:.45}, .8);
+    tl.fromTo('#rsub', {opacity:0}, {opacity:1, duration:.5}, 1.05);
+    tl.fromTo('#bigU', {opacity:0}, {opacity:1, duration:.4}, 1.5);
+
+    const o = {v:0};
+    tl.to(o, {v:0.6, duration:1.25, ease:'power2.out', onUpdate(){ 
+      document.querySelector('#big').textContent = o.v.toFixed(1);
+    }}, 1.45);
+    tl.fromTo('#big', {opacity:0, y:18}, {opacity:1, y:0, duration:.6, ease:'power4.out'}, 1.45);
+
+    tl.fromTo('#l1', {opacity:0, filter:'blur(7px)'}, {opacity:1, filter:'blur(0px)', duration:.7, ease:'expo.out'}, 3.0);
+    tl.fromTo('#l2', {clipPath:'inset(0% 100% 0% 0%)'}, {clipPath:'inset(0% 0% 0% 0%)', duration:.8, ease:'expo.out'}, 3.6);
+
+    window.__timelines['s1'] = tl;
+    tl.seek(0);
+  </script>
+</template>

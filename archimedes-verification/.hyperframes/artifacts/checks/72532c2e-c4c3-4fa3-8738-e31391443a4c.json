@@ -1,0 +1,1309 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 51,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "gsap_repeated_fromto_without_baseline",
+        "severity": "warning",
+        "message": "4 tl.fromTo() calls target \"#diag-cam\" with no stable baseline. The last-authored fromTo \"from\" values become the element's resting state for any seek before the first tween actually runs, because GSAP applies fromTo from-values at authoring time (immediateRender), not at tween position.",
+        "selector": "#diag-cam",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Add `immediateRender: false` to every fromTo except the earliest-positioned one (at 6.4s), so pre-first-tween seeks keep its \"from\" values. A hiding `tl.set(..., 0)` baseline trips gsap_timeline_set_initial_hide, and a `gsap.set` authored before the fromTo calls is overwritten by them."
+      },
+      {
+        "code": "composition_file_too_large",
+        "severity": "warning",
+        "message": "This HTML composition file has 418 lines. Smaller sub-compositions are easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Split coherent scenes or layers into separate .html files under compositions/, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently."
+      },
+      {
+        "code": "timeline_track_too_dense",
+        "severity": "warning",
+        "message": "Track 1 has 4 timed elements in this HTML file. Smaller sub-compositions keep timelines easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move coherent scene groups into separate .html files under compositions/ and mount them from the parent with data-composition-src so the timeline stays easier to inspect, revise, and validate."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"s0\"> is a timeline element that contains nested <div id=\"s0-in\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s0",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"s0\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"b1\"> is a timeline element that contains nested <div id=\"b1-in\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#b1",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"b1\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"b2\"> is a timeline element that contains nested <div id=\"b2-in\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#b2",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"b2\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"b3\"> is a timeline element that contains nested <div id=\"b3-in\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#b3",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"b3\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"b4\"> is a timeline element that contains nested <div id=\"b4-in\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#b4",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"b4\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"b5\"> is a timeline element that contains nested <div id=\"b5-in\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#b5",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"b5\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"b6\"> is a timeline element that contains nested <div id=\"b6-in\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#b6",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"b6\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"diag\"> is a timeline element that contains nested <div id=\"diag-cam\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#diag",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"diag\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"x1\"> is a timeline element that contains nested <h2 id=\"x1-t\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#x1",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"x1\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"x2\"> is a timeline element that contains nested <h2 id=\"x2-t\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#x2",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"x2\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"cone\"> is a timeline element that contains nested <div id=\"cone-in\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#cone",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"cone\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"x4\"> is a timeline element that contains nested <h2 id=\"x4a-t\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#x4",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"x4\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"x5\"> is a timeline element that contains nested <h2 id=\"x5a-t\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#x5",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"x5\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"x6\"> is a timeline element that contains nested <h2 id=\"x6a-t\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#x6",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"x6\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"gate\"> is a timeline element that contains nested <div id=\"gate-in\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#gate",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"gate\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"close\"> is a timeline element that contains nested <div id=\"close-in\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#close",
+        "dataAttributes": {},
+        "sourceFile": "/home/dusan/preview-demo/archimedes-verification/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"close\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 21 overlap (assets/audio/sfx/whoosh.mp3 at 6.15-84s, assets/audio/sfx/whoosh.mp3 at 22.15-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 21 overlap (assets/audio/sfx/whoosh.mp3 at 6.15-84s, assets/audio/sfx/whoosh-short.mp3 at 28.15-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 21 overlap (assets/audio/sfx/whoosh.mp3 at 6.15-84s, assets/audio/sfx/whoosh.mp3 at 50.95-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 21 overlap (assets/audio/sfx/whoosh.mp3 at 6.15-84s, assets/audio/sfx/whoosh-short.mp3 at 63.8-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 21 overlap (assets/audio/sfx/whoosh.mp3 at 22.15-84s, assets/audio/sfx/whoosh-short.mp3 at 28.15-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 21 overlap (assets/audio/sfx/whoosh.mp3 at 22.15-84s, assets/audio/sfx/whoosh.mp3 at 50.95-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 21 overlap (assets/audio/sfx/whoosh.mp3 at 22.15-84s, assets/audio/sfx/whoosh-short.mp3 at 63.8-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 21 overlap (assets/audio/sfx/whoosh-short.mp3 at 28.15-84s, assets/audio/sfx/whoosh.mp3 at 50.95-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 21 overlap (assets/audio/sfx/whoosh-short.mp3 at 28.15-84s, assets/audio/sfx/whoosh-short.mp3 at 63.8-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 21 overlap (assets/audio/sfx/whoosh.mp3 at 50.95-84s, assets/audio/sfx/whoosh-short.mp3 at 63.8-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 8.25-84s, assets/audio/sfx/click-soft.mp3 at 13.25-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 8.25-84s, assets/audio/sfx/click-soft.mp3 at 17.33-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 8.25-84s, assets/audio/sfx/click-soft.mp3 at 18.23-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 8.25-84s, assets/audio/sfx/click-soft.mp3 at 35.65-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 8.25-84s, assets/audio/sfx/click-soft.mp3 at 41.85-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 13.25-84s, assets/audio/sfx/click-soft.mp3 at 17.33-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 13.25-84s, assets/audio/sfx/click-soft.mp3 at 18.23-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 13.25-84s, assets/audio/sfx/click-soft.mp3 at 35.65-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 13.25-84s, assets/audio/sfx/click-soft.mp3 at 41.85-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 17.33-84s, assets/audio/sfx/click-soft.mp3 at 18.23-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 17.33-84s, assets/audio/sfx/click-soft.mp3 at 35.65-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 17.33-84s, assets/audio/sfx/click-soft.mp3 at 41.85-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 18.23-84s, assets/audio/sfx/click-soft.mp3 at 35.65-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 18.23-84s, assets/audio/sfx/click-soft.mp3 at 41.85-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 22 overlap (assets/audio/sfx/click-soft.mp3 at 35.65-84s, assets/audio/sfx/click-soft.mp3 at 41.85-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 23 overlap (assets/audio/sfx/pop.mp3 at 33.85-84s, assets/audio/sfx/pop.mp3 at 40.65-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 23 overlap (assets/audio/sfx/pop.mp3 at 33.85-84s, assets/audio/sfx/pop.mp3 at 43.78-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 23 overlap (assets/audio/sfx/pop.mp3 at 33.85-84s, assets/audio/sfx/pop.mp3 at 49.83-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 23 overlap (assets/audio/sfx/pop.mp3 at 40.65-84s, assets/audio/sfx/pop.mp3 at 43.78-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 23 overlap (assets/audio/sfx/pop.mp3 at 40.65-84s, assets/audio/sfx/pop.mp3 at 49.83-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 23 overlap (assets/audio/sfx/pop.mp3 at 43.78-84s, assets/audio/sfx/pop.mp3 at 49.83-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      },
+      {
+        "code": "duplicate_audio_track",
+        "severity": "warning",
+        "message": "Multiple audible <audio>/<video> elements on track 24 overlap (assets/audio/sfx/impact-bass-1.mp3 at 47.03-84s, assets/audio/sfx/impact-bass-1.mp3 at 73.63-84s). This causes layered audio playback.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use non-overlapping time windows or different track indices."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 3,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "console_warning",
+        "severity": "warning",
+        "message": "GSAP target #g-e .w not found. https://gsap.com",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "archimedes-verification",
+          "data-start": "0",
+          "data-width": "1920",
+          "data-height": "1080",
+          "data-duration": "84",
+          "data-fps": "30"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 0,
+        "url": "https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js",
+        "line": 9
+      },
+      {
+        "code": "console_warning",
+        "severity": "warning",
+        "message": "GSAP target  not found. https://gsap.com",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "archimedes-verification",
+          "data-start": "0",
+          "data-width": "1920",
+          "data-height": "1080",
+          "data-duration": "84",
+          "data-fps": "30"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 0,
+        "url": "https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js",
+        "line": 9
+      },
+      {
+        "code": "console_warning",
+        "severity": "warning",
+        "message": "GSAP target  not found. https://gsap.com",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "archimedes-verification",
+          "data-start": "0",
+          "data-width": "1920",
+          "data-height": "1080",
+          "data-duration": "84",
+          "data-fps": "30"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 70,
+        "url": "https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js",
+        "line": 9
+      }
+    ]
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 6,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "connector_orphan",
+        "severity": "warning",
+        "time": 14,
+        "selector": "#e-in",
+        "message": "Connector shaft is visible while both endpoints are not on stage.",
+        "rect": {
+          "left": 360,
+          "top": 570,
+          "right": 460,
+          "bottom": 570,
+          "width": 100,
+          "height": 0
+        },
+        "containerSelector": "#diag-cam > svg:nth-of-type(1)",
+        "fixHint": "Show the shaft only after both ends are on, and hide it with the earlier exit. Do not give the line its own clock.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 360,
+          "y": 570,
+          "width": 100,
+          "height": 0
+        },
+        "firstSeen": 14,
+        "lastSeen": 60.667,
+        "occurrences": 5,
+        "heldMs": 0,
+        "times": [
+          14,
+          32.667,
+          42,
+          51.333,
+          60.667
+        ]
+      },
+      {
+        "code": "connector_orphan",
+        "severity": "warning",
+        "time": 14,
+        "selector": "#e-try",
+        "message": "Connector shaft is visible while both endpoints are not on stage.",
+        "rect": {
+          "left": 760,
+          "top": 570,
+          "right": 860,
+          "bottom": 570,
+          "width": 100,
+          "height": 0
+        },
+        "containerSelector": "#diag-cam > svg:nth-of-type(1)",
+        "fixHint": "Show the shaft only after both ends are on, and hide it with the earlier exit. Do not give the line its own clock.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 760,
+          "y": 570,
+          "width": 100,
+          "height": 0
+        },
+        "firstSeen": 14,
+        "lastSeen": 60.667,
+        "occurrences": 5,
+        "heldMs": 0,
+        "times": [
+          14,
+          32.667,
+          42,
+          51.333,
+          60.667
+        ]
+      },
+      {
+        "code": "connector_orphan",
+        "severity": "warning",
+        "time": 14,
+        "selector": "#e-rej",
+        "message": "Connector shaft is visible while both endpoints are not on stage.",
+        "rect": {
+          "left": 1040,
+          "top": 700,
+          "right": 1040,
+          "bottom": 800,
+          "width": 0,
+          "height": 100
+        },
+        "containerSelector": "#diag-cam > svg:nth-of-type(1)",
+        "fixHint": "Show the shaft only after both ends are on, and hide it with the earlier exit. Do not give the line its own clock.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 1040,
+          "y": 700,
+          "width": 0,
+          "height": 100
+        },
+        "firstSeen": 14,
+        "lastSeen": 60.667,
+        "occurrences": 5,
+        "heldMs": 0,
+        "times": [
+          14,
+          32.667,
+          42,
+          51.333,
+          60.667
+        ]
+      },
+      {
+        "code": "connector_orphan",
+        "severity": "warning",
+        "time": 14,
+        "selector": "#e-learn",
+        "message": "Connector shaft is visible while both endpoints are not on stage.",
+        "rect": {
+          "left": 760,
+          "top": 870,
+          "right": 860,
+          "bottom": 870,
+          "width": 100,
+          "height": 0
+        },
+        "containerSelector": "#diag-cam > svg:nth-of-type(1)",
+        "fixHint": "Show the shaft only after both ends are on, and hide it with the earlier exit. Do not give the line its own clock.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 760,
+          "y": 870,
+          "width": 100,
+          "height": 0
+        },
+        "firstSeen": 14,
+        "lastSeen": 60.667,
+        "occurrences": 5,
+        "heldMs": 0,
+        "times": [
+          14,
+          32.667,
+          42,
+          51.333,
+          60.667
+        ]
+      },
+      {
+        "code": "connector_orphan",
+        "severity": "warning",
+        "time": 14,
+        "selector": "#e-loop",
+        "message": "Connector shaft is visible while both endpoints are not on stage.",
+        "rect": {
+          "left": 610,
+          "top": 640,
+          "right": 610,
+          "bottom": 800,
+          "width": 0,
+          "height": 160
+        },
+        "containerSelector": "#diag-cam > svg:nth-of-type(1)",
+        "fixHint": "Show the shaft only after both ends are on, and hide it with the earlier exit. Do not give the line its own clock.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 610,
+          "y": 640,
+          "width": 0,
+          "height": 160
+        },
+        "firstSeen": 14,
+        "lastSeen": 60.667,
+        "occurrences": 5,
+        "heldMs": 0,
+        "times": [
+          14,
+          32.667,
+          42,
+          51.333,
+          60.667
+        ]
+      },
+      {
+        "code": "connector_orphan",
+        "severity": "warning",
+        "time": 14,
+        "selector": "#e-skip",
+        "message": "Connector shaft is visible while both endpoints are not on stage.",
+        "rect": {
+          "left": 240,
+          "top": 640,
+          "right": 1040,
+          "bottom": 940,
+          "width": 800,
+          "height": 300
+        },
+        "containerSelector": "#diag-cam > svg:nth-of-type(1)",
+        "fixHint": "Show the shaft only after both ends are on, and hide it with the earlier exit. Do not give the line its own clock.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 240,
+          "y": 640,
+          "width": 800,
+          "height": 300
+        },
+        "firstSeen": 14,
+        "lastSeen": 60.667,
+        "occurrences": 5,
+        "heldMs": 0,
+        "times": [
+          14,
+          32.667,
+          42,
+          51.333,
+          60.667
+        ]
+      }
+    ],
+    "duration": 84,
+    "samples": [
+      4.667,
+      14,
+      23.333,
+      32.667,
+      42,
+      51.333,
+      60.667,
+      70,
+      79.333
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 6,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      4.667,
+      23.333,
+      42,
+      60.667,
+      79.333
+    ],
+    "checked": 66,
+    "passed": 66
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 11 text elements stay under it for 0.5 s or more, the smallest \"pass\" at 27 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "pass",
+        "selector": "#l-pass",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 1226.4,
+          "y": 527.53,
+          "width": 65.82,
+          "height": 31.34
+        },
+        "time": 52.027,
+        "times": [
+          52.027,
+          52.027,
+          52.027,
+          52.027,
+          52.027,
+          52.027,
+          52.027,
+          52.027,
+          52.027,
+          52.027,
+          52.447
+        ],
+        "fontPx": 27.16,
+        "floorPx": 28,
+        "seconds": 12.06,
+        "elements": [
+          {
+            "selector": "#l-pass",
+            "text": "pass",
+            "fontPx": 27.16,
+            "time": 52.027,
+            "seconds": 12.06
+          },
+          {
+            "selector": "#l-rej",
+            "text": "reject",
+            "fontPx": 27.16,
+            "time": 52.027,
+            "seconds": 12.06
+          },
+          {
+            "selector": "#l-ans",
+            "text": "answer",
+            "fontPx": 27.16,
+            "time": 52.027,
+            "seconds": 12.06
+          },
+          {
+            "selector": "#l-loop",
+            "text": "consolidate · λ < 1",
+            "fontPx": 27.16,
+            "time": 52.027,
+            "seconds": 12.06
+          },
+          {
+            "selector": "#n-task > g:nth-of-type(1) > text:nth-of-type(2)",
+            "text": "grasp a cup",
+            "fontPx": 27.16,
+            "time": 52.027,
+            "seconds": 12.06
+          },
+          {
+            "selector": "#n-reflex > g:nth-of-type(1) > text:nth-of-type(2)",
+            "text": "1.5B · 0.6 ms",
+            "fontPx": 27.16,
+            "time": 52.027,
+            "seconds": 12.06
+          },
+          {
+            "selector": "#n-ver > g:nth-of-type(1) > text:nth-of-type(2)",
+            "text": "2.1 ms · tier-blind",
+            "fontPx": 27.16,
+            "time": 52.027,
+            "seconds": 12.06
+          },
+          {
+            "selector": "#n-act > g:nth-of-type(1) > text:nth-of-type(2)",
+            "text": "the hand moves",
+            "fontPx": 27.16,
+            "time": 52.027,
+            "seconds": 12.06
+          },
+          {
+            "selector": "#n-plan > g:nth-of-type(1) > text:nth-of-type(2)",
+            "text": "180 ms · on reject",
+            "fontPx": 27.16,
+            "time": 52.027,
+            "seconds": 12.06
+          },
+          {
+            "selector": "#n-led > g:nth-of-type(1) > text:nth-of-type(2)",
+            "text": "append-only",
+            "fontPx": 27.16,
+            "time": 52.027,
+            "seconds": 12.06
+          },
+          {
+            "selector": "#l-skip",
+            "text": "abstain",
+            "fontPx": 27.16,
+            "time": 52.447,
+            "seconds": 11.64
+          }
+        ]
+      }
+    ],
+    "enabled": true,
+    "step": 0.14000000000000057,
+    "samples": 599
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

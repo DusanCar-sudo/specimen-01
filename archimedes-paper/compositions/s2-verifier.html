@@ -1,0 +1,80 @@
+<template>
+  <style>
+    #root{position:absolute;inset:0;background:var(--ground);overflow:hidden;
+      background-image:radial-gradient(circle at 1px 1px,rgba(20,26,30,.055) 1px,transparent 0);background-size:4px 4px}
+    .ink{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+    .hair{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-linecap:round}
+    .t1{font-family:var(--font-display);font-size:76px;fill:var(--ink);letter-spacing:-.02em}
+    .t2{font-family:var(--font-display);font-size:34px;fill:var(--muted);font-style:italic}
+    .mono{font-family:var(--font-mono);font-size:20px;fill:var(--ink);letter-spacing:.16em;text-transform:uppercase}
+    .val{font-family:var(--font-mono);font-size:26px;fill:var(--muted);letter-spacing:.02em}
+  </style>
+
+  <div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+    <svg width="1920" height="1080" viewBox="0 0 1920 1080">
+      <text id="l1" class="t1" x="150" y="205">Then a second process reads it.</text>
+      <text id="l2" class="t2" x="152" y="268">and decides whether it may leave.</text>
+
+      <!-- node 1: reflex (carried from the previous shot, same place) -->
+      <g id="nb1">
+        <rect class="ink" x="380" y="452" width="360" height="140"/>
+        <text class="mono" x="412" y="510">REFLEX</text>
+        <text class="val" x="412" y="556">1.5B · 0.6 ms</text>
+      </g>
+
+      <!-- the link -->
+      <g id="nb2">
+        <path id="arw" class="hair" d="M740 522 H 968"/>
+        <path id="arh" class="hair" d="M944 508 L 970 522 L 944 536"/>
+        <circle id="pulse" cx="740" cy="522" r="8"/>
+      </g>
+
+      <!-- node 2: verifier -->
+      <g id="nb3">
+        <rect class="ink" x="980" y="412" width="520" height="220"/>
+        <text class="mono" x="1012" y="470">VERIFIER</text>
+        <text class="val" x="1012" y="516">2.1 ms per check</text>
+        <text class="val" x="1012" y="556">false accept ≤ 2%</text>
+        <path class="hair" d="M1012 580 H 1468" style="opacity:.4"/>
+      </g>
+
+      <!-- the question it answers -->
+      <text id="q" class="t2" x="1032" y="704">is this safe to release?</text>
+    </svg>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const draw = (sel, at, dur, ease) => {
+      const el = document.querySelector(sel);
+      const len = el.getTotalLength ? el.getTotalLength() : 900;
+      gsap.set(el, { strokeDasharray: len, strokeDashoffset: len });
+      tl.to(el, { strokeDashoffset: 0, duration: dur, ease: ease || 'power2.out' }, at);
+    };
+
+    tl.fromTo('#l1', { opacity: 0, filter: 'blur(7px)' },
+      { opacity: 1, filter: 'blur(0px)', duration: .7, ease: 'expo.out' }, .2);
+
+    gsap.set(['#nb2', '#nb3'], { opacity: 0 });
+    tl.to('#nb2', { opacity: 1, duration: .3 }, 2.2);
+    draw('#arw', 2.2, .7, 'power2.inOut');
+    tl.fromTo('#arh', { opacity: 0 }, { opacity: 1, duration: .25 }, 2.85);
+
+    // the token travels reflex -> verifier
+    tl.fromTo('#pulse', { attr: { cx: 740 }, opacity: 0 },
+      { opacity: 1, duration: .3 }, 2.9);
+    tl.to('#pulse', { attr: { cx: 968 }, duration: .85, ease: 'power2.inOut' }, 3.2);
+    tl.to('#pulse', { opacity: 0, duration: .35 }, 4.05);
+
+    tl.to('#nb3', { opacity: 1, duration: .3 }, 3.9);
+    draw('#nb3 rect', 3.9, 1.0, 'power2.inOut');
+    tl.fromTo('#nb3 text', { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .5, stagger: .16, ease: 'power3.out' }, 4.7);
+
+    tl.fromTo('#l2', { clipPath: 'inset(0% 100% 0% 0%)' },
+      { clipPath: 'inset(0% 0% 0% 0%)', duration: .85, ease: 'expo.out' }, 3.0);
+    tl.fromTo('#q', { opacity: 0 }, { opacity: 1, duration: .7, ease: 'power2.out' }, 5.5);
+
+    window.__timelines['s2'] = tl;
+    tl.seek(0);
+  </script>
+</template>

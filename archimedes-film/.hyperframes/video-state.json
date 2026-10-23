@@ -1,0 +1,920 @@
+{
+  "version": 1,
+  "historyId": "9a685106-4e73-4040-a90b-011aeb1c93cc",
+  "currentRevision": "dd7a1c96-2dfd-4df5-9cca-a0505b7759cd",
+  "pendingChanges": false,
+  "files": {
+    "assets/ar/grain.png": {
+      "hash": "53d5ee04d9f1e15a234d410c4065aa2ca0ab0ca78ab1fcd6ed0b8508baf8fa17",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/53/53d5ee04d9f1e15a234d410c4065aa2ca0ab0ca78ab1fcd6ed0b8508baf8fa17"
+    },
+    "assets/fonts/geist-mono.woff2": {
+      "hash": "5bc6413e82be410dc057feccee55160495b999d0fe212b7b6c6499b29b8b1e4a",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/5b/5bc6413e82be410dc057feccee55160495b999d0fe212b7b6c6499b29b8b1e4a"
+    },
+    "assets/fonts/geist.woff2": {
+      "hash": "28258d0621216948416a859d32487ab6ad1c9effa0d08795698e70be3c917630",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/28/28258d0621216948416a859d32487ab6ad1c9effa0d08795698e70be3c917630"
+    },
+    "hyperframes.json": {
+      "hash": "53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/53/53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50"
+    },
+    "index.html": {
+      "hash": "2f6558c5bec637445c25ae912fbef219007fcdc87d9fb623fdd7c6034bfc3db1",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/2f/2f6558c5bec637445c25ae912fbef219007fcdc87d9fb623fdd7c6034bfc3db1"
+    },
+    "meta.json": {
+      "hash": "31615046a02392cac50a1975a45a266eba9286b143b05b7cf9d21ccb8a963b59",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/31/31615046a02392cac50a1975a45a266eba9286b143b05b7cf9d21ccb8a963b59"
+    },
+    "package.json": {
+      "hash": "c214b5962c35a7c89b24a5d1b67fcbe01fdeac2d5820fc7a0aad6664415e3b46",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/c2/c214b5962c35a7c89b24a5d1b67fcbe01fdeac2d5820fc7a0aad6664415e3b46"
+    },
+    "assets/ar/arm-1920.png": {
+      "hash": "dbc83555d91f5cd43b43005874a9aa410f4f6a837545e4f5151700c6582d0589",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/db/dbc83555d91f5cd43b43005874a9aa410f4f6a837545e4f5151700c6582d0589"
+    },
+    "assets/ar/blueprint-1920.png": {
+      "hash": "30403897165a860be00e6b493984812801d7ef57558c0c3a498f900368c999d2",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/30/30403897165a860be00e6b493984812801d7ef57558c0c3a498f900368c999d2"
+    },
+    "assets/ar/chamber-1920.png": {
+      "hash": "5562278185f2f4e0fb5eb3fbec55825a370655bc1b91197674721407a6c00504",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/55/5562278185f2f4e0fb5eb3fbec55825a370655bc1b91197674721407a6c00504"
+    },
+    "assets/ar/gantry-1920.png": {
+      "hash": "d88a1e4ce1d38264f2484e3039195452dd5ae13bdadb5f44423e48bb7c4c8d05",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/d8/d88a1e4ce1d38264f2484e3039195452dd5ae13bdadb5f44423e48bb7c4c8d05"
+    },
+    "assets/ar/hand-1920.png": {
+      "hash": "2c3f0d8550c3312a652d40aedab6322d2b7863132943a38f3097bcc68e8575e6",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/2c/2c3f0d8550c3312a652d40aedab6322d2b7863132943a38f3097bcc68e8575e6"
+    },
+    "assets/ar/hand-loop-1920.png": {
+      "hash": "2c3f0d8550c3312a652d40aedab6322d2b7863132943a38f3097bcc68e8575e6",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/2c/2c3f0d8550c3312a652d40aedab6322d2b7863132943a38f3097bcc68e8575e6"
+    },
+    "assets/ar/joint-1920.png": {
+      "hash": "cb7cc46add57b405514a7febfafacedfbcbeafa32b33d4593c7c1e1fd85cf9a7",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/cb/cb7cc46add57b405514a7febfafacedfbcbeafa32b33d4593c7c1e1fd85cf9a7"
+    },
+    "assets/ar/lab-1920.png": {
+      "hash": "51923bee3ada9173f48c48c00aa40ff192781a501e385aa49a84f39895354e69",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/51/51923bee3ada9173f48c48c00aa40ff192781a501e385aa49a84f39895354e69"
+    },
+    "assets/ar/mocap-1920.png": {
+      "hash": "1871b6233d7ea6e25ee2131254271855300fad124ab86de874e0a7b7961a66d9",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/18/1871b6233d7ea6e25ee2131254271855300fad124ab86de874e0a7b7961a66d9"
+    },
+    "assets/ar/servo-1920.png": {
+      "hash": "e4355d1f90999a60441b8389b0f89e5ef09c8a2577bc3410624a51230c77b8e4",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/e4/e4355d1f90999a60441b8389b0f89e5ef09c8a2577bc3410624a51230c77b8e4"
+    },
+    "assets/ar/void-1920.png": {
+      "hash": "b1c7c0e68869d544c3957e59c0b39f2288ae9b74cb839fb91b1496c9b335ab70",
+      "content": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/b1/b1c7c0e68869d544c3957e59c0b39f2288ae9b74cb839fb91b1496c9b335ab70"
+    }
+  },
+  "revisions": {
+    "ed85c0b6-6719-42f7-9541-d75be0efd2f7": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792665308525,
+      "endedAt": 1792665308526,
+      "files": {
+        "index.html": {
+          "before": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/1c/1c2453d0b4f43dc529d930e3c28f76da24f09a061be85605f64508877d12d29a",
+          "after": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/84/84c8f919a9eb684340e7c487b517ca972ed07a94faf5d7ba8409859dba4a018f"
+        }
+      }
+    },
+    "285845aa-026c-4be5-b64b-2e06e5968d00": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792665389343,
+      "endedAt": 1792665389389,
+      "files": {
+        "assets/ar/hand-1920.png": {
+          "before": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/64/64c28a2b9d3b750620af4e804989dd7c98dfa5b0111612ca8550c2ed356ffec1",
+          "after": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/2c/2c3f0d8550c3312a652d40aedab6322d2b7863132943a38f3097bcc68e8575e6"
+        },
+        "assets/ar/hand-loop-1920.png": {
+          "before": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/64/64c28a2b9d3b750620af4e804989dd7c98dfa5b0111612ca8550c2ed356ffec1",
+          "after": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/2c/2c3f0d8550c3312a652d40aedab6322d2b7863132943a38f3097bcc68e8575e6"
+        },
+        "assets/ar/mocap-1920.png": {
+          "before": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/49/495c40bce5d185f5d33ea66b39fbdef0a2e5dd7137abce48616a62209b4c8205",
+          "after": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/18/1871b6233d7ea6e25ee2131254271855300fad124ab86de874e0a7b7961a66d9"
+        },
+        "index.html": {
+          "before": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/84/84c8f919a9eb684340e7c487b517ca972ed07a94faf5d7ba8409859dba4a018f",
+          "after": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/8f/8fec09c95ea602cff946b49e0bd7ad914eb3ec0bbf4b7c60da31c93a6b3e0f7f"
+        }
+      }
+    },
+    "ee4446bb-1216-460b-a90c-d08a6ea104bb": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792665735698,
+      "endedAt": 1792665735699,
+      "files": {
+        "index.html": {
+          "before": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/8f/8fec09c95ea602cff946b49e0bd7ad914eb3ec0bbf4b7c60da31c93a6b3e0f7f",
+          "after": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/ea/ea1e4b6d99d508d3b70ae0f8b8ae3f90d9f13f4dc28841b5b1e360ba953d6b16"
+        }
+      }
+    },
+    "f2df984d-9252-40a2-963d-91477a2854b4": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792666154809,
+      "endedAt": 1792666154810,
+      "files": {
+        "index.html": {
+          "before": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/ea/ea1e4b6d99d508d3b70ae0f8b8ae3f90d9f13f4dc28841b5b1e360ba953d6b16",
+          "after": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/a7/a7d7b340a6ce0bc730386f308a86f6da83bd54c560e7a528fed9e2909dc9cc48"
+        }
+      }
+    },
+    "dd7a1c96-2dfd-4df5-9cca-a0505b7759cd": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792666251505,
+      "endedAt": 1792666251507,
+      "files": {
+        "index.html": {
+          "before": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/a7/a7d7b340a6ce0bc730386f308a86f6da83bd54c560e7a528fed9e2909dc9cc48",
+          "after": "/home/dusan/.cache/hyperframes/history/9a685106-4e73-4040-a90b-011aeb1c93cc/blobs/2f/2f6558c5bec637445c25ae912fbef219007fcdc87d9fb623fdd7c6034bfc3db1"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": null,
+      "id": "208a6069-f1bf-47e8-a2b8-a9e0bf01da3a"
+    },
+    "revisions": {
+      "ed85c0b6-6719-42f7-9541-d75be0efd2f7": [
+        {
+          "id": "6b405d33-7b76-4967-8d8c-4f6f0a62a125",
+          "scope": "project",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "at": [
+                1.2,
+                4.4,
+                7.4,
+                10.4,
+                13.4,
+                16.4,
+                19.4,
+                22.6,
+                23.9
+              ],
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": true,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792665331091,
+          "contentHash": "ed4f3bb629d5e4caf95095b24392dfd8af982df52d254a84320e6f44a55371df",
+          "revision": "ed85c0b6-6719-42f7-9541-d75be0efd2f7",
+          "inputFingerprint": "e998720c0871247b857b63f904368241df90e6a14b475f0b88febcd6c020925b",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "a5f51969-2a0c-4058-accd-4599864f48a4"
+        }
+      ],
+      "ee4446bb-1216-460b-a90c-d08a6ea104bb": [
+        {
+          "id": "4a0c7199-5a4e-459e-ab35-d5ec904b83c1",
+          "scope": "project",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "at": [
+                1.2,
+                4.4,
+                7.4,
+                10.4,
+                13.4,
+                16.4,
+                19.4,
+                22.6,
+                23.9
+              ],
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792666143106,
+          "contentHash": "d227ba18269bdea6cd8414fbc6d5f9b8adcb3be55a8aed528779b407cad378b5",
+          "revision": "ee4446bb-1216-460b-a90c-d08a6ea104bb",
+          "inputFingerprint": "c2d359200effa52a91ff9bb9b6cc8dcdeae1d333f108c2b01e9910cffc5dce5c",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "e3815dec-14d4-4bd2-8ed8-aa902737c6a1"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+        "scope": "project",
+        "report": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/checks/93bdba70-f276-45ec-9ffb-32a6a0f91798.json",
+        "metadata": {
+          "ok": false,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "at": [
+              1.2,
+              4.4,
+              7.4,
+              10.4,
+              13.4,
+              16.4,
+              19.4,
+              22.6,
+              23.9
+            ],
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 3000,
+            "contrast": true,
+            "strict": false,
+            "snapshots": true,
+            "browserGpuMode": "auto"
+          }
+        },
+        "createdAt": 1792665235019,
+        "contentHash": "ffaf8f85d56dc212b4ee1cffd7361cebad27e135842ebc5923c955ccefad18b9",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "a6837d94-3a84-41c9-8e4c-6b069b27c149",
+        "scope": "project",
+        "report": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/checks/a6837d94-3a84-41c9-8e4c-6b069b27c149.json",
+        "metadata": {
+          "ok": false,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "at": [
+              1.2,
+              4.4,
+              7.4,
+              10.4,
+              13.4,
+              16.4,
+              19.4,
+              22.6,
+              23.9
+            ],
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 3000,
+            "contrast": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto"
+          }
+        },
+        "createdAt": 1792665262931,
+        "contentHash": "d8a47865f094858a76753ab0ae24153ac5ea03d0343b14aa7390cec77d6df703",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "208a6069-f1bf-47e8-a2b8-a9e0bf01da3a",
+        "scope": "project",
+        "report": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/checks/208a6069-f1bf-47e8-a2b8-a9e0bf01da3a.json",
+        "metadata": {
+          "ok": false,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "at": [
+              1.2,
+              4.4,
+              7.4,
+              10.4,
+              13.4,
+              16.4,
+              19.4,
+              22.6,
+              23.9
+            ],
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 3000,
+            "contrast": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto"
+          }
+        },
+        "createdAt": 1792665290316,
+        "contentHash": "d8a47865f094858a76753ab0ae24153ac5ea03d0343b14aa7390cec77d6df703",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": {
+      "revision": null,
+      "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-0"
+    },
+    "revisions": {
+      "ed85c0b6-6719-42f7-9541-d75be0efd2f7": [
+        {
+          "id": "6b405d33-7b76-4967-8d8c-4f6f0a62a125-0",
+          "scope": "full",
+          "time": 1.2,
+          "metadata": {
+            "checkId": "6b405d33-7b76-4967-8d8c-4f6f0a62a125",
+            "width": 1920,
+            "height": 1080
+          },
+          "createdAt": 1792665331091,
+          "contentHash": "2df334b126bcb8054d2ddec41b3ea5c6deecf633865492556ec3aab736da2c7c",
+          "revision": "ed85c0b6-6719-42f7-9541-d75be0efd2f7",
+          "inputFingerprint": "e998720c0871247b857b63f904368241df90e6a14b475f0b88febcd6c020925b",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "a5f51969-2a0c-4058-accd-4599864f48a4"
+        },
+        {
+          "id": "6b405d33-7b76-4967-8d8c-4f6f0a62a125-1",
+          "scope": "full",
+          "time": 7.4,
+          "metadata": {
+            "checkId": "6b405d33-7b76-4967-8d8c-4f6f0a62a125",
+            "width": 1920,
+            "height": 1080
+          },
+          "createdAt": 1792665331091,
+          "contentHash": "d2189ea33a4e4ff9499fc421f7df7c43262ce61ab19f60ee083e0b3bf20cc694",
+          "revision": "ed85c0b6-6719-42f7-9541-d75be0efd2f7",
+          "inputFingerprint": "e998720c0871247b857b63f904368241df90e6a14b475f0b88febcd6c020925b",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "a5f51969-2a0c-4058-accd-4599864f48a4"
+        },
+        {
+          "id": "6b405d33-7b76-4967-8d8c-4f6f0a62a125-2",
+          "scope": "full",
+          "time": 13.4,
+          "metadata": {
+            "checkId": "6b405d33-7b76-4967-8d8c-4f6f0a62a125",
+            "width": 1920,
+            "height": 1080
+          },
+          "createdAt": 1792665331091,
+          "contentHash": "3852a3b5df6e5fc60770755c0f4546d5baf78ac026ccda40efece9f98fc0fdcf",
+          "revision": "ed85c0b6-6719-42f7-9541-d75be0efd2f7",
+          "inputFingerprint": "e998720c0871247b857b63f904368241df90e6a14b475f0b88febcd6c020925b",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "a5f51969-2a0c-4058-accd-4599864f48a4"
+        },
+        {
+          "id": "6b405d33-7b76-4967-8d8c-4f6f0a62a125-3",
+          "scope": "full",
+          "time": 19.4,
+          "metadata": {
+            "checkId": "6b405d33-7b76-4967-8d8c-4f6f0a62a125",
+            "width": 1920,
+            "height": 1080
+          },
+          "createdAt": 1792665331091,
+          "contentHash": "499fd3ea73595f46f3ed699e23777768459f8604e88a6365c52c884eee218b73",
+          "revision": "ed85c0b6-6719-42f7-9541-d75be0efd2f7",
+          "inputFingerprint": "e998720c0871247b857b63f904368241df90e6a14b475f0b88febcd6c020925b",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "a5f51969-2a0c-4058-accd-4599864f48a4"
+        },
+        {
+          "id": "6b405d33-7b76-4967-8d8c-4f6f0a62a125-4",
+          "scope": "full",
+          "time": 23.9,
+          "metadata": {
+            "checkId": "6b405d33-7b76-4967-8d8c-4f6f0a62a125",
+            "width": 1920,
+            "height": 1080
+          },
+          "createdAt": 1792665331091,
+          "contentHash": "19e9b3f7229beb11b02ad7d1f54d5f1cfef2b28d4e7096e67eb5b7749986cabe",
+          "revision": "ed85c0b6-6719-42f7-9541-d75be0efd2f7",
+          "inputFingerprint": "e998720c0871247b857b63f904368241df90e6a14b475f0b88febcd6c020925b",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "a5f51969-2a0c-4058-accd-4599864f48a4"
+        }
+      ],
+      "285845aa-026c-4be5-b64b-2e06e5968d00": [
+        {
+          "scope": "full",
+          "id": "c4e42830-8130-4ce5-988f-d9b6cab3e0e0-0",
+          "time": 1.2,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792665400721,
+          "contentHash": "3b08ed76892e6338b179601eff7a44e97ead44f7ba3c162073f825090a11e5bb",
+          "revision": "285845aa-026c-4be5-b64b-2e06e5968d00",
+          "inputFingerprint": "f9b0a2b9ac15aa9318b85e29bc82804d7a950eca6e321c189b84bfcd95b55668",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "4ab3485c-4e6e-4e1f-8240-239522cb01ee"
+        },
+        {
+          "scope": "full",
+          "id": "c4e42830-8130-4ce5-988f-d9b6cab3e0e0-1",
+          "time": 7.4,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792665400721,
+          "contentHash": "7d42da9705ecd8180d2eae46595e623ed56854623790743166667b74c33fbef2",
+          "revision": "285845aa-026c-4be5-b64b-2e06e5968d00",
+          "inputFingerprint": "f9b0a2b9ac15aa9318b85e29bc82804d7a950eca6e321c189b84bfcd95b55668",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "4ab3485c-4e6e-4e1f-8240-239522cb01ee"
+        },
+        {
+          "scope": "full",
+          "id": "c4e42830-8130-4ce5-988f-d9b6cab3e0e0-2",
+          "time": 13.4,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792665400721,
+          "contentHash": "b1d0e3c211a0e9a662f784fa0e82c8e92d39b2ff894f86ca21e44f0e788493bf",
+          "revision": "285845aa-026c-4be5-b64b-2e06e5968d00",
+          "inputFingerprint": "f9b0a2b9ac15aa9318b85e29bc82804d7a950eca6e321c189b84bfcd95b55668",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "4ab3485c-4e6e-4e1f-8240-239522cb01ee"
+        },
+        {
+          "scope": "full",
+          "id": "c4e42830-8130-4ce5-988f-d9b6cab3e0e0-3",
+          "time": 19.4,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792665400721,
+          "contentHash": "280692a90e3c2041b0fe4f5e63bddfda416c18f40f1b67573b117602ae2f3c9b",
+          "revision": "285845aa-026c-4be5-b64b-2e06e5968d00",
+          "inputFingerprint": "f9b0a2b9ac15aa9318b85e29bc82804d7a950eca6e321c189b84bfcd95b55668",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "4ab3485c-4e6e-4e1f-8240-239522cb01ee"
+        },
+        {
+          "scope": "full",
+          "id": "c4e42830-8130-4ce5-988f-d9b6cab3e0e0-4",
+          "time": 23.9,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792665400721,
+          "contentHash": "2b8442942376eaa8a0f61c23c905cab8a2eb2978d42998437f1639d6b029a8b9",
+          "revision": "285845aa-026c-4be5-b64b-2e06e5968d00",
+          "inputFingerprint": "f9b0a2b9ac15aa9318b85e29bc82804d7a950eca6e321c189b84bfcd95b55668",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "4ab3485c-4e6e-4e1f-8240-239522cb01ee"
+        },
+        {
+          "scope": "full",
+          "id": "c4e42830-8130-4ce5-988f-d9b6cab3e0e0-5",
+          "time": 23.28,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792665400721,
+          "contentHash": "bb3e860fffbf687f68334078e2ea6bd6eb7ff38cc576b26a5937c99805fc5df7",
+          "revision": "285845aa-026c-4be5-b64b-2e06e5968d00",
+          "inputFingerprint": "f9b0a2b9ac15aa9318b85e29bc82804d7a950eca6e321c189b84bfcd95b55668",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "4ab3485c-4e6e-4e1f-8240-239522cb01ee"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-0",
+        "scope": "full",
+        "image": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/snapshots/b81b355b-9ad7-49ed-8be0-1deb6899495b/frame-00-at-1.2s.png",
+        "time": 1.2,
+        "metadata": {
+          "checkId": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+          "width": 1920,
+          "height": 1080
+        },
+        "createdAt": 1792665235020,
+        "contentHash": "39a6ec6370b30a895cdc8eee585e9cd05f8cda7c7915fe8203658c75fa9ae9ce",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-1",
+        "scope": "full",
+        "image": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/snapshots/b81b355b-9ad7-49ed-8be0-1deb6899495b/frame-01-at-7.4s.png",
+        "time": 7.4,
+        "metadata": {
+          "checkId": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+          "width": 1920,
+          "height": 1080
+        },
+        "createdAt": 1792665235020,
+        "contentHash": "2af39e2d7a0a2f5458e53cd2cf0d08f49bb5e6f7cc31429c108280ee9c9fbfda",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-2",
+        "scope": "full",
+        "image": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/snapshots/b81b355b-9ad7-49ed-8be0-1deb6899495b/frame-02-at-13.4s.png",
+        "time": 13.4,
+        "metadata": {
+          "checkId": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+          "width": 1920,
+          "height": 1080
+        },
+        "createdAt": 1792665235020,
+        "contentHash": "d1db062b63becee1c09e76899527d7043e718b1d6dd758c8bece8bc0c8ba29c4",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-3",
+        "scope": "full",
+        "image": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/snapshots/b81b355b-9ad7-49ed-8be0-1deb6899495b/frame-03-at-19.4s.png",
+        "time": 19.4,
+        "metadata": {
+          "checkId": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+          "width": 1920,
+          "height": 1080
+        },
+        "createdAt": 1792665235020,
+        "contentHash": "dc0541b7cf599b7285525fbadcc88082c2c0925e2c8cce3f0d25f43068ec4f3b",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-4",
+        "scope": "full",
+        "image": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/snapshots/b81b355b-9ad7-49ed-8be0-1deb6899495b/frame-04-at-23.9s.png",
+        "time": 23.9,
+        "metadata": {
+          "checkId": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+          "width": 1920,
+          "height": 1080
+        },
+        "createdAt": 1792665235020,
+        "contentHash": "a356abfcceb6a2e5a95d4f1ffc04953e7972fe3e25ca4559f468f26d5e1ee853",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-crop-0",
+        "scope": "finding",
+        "image": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/snapshots/b81b355b-9ad7-49ed-8be0-1deb6899495b/finding-00-text_occluded.png",
+        "time": 22.6,
+        "metadata": {
+          "checkId": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+          "finding": {
+            "filename": "finding-00-text_occluded.png",
+            "time": 22.6,
+            "bbox": {
+              "x": 1373,
+              "y": 292,
+              "width": 20.81,
+              "height": 15
+            }
+          },
+          "width": 207,
+          "height": 189
+        },
+        "createdAt": 1792665235020,
+        "contentHash": "1c78d49ff3e8767f23fa0b6c06c578a6c19a39ff99a18d3d97e5fd5be32cb3d4",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-crop-1",
+        "scope": "finding",
+        "image": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/snapshots/b81b355b-9ad7-49ed-8be0-1deb6899495b/finding-01-text_occluded.png",
+        "time": 22.6,
+        "metadata": {
+          "checkId": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+          "finding": {
+            "filename": "finding-01-text_occluded.png",
+            "time": 22.6,
+            "bbox": {
+              "x": 1746.55,
+              "y": 293.5,
+              "width": 55.45,
+              "height": 12
+            }
+          },
+          "width": 309,
+          "height": 180
+        },
+        "createdAt": 1792665235020,
+        "contentHash": "549250932b7dcd0b60350f9d0857c3349b3615854af92da6fa3b5dbda85b246b",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-crop-2",
+        "scope": "finding",
+        "image": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/snapshots/b81b355b-9ad7-49ed-8be0-1deb6899495b/finding-02-text_occluded.png",
+        "time": 22.6,
+        "metadata": {
+          "checkId": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+          "finding": {
+            "filename": "finding-02-text_occluded.png",
+            "time": 22.6,
+            "bbox": {
+              "x": 1373,
+              "y": 321,
+              "width": 331.45,
+              "height": 80.59
+            }
+          },
+          "width": 1137,
+          "height": 387
+        },
+        "createdAt": 1792665235020,
+        "contentHash": "3027fe534562a35951622fa50fac58ce4341a67b36c558ce7c9b93547618e09a",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-crop-3",
+        "scope": "finding",
+        "image": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/snapshots/b81b355b-9ad7-49ed-8be0-1deb6899495b/finding-03-text_occluded.png",
+        "time": 22.6,
+        "metadata": {
+          "checkId": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+          "finding": {
+            "filename": "finding-03-text_occluded.png",
+            "time": 22.6,
+            "bbox": {
+              "x": 1612.88,
+              "y": 513.39,
+              "width": 45.21,
+              "height": 10.9
+            }
+          },
+          "width": 279,
+          "height": 177
+        },
+        "createdAt": 1792665235020,
+        "contentHash": "569b1e7da789101d09c22c0705396d1d92b12554d81f93f0674f86a71ccc151c",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-crop-4",
+        "scope": "finding",
+        "image": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/snapshots/b81b355b-9ad7-49ed-8be0-1deb6899495b/finding-04-text_occluded.png",
+        "time": 22.6,
+        "metadata": {
+          "checkId": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+          "finding": {
+            "filename": "finding-04-text_occluded.png",
+            "time": 22.6,
+            "bbox": {
+              "x": 1612.88,
+              "y": 533.21,
+              "width": 45.21,
+              "height": 10.9
+            }
+          },
+          "width": 279,
+          "height": 177
+        },
+        "createdAt": 1792665235020,
+        "contentHash": "584a6f0908d3efe3c71d5980cb5fcbbfff7e18a4a3f740829688fcd544c7d28b",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-crop-5",
+        "scope": "finding",
+        "image": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/snapshots/b81b355b-9ad7-49ed-8be0-1deb6899495b/finding-05-text_occluded.png",
+        "time": 22.6,
+        "metadata": {
+          "checkId": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+          "finding": {
+            "filename": "finding-05-text_occluded.png",
+            "time": 22.6,
+            "bbox": {
+              "x": 1523.67,
+              "y": 620.44,
+              "width": 150.65,
+              "height": 10.9
+            }
+          },
+          "width": 594,
+          "height": 177
+        },
+        "createdAt": 1792665235020,
+        "contentHash": "2fa4424cd5287b6d5e292b64644205394928873eaa3324651e6ec57c29f99ac5",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-crop-6",
+        "scope": "finding",
+        "image": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/snapshots/b81b355b-9ad7-49ed-8be0-1deb6899495b/finding-06-text_occluded.png",
+        "time": 22.6,
+        "metadata": {
+          "checkId": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+          "finding": {
+            "filename": "finding-06-text_occluded.png",
+            "time": 22.6,
+            "bbox": {
+              "x": 1425.81,
+              "y": 663.19,
+              "width": 193.61,
+              "height": 12
+            }
+          },
+          "width": 723,
+          "height": 180
+        },
+        "createdAt": 1792665235020,
+        "contentHash": "99d0665367315a3b97536948b06070fab719196757784e643df713aa50f8cff7",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "93bdba70-f276-45ec-9ffb-32a6a0f91798-crop-7",
+        "scope": "finding",
+        "image": "/home/dusan/preview-demo/archimedes-film/.hyperframes/artifacts/snapshots/b81b355b-9ad7-49ed-8be0-1deb6899495b/finding-07-text_occluded.png",
+        "time": 22.6,
+        "metadata": {
+          "checkId": "93bdba70-f276-45ec-9ffb-32a6a0f91798",
+          "finding": {
+            "filename": "finding-07-text_occluded.png",
+            "time": 22.6,
+            "bbox": {
+              "x": 1373,
+              "y": 663.19,
+              "width": 52.81,
+              "height": 12
+            }
+          },
+          "width": 303,
+          "height": 180
+        },
+        "createdAt": 1792665235020,
+        "contentHash": "33fcc12c61c937cbaac2758809441e28dc2ba40a3b8781aef4539a7693d2cdfe",
+        "revision": null,
+        "inputFingerprint": "665f4049e5bde13f7428991d4915f42d28e9db9a70b3778081cf947ab729f760",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "renders": {
+    "latest": {
+      "id": "e3815dec-14d4-4bd2-8ed8-aa902737c6a1",
+      "completedAt": 1792666339327,
+      "output": "/home/dusan/preview-demo/archimedes-film/renders/archimedes-hero.mp4",
+      "status": "completed",
+      "revision": "dd7a1c96-2dfd-4df5-9cca-a0505b7759cd"
+    },
+    "retainedRevisions": [
+      "dd7a1c96-2dfd-4df5-9cca-a0505b7759cd",
+      "f2df984d-9252-40a2-963d-91477a2854b4"
+    ]
+  },
+  "pendingArtifactCleanup": []
+}

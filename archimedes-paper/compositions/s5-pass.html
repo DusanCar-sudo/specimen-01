@@ -1,0 +1,77 @@
+<template>
+  <style>
+    #root{position:absolute;inset:0;background:var(--ground);overflow:hidden;
+      background-image:radial-gradient(circle at 1px 1px,rgba(20,26,30,.055) 1px,transparent 0);background-size:4px 4px}
+    .ink{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+    .hair{fill:none;stroke-width:1.6;stroke-linecap:round}
+    .t1{font-family:var(--font-display);font-size:76px;fill:var(--ink);letter-spacing:-.02em}
+    .mono{font-family:var(--font-mono);font-size:19px;letter-spacing:.15em;text-transform:uppercase;fill:var(--muted)}
+    .big{font-family:var(--font-display);font-size:260px;fill:var(--pass);letter-spacing:-.04em}
+    .val{font-family:var(--font-mono);font-size:24px;fill:var(--muted)}
+  </style>
+
+  <div id="root" data-composition-id="s5" data-width="1920" data-height="1080">
+    <svg width="1920" height="1080" viewBox="0 0 1920 1080">
+      <text id="l1" class="t1" x="150" y="200">Usually it clears the bar.</text>
+
+      <g id="vb">
+        <rect class="ink" x="980" y="300" width="360" height="140"/>
+        <text class="mono" x="1014" y="356" style="fill:var(--ink)">VERIFIER</text>
+        <text class="val" x="1014" y="402">2.1 ms</text>
+      </g>
+
+      <g id="br">
+        <path id="path-pass" class="hair" d="M1340 400 C 1450 400, 1470 470, 1470 540" style="stroke:var(--pass)"/>
+        <path id="head-pass" class="hair" d="M1452 520 L 1470 546 L 1488 520" style="stroke:var(--pass)"/>
+        <text id="plbl" class="mono" x="1382" y="452" style="fill:var(--pass)">clear</text>
+      </g>
+
+      <g id="ab">
+        <rect class="ink" x="1290" y="560" width="380" height="150" style="stroke:var(--pass)"/>
+        <text class="mono" x="1324" y="620" style="fill:var(--pass)">ACT</text>
+        <text class="val" x="1324" y="668">the action goes out</text>
+      </g>
+
+      <g id="pct">
+        <text class="big" x="146" y="560">0</text>
+        <text class="mono" x="150" y="630">of attempts clear the bar</text>
+        <text class="val" x="150" y="700">q > cS/cL on the first read</text>
+      </g>
+    </svg>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const draw = (sel, at, dur, ease) => {
+      const el = document.querySelector(sel);
+      const len = el.getTotalLength ? el.getTotalLength() : 1600;
+      gsap.set(el, { strokeDasharray: len, strokeDashoffset: len });
+      tl.to(el, { strokeDashoffset: 0, duration: dur, ease: ease || 'power2.out' }, at);
+    };
+
+    tl.fromTo('#l1', { opacity: 0, filter: 'blur(7px)' },
+      { opacity: 1, filter: 'blur(0px)', duration: .75, ease: 'expo.out' }, 0);
+
+    draw('#path-pass', .9, .7, 'power2.inOut');
+    draw('#head-pass', 1.5, .3, 'power2.out');
+    tl.fromTo('#plbl', { opacity: 0 }, { opacity: 1, duration: .45 }, 1.7);
+
+    tl.fromTo('#ab', { opacity: 0 }, { opacity: 1, duration: .3 }, 2.2);
+    draw('#ab rect', 2.2, .8, 'power2.inOut');
+    tl.fromTo('#ab text', { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: .5, stagger: .14, ease: 'power3.out' }, 2.7);
+
+    const o = { v: 0 };
+    tl.to(o, {
+      v: 82, duration: 1.6, ease: 'power2.out',
+      onUpdate() { document.querySelector('#pct .big').textContent = Math.round(o.v) + '%'; }
+    }, 3.1);
+    tl.fromTo('#pct .big', { opacity: 0, y: 24 },
+      { opacity: 1, y: 0, duration: .6, ease: 'power4.out' }, 3.1);
+    tl.fromTo('#pct .mono, #pct .val', { opacity: 0 },
+      { opacity: 1, duration: .6, stagger: .18, ease: 'power2.out' }, 3.9);
+
+    window.__timelines['s5'] = tl;
+    tl.seek(0);
+  </script>
+</template>

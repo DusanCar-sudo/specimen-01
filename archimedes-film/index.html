@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>ARCHIMEDES — AR-1 control loop (hero film)</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: 'Geist'; src: url('assets/fonts/geist.woff2') format('woff2'); font-weight: 400 700; font-display: block; }
+      @font-face { font-family: 'Geist Mono'; src: url('assets/fonts/geist-mono.woff2') format('woff2'); font-weight: 400 500; font-display: block; }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #07090a; }
+      body { color: #e9e3d3; font-family: 'Geist', sans-serif; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #07090a; }
+
+      .clip { position: absolute; inset: 0; overflow: hidden; }
+      .scene-inner { position: absolute; inset: 0; }
+      .plate {
+        position: absolute; inset: 0; width: 100%; height: 100%;
+        object-fit: cover; transform-origin: 50% 45%;
+        filter: brightness(1.02) contrast(1.04);
+      }
+
+      /* ---------- persistent grade + HUD ---------- */
+      .layer { position: absolute; inset: 0; pointer-events: none; }
+      .scrim-l { background: linear-gradient(90deg, rgba(7,9,10,.88) 0%, rgba(7,9,10,.5) 32%, rgba(7,9,10,.04) 64%, rgba(7,9,10,0) 100%); }
+      .scrim-b { background: linear-gradient(0deg, rgba(7,9,10,.86) 0%, rgba(7,9,10,.2) 22%, rgba(7,9,10,0) 46%); }
+      .scrim-t { background: linear-gradient(180deg, rgba(7,9,10,.55) 0%, rgba(7,9,10,0) 26%); }
+      .vig { background: radial-gradient(115% 95% at 52% 48%, rgba(7,9,10,0) 46%, rgba(7,9,10,.42) 100%); }
+      .scan { background: repeating-linear-gradient(0deg, rgba(0,0,0,.5) 0 1px, transparent 1px 4px); opacity: .14; mix-blend-mode: multiply; }
+      .grain { background-image: url('assets/ar/grain.png'); background-repeat: repeat; opacity: .06; mix-blend-mode: overlay; }
+
+      .hud { position: absolute; inset: 0; pointer-events: none; z-index: 50; }
+      .hud .frame { position: absolute; inset: 48px; border: 1px solid rgba(233,227,211,.15); }
+      .hud .frame span { position: absolute; width: 15px; height: 15px; border: 0; }
+      .hud .frame .tl { top: -1px; left: -1px; border-top: 1px solid rgba(233,227,211,.6); border-left: 1px solid rgba(233,227,211,.6); }
+      .hud .frame .tr { top: -1px; right: -1px; border-top: 1px solid rgba(233,227,211,.6); border-right: 1px solid rgba(233,227,211,.6); }
+      .hud .frame .bl { bottom: -1px; left: -1px; border-bottom: 1px solid rgba(233,227,211,.6); border-left: 1px solid rgba(233,227,211,.6); }
+      .hud .frame .br { bottom: -1px; right: -1px; border-bottom: 1px solid rgba(233,227,211,.6); border-right: 1px solid rgba(233,227,211,.6); }
+      .mono { font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 1.5; letter-spacing: .18em; text-transform: uppercase; }
+      .hud-tl { position: absolute; left: 76px; top: 74px; }
+      .hud-tl b { display: block; font-family: 'Geist Mono', monospace; font-size: 17px; font-weight: 500; letter-spacing: .3em; color: #e9e3d3; }
+      .hud-tl i { display: block; margin-top: 7px; font-style: normal; color: #8b897e; }
+      .hud-tr { position: absolute; right: 76px; top: 74px; text-align: right; color: #8b897e; }
+      .hud-tr b { display: block; font-family: 'Geist Mono', monospace; font-size: 15px; font-weight: 400; letter-spacing: .16em; color: #cfc9ba; }
+      .hud-bl { position: absolute; left: 76px; bottom: 72px; color: #8b897e; }
+      .hud-br { position: absolute; right: 76px; bottom: 72px; text-align: right; color: #8b897e; }
+      .cross { position: absolute; left: 960px; top: 540px; width: 0; height: 0; opacity: .5; }
+      .cross::before, .cross::after { content: ""; position: absolute; background: #e9e3d3; }
+      .cross::before { width: 1px; height: 18px; left: 0; top: -9px; }
+      .cross::after { width: 18px; height: 1px; left: -9px; top: 0; }
+
+      /* ---------- instrument card ---------- */
+      .instrument { position: absolute; right: 76px; top: 286px; width: 452px; z-index: 30;
+        padding: 22px 22px 24px; border: 1px solid rgba(233,227,211,.16); border-left: 2px solid rgba(243,164,69,.75);
+        background: linear-gradient(180deg, rgba(10,13,15,.94), rgba(7,9,10,.9)); }
+      .i-top { display: flex; align-items: center; gap: 12px; color: #a7a294; }
+      .i-no { color: #f3a445; font-family: 'Geist Mono', monospace; font-size: 13px; letter-spacing: .2em; }
+      .i-rule { flex: 1; height: 1px; background: rgba(233,227,211,.22); }
+      .i-kicker { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: .24em; color: #c3bdae; }
+      .i-title { margin-top: 14px; font-size: 34px; line-height: 1.12; font-weight: 500; letter-spacing: -.02em; max-width: 400px; color: #f2ecdc; }
+      .i-fig { display: block; width: 100%; height: auto; aspect-ratio: 452 / 226; margin-top: 22px; border: 1px solid rgba(233,227,211,.18); background: #0a0d0f; }
+      .i-data { margin-top: 14px; color: #b9b3a4; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; }
+      .i-data em { color: #efe8d8; font-style: normal; }
+
+      svg .axis { stroke: rgba(233,227,211,.34); stroke-width: 1; }
+      svg .grid { stroke: rgba(233,227,211,.1); stroke-width: 1; }
+      svg .bone { stroke: #d8d2c2; stroke-width: 1.6; fill: none; }
+      svg .amber { stroke: #f3a445; stroke-width: 1.7; fill: none; }
+      svg .green { stroke: #a3bd90; stroke-width: 1.7; fill: none; }
+      svg .dashline { stroke: rgba(233,227,211,.45); stroke-width: 1; stroke-dasharray: 4 5; fill: none; }
+      svg .ok { fill: #a3bd90; }
+      svg .signal { fill: #f3a445; }
+      svg .neutral { fill: #d8d2c2; }
+      svg text { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: .16em; fill: #a7a294; text-transform: uppercase; }
+      svg text.strong { fill: #e9e3d3; }
+      svg text.amber-t { fill: #f3a445; }
+      svg text.green-t { fill: #b9d3a6; }
+      svg .fadeable { opacity: 0; }
+
+      .sweep { position: absolute; z-index: 40; left: 0; right: 0; top: 0; height: 2px; pointer-events: none;
+        background: linear-gradient(90deg, rgba(243,164,69,0), rgba(243,164,69,.34), rgba(243,164,69,0)); }
+          </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="archimedes-hero" data-start="0" data-width="1920" data-height="1080" data-duration="24" data-fps="30">
+
+      <!-- 00 · object -->
+      <section class="clip" id="s1" data-start="0" data-duration="3" data-track-index="0">
+        <div class="scene-inner">
+          <img class="plate" src="assets/ar/hand-1920.png" alt="" style="object-position: 54% 52%" />
+          <div class="instrument">
+            <div class="i-top"><span class="i-no">00</span><span class="i-rule"></span><span class="i-kicker">Object</span></div>
+            <h2 class="i-title">Articulated hand, 22 degrees of freedom.</h2>
+            <svg class="i-fig" viewBox="0 0 452 226" aria-hidden="true">
+              <g class="grid"><path d="M0 56.5 H452 M0 113 H452 M0 169.5 H452 M113 0 V226 M226 0 V226 M339 0 V226" /></g>
+              <circle class="dashline" cx="226" cy="108" r="58" />
+              <line class="d" x1="226" y1="34" x2="226" y2="182" stroke="rgba(233,227,211,.5)" />
+              <line class="d" x1="152" y1="108" x2="300" y2="108" stroke="rgba(233,227,211,.5)" />
+              <circle class="signal" cx="226" cy="108" r="3.5" />
+              <g class="fadeable">
+                <text x="240" y="98">22 dof</text>
+                <text x="240" y="118" class="strong">0.6 ms</text>
+                <text x="226" y="206" text-anchor="middle">macro 1:1 · plate 00</text>
+              </g>
+            </svg>
+            <div class="i-data"><em>22 dof</em> / macro 1:1 / cell 03</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 01 · displacement -->
+      <section class="clip" id="s2" data-start="3" data-duration="3" data-track-index="1">
+        <div class="scene-inner">
+          <img class="plate" src="assets/ar/joint-1920.png" alt="" style="object-position: 48% 50%" />
+          <div class="instrument">
+            <div class="i-top"><span class="i-no">01</span><span class="i-rule"></span><span class="i-kicker">Displacement</span></div>
+            <h2 class="i-title">The cheap tier goes first.</h2>
+            <svg class="i-fig" viewBox="0 0 452 226" aria-hidden="true">
+              <g class="grid"><path d="M0 56.5 H452 M0 113 H452 M0 169.5 H452 M113 0 V226 M226 0 V226 M339 0 V226" /></g>
+              <line class="axis" x1="34" y1="186" x2="424" y2="186" />
+              <line class="d" x1="70" y1="186" x2="356" y2="52" stroke="#d8d2c2" stroke-width="1.6" />
+              <line class="d" x1="70" y1="186" x2="168" y2="124" stroke="#f3a445" stroke-width="1.7" />
+              <path class="d" d="M170 186 A100 100 0 0 0 159.7 141.8" stroke="rgba(233,227,211,.55)" />
+              <circle class="neutral" cx="70" cy="186" r="3" />
+              <g class="fadeable">
+                <text x="366" y="48" class="strong">attempt</text>
+                <text x="176" y="118" class="amber-t">reflex</text>
+                <text x="176" y="166" class="amber-t">θ 26.2°</text>
+                <text x="34" y="210">surface / recorded always</text>
+              </g>
+            </svg>
+            <div class="i-data"><em>0.6 ms</em> / recorded always / 1.5 b</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 · gate -->
+      <section class="clip" id="s3" data-start="6" data-duration="3" data-track-index="2">
+        <div class="scene-inner">
+          <img class="plate" src="assets/ar/servo-1920.png" alt="" style="object-position: 52% 50%" />
+          <div class="instrument">
+            <div class="i-top"><span class="i-no">02</span><span class="i-rule"></span><span class="i-kicker">The gate</span></div>
+            <h2 class="i-title">The gate is a cost inequality.</h2>
+            <svg class="i-fig" viewBox="0 0 452 226" aria-hidden="true">
+              <g class="grid"><path d="M0 56.5 H452 M0 113 H452 M0 169.5 H452 M113 0 V226 M226 0 V226 M339 0 V226" /></g>
+              <line class="axis" x1="42" y1="198" x2="424" y2="198" />
+              <line class="axis" x1="42" y1="198" x2="42" y2="34" />
+              <line class="dashline" x1="42" y1="96" x2="424" y2="96" />
+              <line class="d" x1="42" y1="70" x2="424" y2="186" stroke="#f3a445" stroke-width="1.8" />
+              <line class="d" x1="108" y1="96" x2="108" y2="198" stroke="#f3a445" />
+              <circle class="signal" cx="108" cy="96" r="3.4" />
+              <g class="fadeable">
+                <text x="416" y="90" text-anchor="end" class="strong">always · large</text>
+                <text x="416" y="180" text-anchor="end" class="amber-t">gated</text>
+                <text x="116" y="86" class="amber-t">q* = cS / cL = 0.18</text>
+                <text x="42" y="216">acceptance probability q</text>
+                <text x="30" y="46" text-anchor="end">1.0</text>
+              </g>
+            </svg>
+            <div class="i-data"><em>q &gt; cS/cL</em> / q* 0.18 / ε 0.05</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 · verifier -->
+      <section class="clip" id="s4" data-start="9" data-duration="3" data-track-index="3">
+        <div class="scene-inner">
+          <img class="plate" src="assets/ar/gantry-1920.png" alt="" style="object-position: 50% 54%" />
+          <div class="instrument">
+            <div class="i-top"><span class="i-no">03</span><span class="i-rule"></span><span class="i-kicker">The verifier</span></div>
+            <h2 class="i-title">Physics adjudicates.</h2>
+            <svg class="i-fig" viewBox="0 0 452 226" aria-hidden="true">
+              <g class="grid"><path d="M0 56.5 H452 M0 113 H452 M0 169.5 H452 M113 0 V226 M226 0 V226 M339 0 V226" /></g>
+              <line class="axis" x1="30" y1="188" x2="424" y2="188" />
+              <g stroke="rgba(233,227,211,.16)" fill="none">
+                <path d="M44 188 l9 -11 M76 188 l9 -11 M108 188 l9 -11 M140 188 l9 -11 M172 188 l9 -11 M204 188 l9 -11 M236 188 l9 -11 M268 188 l9 -11 M300 188 l9 -11 M332 188 l9 -11 M364 188 l9 -11 M396 188 l9 -11" />
+              </g>
+              <path class="d" d="M226 188 L156 44 L296 44 Z" stroke="rgba(233,227,211,.4)" />
+              <line class="dashline" x1="226" y1="188" x2="226" y2="44" />
+              <line class="d" x1="226" y1="188" x2="250" y2="44" stroke="#a3bd90" stroke-width="1.8" />
+              <line class="d" x1="226" y1="188" x2="362" y2="76" stroke="#f3a445" stroke-width="1.8" />
+              <path class="d" d="M226 122 A66 66 0 0 1 259.9 131.9" stroke="#f3a445" />
+              <circle class="neutral" cx="226" cy="188" r="3" />
+              <g class="fadeable">
+                <text x="236" y="60" class="strong">n</text>
+                <text x="264" y="146" class="amber-t">φ 31.0°</text>
+                <text x="258" y="38" class="green-t">accept</text>
+                <text x="370" y="72" class="amber-t">reject</text>
+                <text x="30" y="210">μ 0.60 / tan φ = μ</text>
+              </g>
+            </svg>
+            <div class="i-data"><em>μ 0.60</em> / false accept ≤ 2% / 320 n·m</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 · escalation -->
+      <section class="clip" id="s5" data-start="12" data-duration="3" data-track-index="4">
+        <div class="scene-inner">
+          <img class="plate" src="assets/ar/arm-1920.png" alt="" style="object-position: 58% 48%" />
+          <div class="instrument">
+            <div class="i-top"><span class="i-no">04</span><span class="i-rule"></span><span class="i-kicker">Escalation</span></div>
+            <h2 class="i-title">Summoned, not consulted.</h2>
+            <svg class="i-fig" viewBox="0 0 452 226" aria-hidden="true">
+              <g class="grid"><path d="M0 56.5 H452 M0 113 H452 M0 169.5 H452 M113 0 V226 M226 0 V226 M339 0 V226" /></g>
+              <line class="axis" x1="30" y1="196" x2="424" y2="196" />
+              <path class="d" d="M74 178 Q 216 26 386 74" stroke="#d8d2c2" stroke-width="1.8" />
+              <g class="fadeable">
+                <circle class="neutral" cx="171.7" cy="97" r="2.6" />
+                <circle class="neutral" cx="248.8" cy="68.6" r="2.6" />
+                <circle class="neutral" cx="319.8" cy="63.8" r="2.6" />
+                <circle class="signal" cx="386" cy="74" r="4" />
+              </g>
+              <g stroke="#f3a445" stroke-width="1.6" class="fadeable">
+                <path d="M66 170 l16 16 M82 170 l-16 16" />
+              </g>
+              <g class="fadeable">
+                <text x="92" y="172" class="amber-t">reject</text>
+                <text x="394" y="70" class="strong">solution</text>
+                <text x="30" y="218">trajectory / planner 180 ms</text>
+              </g>
+            </svg>
+            <div class="i-data"><em>180 ms</em> / on reject only / writeback ledger</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 · consolidation -->
+      <section class="clip" id="s6" data-start="15" data-duration="3" data-track-index="5">
+        <div class="scene-inner">
+          <img class="plate" src="assets/ar/lab-1920.png" alt="" style="object-position: 50% 58%" />
+          <div class="instrument">
+            <div class="i-top"><span class="i-no">05</span><span class="i-rule"></span><span class="i-kicker">Consolidation</span></div>
+            <h2 class="i-title">Failure becomes reflex.</h2>
+            <svg class="i-fig" viewBox="0 0 452 226" aria-hidden="true">
+              <g class="grid"><path d="M0 56.5 H452 M0 113 H452 M0 169.5 H452 M113 0 V226 M226 0 V226 M339 0 V226" /></g>
+              <line class="axis" x1="34" y1="164" x2="424" y2="164" />
+              <g>
+                <rect class="tick" x="44" y="104" width="9" height="46" fill="#d8d2c2" opacity=".85" />
+                <rect class="tick" x="75" y="104" width="9" height="46" fill="#d8d2c2" opacity=".85" />
+                <rect class="tick" x="106" y="104" width="9" height="46" fill="#d8d2c2" opacity=".85" />
+                <rect class="tick" x="137" y="104" width="9" height="46" fill="#d8d2c2" opacity=".85" />
+                <rect class="tick" x="168" y="104" width="9" height="46" fill="#d8d2c2" opacity=".85" />
+                <rect class="tick" x="199" y="104" width="9" height="46" fill="#d8d2c2" opacity=".85" />
+                <rect class="tick" x="230" y="104" width="9" height="46" fill="#d8d2c2" opacity=".85" />
+                <rect class="tick" x="261" y="104" width="9" height="46" fill="#d8d2c2" opacity=".85" />
+                <rect class="tick" x="292" y="104" width="9" height="46" fill="#f3a445" />
+                <rect class="tick" x="323" y="104" width="9" height="46" fill="#d8d2c2" opacity=".85" />
+                <rect class="tick" x="354" y="104" width="9" height="46" fill="#d8d2c2" opacity=".85" />
+                <rect class="tick" x="385" y="104" width="9" height="46" fill="#d8d2c2" opacity=".85" />
+              </g>
+              <g class="fadeable">
+                <path d="M44 178 H394 M44 178 v6 M394 178 v6" stroke="rgba(233,227,211,.4)" />
+                <text x="44" y="204">reflex set +1 / λ &lt; 1</text>
+                <text x="296" y="94" class="amber-t">failure</text>
+              </g>
+            </svg>
+            <div class="i-data"><em>λ &lt; 1</em> / 4 stages / fmin 20</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 · fixed point -->
+      <section class="clip" id="s7" data-start="18" data-duration="3" data-track-index="6">
+        <div class="scene-inner">
+          <img class="plate" src="assets/ar/mocap-1920.png" alt="" style="object-position: 50% 50%" />
+          <div class="instrument">
+            <div class="i-top"><span class="i-no">06</span><span class="i-rule"></span><span class="i-kicker">Fixed point</span></div>
+            <h2 class="i-title">The machine stops paying twice.</h2>
+            <svg class="i-fig" viewBox="0 0 452 226" aria-hidden="true">
+              <g class="grid"><path d="M0 56.5 H452 M0 113 H452 M0 169.5 H452 M113 0 V226 M226 0 V226 M339 0 V226" /></g>
+              <line class="axis" x1="42" y1="196" x2="424" y2="196" />
+              <line class="axis" x1="42" y1="196" x2="42" y2="34" />
+              <line class="dashline" x1="42" y1="176" x2="424" y2="176" />
+              <path class="d" d="M42 58 H104 V80 H166 V102 H228 V124 H290 V146 H352 V166 H418" stroke="#d8d2c2" stroke-width="1.8" />
+              <circle class="signal" cx="418" cy="166" r="4" />
+              <g class="fadeable">
+                <text x="416" y="40" text-anchor="end" class="strong">q ↑</text>
+                <text x="416" y="188" text-anchor="end" class="amber-t">cost ↓</text>
+                <text x="42" y="216">cost / motion · episodes →</text>
+              </g>
+            </svg>
+            <div class="i-data"><em>q ↑ / cost ↓</em> / trend to fixed point</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- loop · matches scene 00 frame for frame -->
+      <section class="clip" id="s8" data-start="21" data-duration="3" data-track-index="7">
+        <div class="scene-inner">
+          <img class="plate" src="assets/ar/hand-loop-1920.png" alt="" style="object-position: 54% 52%" />
+          <div class="instrument">
+            <div class="i-top"><span class="i-no">00</span><span class="i-rule"></span><span class="i-kicker">Object</span></div>
+            <h2 class="i-title">Articulated hand, 22 degrees of freedom.</h2>
+            <svg class="i-fig" viewBox="0 0 452 226" aria-hidden="true">
+              <g class="grid"><path d="M0 56.5 H452 M0 113 H452 M0 169.5 H452 M113 0 V226 M226 0 V226 M339 0 V226" /></g>
+              <circle class="dashline" cx="226" cy="108" r="58" />
+              <line x1="226" y1="34" x2="226" y2="182" stroke="rgba(233,227,211,.5)" />
+              <line x1="152" y1="108" x2="300" y2="108" stroke="rgba(233,227,211,.5)" />
+              <circle class="signal" cx="226" cy="108" r="3.5" />
+              <g>
+                <text x="240" y="98">22 dof</text>
+                <text x="240" y="118" class="strong">0.6 ms</text>
+                <text x="226" y="206" text-anchor="middle">macro 1:1 · plate 00</text>
+              </g>
+            </svg>
+            <div class="i-data"><em>22 dof</em> / macro 1:1 / cell 03</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- persistent layers ---------- -->
+      <div class="layer scrim-l"></div>
+      <div class="layer scrim-t"></div>
+      <div class="layer scrim-b"></div>
+      <div class="layer vig"></div>
+      <div class="layer scan"></div>
+
+      <div class="hud">
+        <div class="frame"><span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span></div>
+        <div class="hud-tl"><b>ARCHIMEDES</b><i class="mono">AR-1 / control loop · reel 06</i></div>
+        <div class="hud-tr"><b id="tc">T+00:00</b><span class="mono">1920 × 1080 / 30 fps</span></div>
+        <div class="hud-bl mono">cell 03 · 2026-10-17</div>
+        <div class="hud-br mono">sheet 1 / 1</div>
+        <div class="cross"></div>
+      </div>
+
+      <div class="sweep"></div>
+      <div class="layer grain"></div>
+    </div>
+
+    <script>
+      (function () {
+        var tl = gsap.timeline({ paused: true });
+        var D = 3;
+        var ids = ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8'];
+        var last = ids.length - 1;
+
+        ids.forEach(function (id, i) {
+          var at = i * D;
+          var scene = document.getElementById(id);
+          var inner = scene.querySelector('.scene-inner');
+          var img = scene.querySelector('.plate');
+          var card = scene.querySelector('.instrument');
+
+          if (i > 0) tl.fromTo(inner, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power1.out' }, at);
+          if (i < last) tl.to(inner, { opacity: 0, duration: 0.24, ease: 'power1.in' }, at + D - 0.26);
+
+          if (i === last) {
+            // pull back to exactly the opening framing so the loop is seamless
+            tl.fromTo(img, { scale: 1.06 }, { scale: 1.0, duration: D - 0.15, ease: 'none' }, at);
+          } else {
+            tl.fromTo(img, { scale: 1.0 }, { scale: 1.06, duration: D + 0.1, ease: 'none' }, at);
+          }
+
+          // scene 0 opens already composed: frame 0 must equal frame 720 for a clean loop
+          if (i > 0) tl.fromTo(card, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, at + 0.1);
+          if (i < last) tl.to(card, { opacity: 0, duration: 0.2, ease: 'power1.in' }, at + D - 0.28);
+
+          // stroke draws
+          scene.querySelectorAll('path.d, line.d').forEach(function (p) {
+            var len = p.getTotalLength ? p.getTotalLength() : 0;
+            if (!len) return;
+            gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+            tl.to(p, { strokeDashoffset: 0, duration: 0.85, ease: 'power1.inOut' }, at + 0.55);
+          });
+
+          // fade-in details
+          var fade = scene.querySelectorAll('.fadeable');
+          if (fade.length) {
+            gsap.set(fade, { opacity: 0 });
+            tl.to(fade, { opacity: 1, duration: 0.45, stagger: 0.07, ease: 'power1.out' }, at + 0.8);
+          }
+
+          // consolidation ticks
+          var ticks = scene.querySelectorAll('.tick');
+          if (ticks.length) {
+            gsap.set(ticks, { transformBox: 'fill-box', transformOrigin: '50% 100%', scaleY: 0 });
+            tl.to(ticks, { scaleY: 1, duration: 0.26, stagger: 0.055, ease: 'power2.out' }, at + 0.7);
+          }
+        });
+
+        tl.set('.sweep', { y: -10 }, 0);
+
+        // scan sweep, three passes
+        [1.8, 9.8, 17.8].forEach(function (t) {
+          tl.set('.sweep', { y: -10 }, t);
+          tl.to('.sweep', { y: 1090, duration: 1.5, ease: 'power1.inOut' }, t);
+        });
+
+        // timecode, derived from timeline time so seeking reproduces it
+        var tc = document.getElementById('tc');
+        function stamp(v) {
+          var s = Math.floor(v);
+          var f = Math.floor((v - s) * 30);
+          tc.textContent = 'T+' + String(s).padStart(2, '0') + ':' + String(f).padStart(2, '0');
+        }
+        var clock = { t: 0 };
+        tl.to(clock, {
+          t: 24,
+          duration: 24,
+          ease: 'none',
+          onUpdate: function () { stamp(clock.t); }
+        }, 0);
+        stamp(0);
+
+        window.__timelines['archimedes-hero'] = tl;
+      })();
+    </script>
+  </body>
+</html>

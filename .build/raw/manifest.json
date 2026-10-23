@@ -1,0 +1,23 @@
+[
+  {
+    "name": "mocap",
+    "seed": 101,
+    "path": "/home/dusan/preview-demo/.build/raw/mocap-101.png",
+    "seconds": 10.04,
+    "prompt": "dancer wearing a black motion capture suit covered in small reflective markers, dark stage, thin white tracking lines connecting markers, photorealistic, wide shot, technical"
+  },
+  {
+    "name": "mocap",
+    "seed": 211,
+    "path": "/home/dusan/preview-demo/.build/raw/mocap-211.png",
+    "seconds": 10.73,
+    "prompt": "dancer wearing a black motion capture suit covered in small reflective markers, dark stage, thin white tracking lines connecting markers, photorealistic, wide shot, technical"
+  },
+  {
+    "name": "mocap",
+    "seed": 307,
+    "path": "/home/dusan/preview-demo/.build/raw/mocap-307.png",
+    "seconds": 9.38,
+    "prompt": "dancer wearing a black motion capture suit covered in small reflective markers, dark stage, thin white tracking lines connecting markers, photorealistic, wide shot, technical"
+  }
+]

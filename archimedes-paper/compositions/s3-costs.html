@@ -1,0 +1,68 @@
+<template>
+  <style>
+    #root{position:absolute;inset:0;background:var(--ground);overflow:hidden;
+      background-image:radial-gradient(circle at 1px 1px,rgba(20,26,30,.055) 1px,transparent 0);background-size:4px 4px}
+    .ink{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+    .hair{fill:none;stroke-width:1.6;stroke-linecap:round}
+    .t1{font-family:var(--font-display);font-size:76px;fill:var(--ink);letter-spacing:-.02em}
+    .mono{font-family:var(--font-mono);font-size:19px;letter-spacing:.15em;text-transform:uppercase}
+    .val{font-family:var(--font-mono);font-size:25px;fill:var(--muted);letter-spacing:.02em}
+  </style>
+
+  <div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+    <svg width="1920" height="1080" viewBox="0 0 1920 1080">
+      <text id="l1" class="t1" x="150" y="205">Two ways to be wrong.</text>
+      <text id="l2" class="t1" x="150" y="290" style="fill:var(--muted)">Two different costs.</text>
+
+      <g id="vb">
+        <rect class="ink" x="560" y="440" width="520" height="180"/>
+        <text class="mono" x="596" y="500" style="fill:var(--ink)">VERIFIER</text>
+        <text class="val" x="596" y="552">2.1 ms · false accept ≤ 2%</text>
+      </g>
+
+      <!-- cost of acting wrong -->
+      <g id="cs">
+        <path class="hair" d="M600 396 H 1040" style="stroke:var(--warn)"/>
+        <path class="hair" d="M600 396 V 424 M1040 396 V 424" style="stroke:var(--warn)"/>
+        <text id="csL" class="mono" x="600" y="374" style="fill:var(--warn)">cS · cost of acting wrong</text>
+      </g>
+
+      <!-- cost of a missed lesson -->
+      <g id="cl">
+        <path class="hair" d="M600 664 H 1040" style="stroke:var(--pass)"/>
+        <path class="hair" d="M600 636 V 664 M1040 636 V 664" style="stroke:var(--pass)"/>
+        <text id="clL" class="mono" x="600" y="700" style="fill:var(--pass)">cL · cost of a missed lesson</text>
+      </g>
+      <text id="eq" class="mono" x="600" y="880" style="fill:var(--muted)">both real · not equal</text>
+    </svg>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const D = 7.7319;
+    const draw = (sel, at, dur, ease) => {
+      const el = document.querySelector(sel);
+      const len = el.getTotalLength ? el.getTotalLength() : 1600;
+      gsap.set(el, { strokeDasharray: len, strokeDashoffset: len });
+      tl.to(el, { strokeDashoffset: 0, duration: dur, ease: ease || 'power2.out' }, at);
+    };
+
+    tl.fromTo('#l1', { opacity: 0, filter: 'blur(7px)' },
+      { opacity: 1, filter: 'blur(0px)', duration: .75, ease: 'expo.out' }, 0);
+    tl.fromTo('#l2', { opacity: 0, y: 14 },
+      { opacity: 1, y: 0, duration: .6, ease: 'power4.out' }, .55);
+
+    tl.fromTo('#cs', { opacity: 0 }, { opacity: 1, duration: .3 }, 1.15);
+    draw('#cs path', 1.15, .7, 'power2.inOut');
+    tl.fromTo('#csL', { opacity: 0 }, { opacity: 1, duration: .45 }, 1.7);
+
+    tl.fromTo('#cl', { opacity: 0 }, { opacity: 1, duration: .3 }, 2.9);
+    draw('#cl path', 2.9, .7, 'power2.inOut');
+    tl.fromTo('#clL', { opacity: 0 }, { opacity: 1, duration: .45 }, 3.45);
+
+    tl.fromTo('#eq', { opacity: 0 }, { opacity: 1, duration: .6, ease: 'power2.out' }, 5.4);
+
+    window.__timelines['s3'] = tl;
+    tl.seek(0);
+  </script>
+</template>

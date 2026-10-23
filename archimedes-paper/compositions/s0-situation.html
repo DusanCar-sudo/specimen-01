@@ -1,0 +1,89 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: var(--ground);
+      background-image: radial-gradient(circle at 1px 1px, rgba(20, 26, 30, 0.055) 1px, transparent 0);
+      background-size: 4px 4px;
+      overflow: hidden;
+    }
+    .ink { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .hair { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-linecap: round; }
+    .t1 { font-family: var(--font-display); font-size: 96px; fill: var(--ink); letter-spacing: -0.022em; }
+    .t2 { font-family: var(--font-display); font-size: 60px; fill: var(--muted); letter-spacing: -0.01em; font-style: italic; }
+    .mono { font-family: var(--font-mono); font-size: 26px; fill: var(--muted); letter-spacing: 0.09em; text-transform: uppercase; }
+    #dot { fill: var(--warn); }
+  </style>
+
+  <div id="root" data-composition-id="s0" data-width="1920" data-height="1080">
+    <svg id="art" width="1920" height="1080" viewBox="0 0 1920 1080">
+      <!-- table edge -->
+      <line id="table" class="hair" x1="120" y1="706" x2="1800" y2="706" style="opacity:.55" />
+
+      <!-- cup: rim, body, base, handle -->
+      <g id="cup">
+        <ellipse id="cup-rim" class="ink" cx="1290" cy="470" rx="132" ry="30" />
+        <path id="cup-left" class="ink" d="M1158 470 C 1164 560, 1180 636, 1200 664" />
+        <path id="cup-right" class="ink" d="M1422 470 C 1416 560, 1400 636, 1380 664" />
+        <path id="cup-base" class="ink" d="M1200 664 Q 1290 700, 1380 664" />
+        <path id="cup-handle" class="ink" d="M1420 500 C 1512 506, 1514 592, 1408 598" />
+        <path id="cup-tea" class="hair" d="M1168 486 Q 1290 516, 1412 486" style="opacity:.45" />
+      </g>
+
+      <!-- the reach: dotted trajectory + travelling dot -->
+      <path id="reach" class="hair" d="M300 812 C 620 800, 900 700, 1092 506"
+            style="stroke-dasharray:6 12;opacity:.5" />
+      <circle id="dot" cx="300" cy="812" r="9" />
+      <circle id="dot-ring" class="hair" cx="300" cy="812" r="26" style="opacity:0" />
+
+      <!-- copy -->
+      <text id="l1" class="t1" x="150" y="300">You reach for the cup.</text>
+      <text id="l2" class="t2" x="152" y="392">You don't decide to.</text>
+      <text id="l3" class="mono" x="152" y="1010">a machine has to</text>
+    </svg>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const D = 6.8728;
+
+    // draw-on helper
+    const drawOn = (sel, at, dur) => {
+      const el = document.querySelector(sel);
+      const len = el.getTotalLength ? el.getTotalLength() : 1200;
+      gsap.set(el, { strokeDasharray: len, strokeDashoffset: len });
+      tl.to(el, { strokeDashoffset: 0, duration: dur, ease: "power2.inOut" }, at);
+    };
+
+    tl.set("#root", { opacity: 1 }, 0);
+    drawOn("#table", 0.05, 0.55);
+    drawOn("#cup-rim", 0.35, 0.5);
+    drawOn("#cup-left", 0.5, 0.55);
+    drawOn("#cup-right", 0.5, 0.55);
+    drawOn("#cup-base", 0.8, 0.4);
+    drawOn("#cup-handle", 0.9, 0.55);
+    tl.fromTo("#cup-tea", { opacity: 0 }, { opacity: 0.45, duration: 0.5, ease: "power1.out" }, 1.15);
+
+    // the reach
+    tl.fromTo("#reach", { opacity: 0 }, { opacity: 0.5, duration: 0.7, ease: "power2.out" }, 1.3);
+    gsap.set("#dot", { opacity: 0 });
+    tl.fromTo("#dot", { opacity: 0, scale: 0.4, transformOrigin: "50% 50%" },
+      { opacity: 1, scale: 1, duration: 0.35, ease: "expo.out" }, 1.55);
+    tl.to("#dot", { attr: { cx: 1092, cy: 506 }, duration: 1.75, ease: "power2.inOut" }, 1.7);
+    tl.fromTo("#dot-ring", { opacity: 0, scale: 0.5, transformOrigin: "50% 50%" },
+      { opacity: 0.7, scale: 1, duration: 0.4, ease: "expo.out" }, 3.15);
+    tl.to("#dot-ring", { opacity: 0, duration: 0.6, ease: "power2.out" }, 3.65);
+
+    // copy: line 1 wipes, line 2 rises, caption fades
+    tl.fromTo("#l1", { clipPath: "inset(0% 100% 0% 0%)" },
+      { clipPath: "inset(0% 0% 0% 0%)", duration: 0.95, ease: "expo.out" }, 2.25);
+    tl.fromTo("#l2", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.85, ease: "power3.out" }, 3.45);
+    tl.fromTo("#l3", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.out" }, 5.15);
+
+    // hold, then a hairline cut-out
+    tl.to("#art", { opacity: 0, duration: 0.3, ease: "power2.in" }, D - 0.32);
+
+    window.__timelines["s0"] = tl;
+  </script>
+</template>

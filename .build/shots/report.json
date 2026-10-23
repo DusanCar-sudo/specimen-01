@@ -1,0 +1,229 @@
+{
+  "results": [
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "clientWidth": 320,
+      "docHeight": 12708,
+      "overflow": 0,
+      "h1Size": "42px",
+      "h1Rect": {
+        "x": 20,
+        "y": 189,
+        "w": 280,
+        "h": 161
+      },
+      "fontLoaded": true,
+      "revealsIn": 0,
+      "revealsTotal": 19,
+      "video": {
+        "display": "none",
+        "duration": null,
+        "readyState": 0,
+        "paused": true,
+        "w": 0,
+        "h": 0
+      },
+      "sections": [
+        "thesis",
+        "story",
+        "stack",
+        "specs",
+        "audit",
+        "access"
+      ],
+      "offscreen": [
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "left": 241,
+          "right": 441
+        },
+        {
+          "tag": "SPAN",
+          "cls": "ok",
+          "left": 125,
+          "right": 344
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "docHeight": 11756,
+      "overflow": 0,
+      "h1Size": "42px",
+      "h1Rect": {
+        "x": 20,
+        "y": 189,
+        "w": 342,
+        "h": 121
+      },
+      "fontLoaded": true,
+      "revealsIn": 0,
+      "revealsTotal": 19,
+      "video": {
+        "display": "none",
+        "duration": null,
+        "readyState": 0,
+        "paused": true,
+        "w": 0,
+        "h": 0
+      },
+      "sections": [
+        "thesis",
+        "story",
+        "stack",
+        "specs",
+        "audit",
+        "access"
+      ],
+      "offscreen": [
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "left": 241,
+          "right": 441
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768,
+      "clientWidth": 768,
+      "docHeight": 11810,
+      "overflow": 0,
+      "h1Size": "47.616px",
+      "h1Rect": {
+        "x": 31,
+        "y": 413,
+        "w": 485,
+        "h": 137
+      },
+      "fontLoaded": true,
+      "revealsIn": 0,
+      "revealsTotal": 19,
+      "video": {
+        "display": "block",
+        "duration": 24,
+        "readyState": 4,
+        "paused": false,
+        "w": 1920,
+        "h": 1080
+      },
+      "sections": [
+        "thesis",
+        "story",
+        "stack",
+        "specs",
+        "audit",
+        "access"
+      ],
+      "offscreen": []
+    },
+    {
+      "width": 1024,
+      "scrollWidth": 1024,
+      "clientWidth": 1024,
+      "docHeight": 9008,
+      "overflow": 0,
+      "h1Size": "63.488px",
+      "h1Rect": {
+        "x": 41,
+        "y": 367,
+        "w": 646,
+        "h": 183
+      },
+      "fontLoaded": true,
+      "revealsIn": 0,
+      "revealsTotal": 19,
+      "video": {
+        "display": "block",
+        "duration": 24,
+        "readyState": 4,
+        "paused": false,
+        "w": 1920,
+        "h": 1080
+      },
+      "sections": [
+        "thesis",
+        "story",
+        "stack",
+        "specs",
+        "audit",
+        "access"
+      ],
+      "offscreen": []
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "docHeight": 10412,
+      "overflow": 0,
+      "h1Size": "89.28px",
+      "h1Rect": {
+        "x": 60,
+        "y": 270,
+        "w": 909,
+        "h": 257
+      },
+      "fontLoaded": true,
+      "revealsIn": 0,
+      "revealsTotal": 19,
+      "video": {
+        "display": "block",
+        "duration": 24,
+        "readyState": 4,
+        "paused": false,
+        "w": 1920,
+        "h": 1080
+      },
+      "sections": [
+        "thesis",
+        "story",
+        "stack",
+        "specs",
+        "audit",
+        "access"
+      ],
+      "offscreen": []
+    },
+    {
+      "width": 1920,
+      "scrollWidth": 1920,
+      "clientWidth": 1920,
+      "docHeight": 10412,
+      "overflow": 0,
+      "h1Size": "94px",
+      "h1Rect": {
+        "x": 300,
+        "y": 257,
+        "w": 957,
+        "h": 271
+      },
+      "fontLoaded": true,
+      "revealsIn": 0,
+      "revealsTotal": 19,
+      "video": {
+        "display": "block",
+        "duration": 24,
+        "readyState": 4,
+        "paused": false,
+        "w": 1920,
+        "h": 1080
+      },
+      "sections": [
+        "thesis",
+        "story",
+        "stack",
+        "specs",
+        "audit",
+        "access"
+      ],
+      "offscreen": []
+    }
+  ],
+  "requests": []
+}

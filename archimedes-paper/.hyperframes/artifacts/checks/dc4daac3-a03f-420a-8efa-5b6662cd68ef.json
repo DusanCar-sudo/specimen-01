@@ -1,0 +1,1009 @@
+{
+  "ok": false,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "filesScanned": 9
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 4,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "console_warning",
+        "severity": "warning",
+        "message": "GSAP target  not found. https://gsap.com",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-duration": "68.728",
+          "data-width": "1920",
+          "data-height": "1080"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 0,
+        "url": "https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js",
+        "line": 9
+      },
+      {
+        "code": "console_warning",
+        "severity": "warning",
+        "message": "GSAP target  not found. https://gsap.com",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-duration": "68.728",
+          "data-width": "1920",
+          "data-height": "1080"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 0,
+        "url": "https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js",
+        "line": 9
+      },
+      {
+        "code": "console_warning",
+        "severity": "warning",
+        "message": "GSAP target  not found. https://gsap.com",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-duration": "68.728",
+          "data-width": "1920",
+          "data-height": "1080"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 34.364,
+        "url": "https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js",
+        "line": 9
+      },
+      {
+        "code": "console_warning",
+        "severity": "warning",
+        "message": "GSAP target  not found. https://gsap.com",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-duration": "68.728",
+          "data-width": "1920",
+          "data-height": "1080"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080
+        },
+        "time": 42,
+        "url": "https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js",
+        "line": 9
+      }
+    ]
+  },
+  "layout": {
+    "ok": false,
+    "errorCount": 1,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 54.138,
+        "selector": "#s6 > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 150,
+          "top": 118,
+          "right": 633.67,
+          "bottom": 215,
+          "width": 483.67,
+          "height": 97
+        },
+        "containerSelector": "#looplbl",
+        "text": "The rest is caught.",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s6-lesson.html",
+        "bbox": {
+          "x": 150,
+          "y": 118,
+          "width": 483.67,
+          "height": 97
+        },
+        "firstSeen": 54.138,
+        "lastSeen": 56.441,
+        "occurrences": 7,
+        "heldMs": 2303.0000000000045,
+        "times": [
+          54.138,
+          54.522,
+          54.906,
+          55.29,
+          55.674,
+          56.057,
+          56.441
+        ]
+      }
+    ],
+    "duration": 68.728,
+    "samples": [
+      3.818,
+      11.455,
+      19.091,
+      26.728,
+      34.364,
+      42,
+      49.637,
+      57.273,
+      64.91
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 1,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 10,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 4.49:1; WCAG AA requires 4.5:1.",
+        "text": "q* = 0.18",
+        "fg": "rgb(207,58,32)",
+        "bg": "rgb(245,245,240)",
+        "ratio": 4.49,
+        "requiredRatio": 4.5,
+        "suggestedColor": "rgb(206,58,32)",
+        "large": false,
+        "selector": "#qstar",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4-gate.html",
+        "bbox": {
+          "x": 601.5999755859375,
+          "y": 808,
+          "width": 128.265625,
+          "height": 24
+        },
+        "time": 34.364,
+        "times": [
+          34.364
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 3.38:1; WCAG AA requires 4.5:1.",
+        "text": "0",
+        "fg": "rgb(122,135,141)",
+        "bg": "rgb(245,245,240)",
+        "ratio": 3.38,
+        "requiredRatio": 4.5,
+        "suggestedColor": "rgb(103,114,119)",
+        "large": false,
+        "selector": "div > div:nth-of-type(5) > div > svg > g:nth-of-type(2) > text:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4-gate.html",
+        "bbox": {
+          "x": 392,
+          "y": 804,
+          "width": 14.265625,
+          "height": 24
+        },
+        "time": 34.364,
+        "times": [
+          34.364
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 3.38:1; WCAG AA requires 4.5:1.",
+        "text": "1",
+        "fg": "rgb(122,135,141)",
+        "bg": "rgb(245,245,240)",
+        "ratio": 3.38,
+        "requiredRatio": 4.5,
+        "suggestedColor": "rgb(103,114,119)",
+        "large": false,
+        "selector": "div > div:nth-of-type(5) > div > svg > g:nth-of-type(2) > text:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4-gate.html",
+        "bbox": {
+          "x": 1512,
+          "y": 804,
+          "width": 14.265625,
+          "height": 24
+        },
+        "time": 34.364,
+        "times": [
+          34.364
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 3.38:1; WCAG AA requires 4.5:1.",
+        "text": "the gate",
+        "fg": "rgb(122,135,141)",
+        "bg": "rgb(245,245,240)",
+        "ratio": 3.38,
+        "requiredRatio": 4.5,
+        "suggestedColor": "rgb(103,114,119)",
+        "large": false,
+        "selector": "div > div:nth-of-type(7) > div > svg > g:nth-of-type(1) > text:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s6-lesson.html",
+        "bbox": {
+          "x": 972,
+          "y": 373,
+          "width": 110.40625,
+          "height": 30
+        },
+        "time": 49.637,
+        "times": [
+          49.637
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 4.49:1; WCAG AA requires 4.5:1.",
+        "text": "reject",
+        "fg": "rgb(207,58,32)",
+        "bg": "rgb(245,245,240)",
+        "ratio": 4.49,
+        "requiredRatio": 4.5,
+        "suggestedColor": "rgb(206,58,32)",
+        "large": false,
+        "selector": "#rejlbl",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s6-lesson.html",
+        "bbox": {
+          "x": 830,
+          "y": 542,
+          "width": 81,
+          "height": 23
+        },
+        "time": 49.637,
+        "times": [
+          49.637
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 4.49:1; WCAG AA requires 4.5:1.",
+        "text": "CAUGHT",
+        "fg": "rgb(207,58,32)",
+        "bg": "rgb(245,245,240)",
+        "ratio": 4.49,
+        "requiredRatio": 4.5,
+        "suggestedColor": "rgb(206,58,32)",
+        "large": false,
+        "selector": "div > div:nth-of-type(7) > div > svg > g:nth-of-type(3) > text:nth-of-type(1)",
+        "dataAttributes": {
+          "data-svg-origin": "652 732"
+        },
+        "sourceFile": "compositions/s6-lesson.html",
+        "bbox": {
+          "x": 652,
+          "y": 732,
+          "width": 81,
+          "height": 23
+        },
+        "time": 49.637,
+        "times": [
+          49.637
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 3.04:1; WCAG AA requires 4.5:1.",
+        "text": "before it acts",
+        "fg": "rgb(122,135,141)",
+        "bg": "rgb(233,233,228)",
+        "ratio": 3.04,
+        "requiredRatio": 4.5,
+        "suggestedColor": "rgb(96,106,111)",
+        "large": false,
+        "selector": "div > div:nth-of-type(7) > div > svg > g:nth-of-type(3) > text:nth-of-type(2)",
+        "dataAttributes": {
+          "data-svg-origin": "652 767"
+        },
+        "sourceFile": "compositions/s6-lesson.html",
+        "bbox": {
+          "x": 652,
+          "y": 767,
+          "width": 193.203125,
+          "height": 30
+        },
+        "time": 49.637,
+        "times": [
+          49.637
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 3.38:1; WCAG AA requires 4.5:1.",
+        "text": "reflex",
+        "fg": "rgb(122,135,141)",
+        "bg": "rgb(245,245,240)",
+        "ratio": 3.38,
+        "requiredRatio": 4.5,
+        "suggestedColor": "rgb(103,114,119)",
+        "large": false,
+        "selector": "div > div:nth-of-type(8) > div > svg > g > g > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s7-close.html",
+        "bbox": {
+          "x": 168.02000427246094,
+          "y": 725.4520263671875,
+          "width": 76.57650756835938,
+          "height": 22.02203369140625
+        },
+        "time": 64.91,
+        "times": [
+          64.91
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 4.49:1; WCAG AA requires 4.5:1.",
+        "text": "caught",
+        "fg": "rgb(207,58,32)",
+        "bg": "rgb(245,245,240)",
+        "ratio": 4.49,
+        "requiredRatio": 4.5,
+        "suggestedColor": "rgb(206,58,32)",
+        "large": false,
+        "selector": "div > div:nth-of-type(8) > div > svg > g > g > text:nth-of-type(4)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s7-close.html",
+        "bbox": {
+          "x": 600.4520263671875,
+          "y": 840.5670166015625,
+          "width": 76.57647705078125,
+          "height": 22.02203369140625
+        },
+        "time": 64.91,
+        "times": [
+          64.91
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 3.38:1; WCAG AA requires 4.5:1.",
+        "text": "ledger",
+        "fg": "rgb(122,135,141)",
+        "bg": "rgb(245,245,240)",
+        "ratio": 3.38,
+        "requiredRatio": 4.5,
+        "suggestedColor": "rgb(103,114,119)",
+        "large": false,
+        "selector": "div > div:nth-of-type(8) > div > svg > g > g > text:nth-of-type(5)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s7-close.html",
+        "bbox": {
+          "x": 280.13201904296875,
+          "y": 840.5670166015625,
+          "width": 76.57650756835938,
+          "height": 22.02203369140625
+        },
+        "time": 64.91,
+        "times": [
+          64.91
+        ]
+      }
+    ],
+    "enabled": true,
+    "samples": [
+      3.818,
+      19.091,
+      34.364,
+      49.637,
+      64.91
+    ],
+    "checked": 32,
+    "passed": 22
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 9,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and \"a machine has to\" renders at 26 px for 1.50 s: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "a machine has to",
+        "selector": "#l3",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s0-situation.html",
+        "bbox": {
+          "x": 152,
+          "y": 984,
+          "width": 287.05,
+          "height": 34
+        },
+        "time": 5.373,
+        "times": [
+          5.373
+        ],
+        "fontPx": 26,
+        "floorPx": 28,
+        "seconds": 1.5,
+        "elements": [
+          {
+            "selector": "#l3",
+            "text": "a machine has to",
+            "fontPx": 26,
+            "time": 5.373,
+            "seconds": 1.5
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 3 text elements stay under it for 0.5 s or more, the smallest \"1.5b parameters\" at 19 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "1.5b parameters",
+        "selector": "#fieldLbl",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1-reflex.html",
+        "bbox": {
+          "x": 150,
+          "y": 808,
+          "width": 210.91,
+          "height": 24
+        },
+        "time": 7.623,
+        "times": [
+          7.623,
+          7.872,
+          8.122
+        ],
+        "fontPx": 19,
+        "floorPx": 28,
+        "seconds": 6.248,
+        "elements": [
+          {
+            "selector": "#fieldLbl",
+            "text": "1.5b parameters",
+            "fontPx": 19,
+            "time": 7.623,
+            "seconds": 6.248
+          },
+          {
+            "selector": "#rname",
+            "text": "reflex",
+            "fontPx": 22,
+            "time": 7.872,
+            "seconds": 5.999
+          },
+          {
+            "selector": "#rsub",
+            "text": "one forward pass",
+            "fontPx": 26,
+            "time": 8.122,
+            "seconds": 5.749
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 5 text elements stay under it for 0.5 s or more, the smallest \"REFLEX\" at 20 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "REFLEX",
+        "selector": "#nb1 > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2-verifier.html",
+        "bbox": {
+          "x": 412,
+          "y": 489,
+          "width": 91.2,
+          "height": 27
+        },
+        "time": 13.871,
+        "times": [
+          13.871,
+          13.871,
+          18.619,
+          18.744,
+          18.869
+        ],
+        "fontPx": 20,
+        "floorPx": 28,
+        "seconds": 7.747,
+        "elements": [
+          {
+            "selector": "#nb1 > text:nth-of-type(1)",
+            "text": "REFLEX",
+            "fontPx": 20,
+            "time": 13.871,
+            "seconds": 7.747
+          },
+          {
+            "selector": "#nb3 > text:nth-of-type(1)",
+            "text": "VERIFIER",
+            "fontPx": 20,
+            "time": 18.619,
+            "seconds": 2.999
+          },
+          {
+            "selector": "#nb1 > text:nth-of-type(2)",
+            "text": "1.5B · 0.6 ms",
+            "fontPx": 26,
+            "time": 13.871,
+            "seconds": 7.747
+          },
+          {
+            "selector": "#nb3 > text:nth-of-type(2)",
+            "text": "2.1 ms per check",
+            "fontPx": 26,
+            "time": 18.744,
+            "seconds": 2.874
+          },
+          {
+            "selector": "#nb3 > text:nth-of-type(3)",
+            "text": "false accept ≤ 2%",
+            "fontPx": 26,
+            "time": 18.869,
+            "seconds": 2.749
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 5 text elements stay under it for 0.5 s or more, the smallest \"VERIFIER\" at 19 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "VERIFIER",
+        "selector": "#s3 > div:nth-of-type(1) > svg:nth-of-type(1) > g:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3-costs.html",
+        "bbox": {
+          "x": 596,
+          "y": 482,
+          "width": 114.02,
+          "height": 24
+        },
+        "time": 21.618,
+        "times": [
+          21.618,
+          21.618,
+          23.368,
+          25.117,
+          27.116
+        ],
+        "fontPx": 19,
+        "floorPx": 28,
+        "seconds": 7.623,
+        "elements": [
+          {
+            "selector": "#s3 > div:nth-of-type(1) > svg:nth-of-type(1) > g:nth-of-type(1) > text:nth-of-type(1)",
+            "text": "VERIFIER",
+            "fontPx": 19,
+            "time": 21.618,
+            "seconds": 7.623
+          },
+          {
+            "selector": "#csL",
+            "text": "cS · cost of acting wrong",
+            "fontPx": 19,
+            "time": 23.368,
+            "seconds": 5.873
+          },
+          {
+            "selector": "#clL",
+            "text": "cL · cost of a missed lesson",
+            "fontPx": 19,
+            "time": 25.117,
+            "seconds": 4.124
+          },
+          {
+            "selector": "#eq",
+            "text": "both real · not equal",
+            "fontPx": 19,
+            "time": 27.116,
+            "seconds": 2.125
+          },
+          {
+            "selector": "#s3 > div:nth-of-type(1) > svg:nth-of-type(1) > g:nth-of-type(1) > text:nth-of-type(2)",
+            "text": "2.1 ms · false accept ≤ 2%",
+            "fontPx": 25,
+            "time": 21.618,
+            "seconds": 7.623
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 5 text elements stay under it for 0.5 s or more, the smallest \"0\" at 19 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "0",
+        "selector": "#axis > text:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4-gate.html",
+        "bbox": {
+          "x": 392,
+          "y": 804,
+          "width": 14.27,
+          "height": 24
+        },
+        "time": 29.241,
+        "times": [
+          29.241,
+          29.241,
+          32.864,
+          34.489,
+          35.239
+        ],
+        "fontPx": 19,
+        "floorPx": 28,
+        "seconds": 8.622,
+        "elements": [
+          {
+            "selector": "#axis > text:nth-of-type(2)",
+            "text": "0",
+            "fontPx": 19,
+            "time": 29.241,
+            "seconds": 8.622
+          },
+          {
+            "selector": "#axis > text:nth-of-type(3)",
+            "text": "1",
+            "fontPx": 19,
+            "time": 29.241,
+            "seconds": 8.622
+          },
+          {
+            "selector": "#qstar",
+            "text": "q* = 0.18",
+            "fontPx": 19,
+            "time": 32.864,
+            "seconds": 4.999
+          },
+          {
+            "selector": "#actlbl",
+            "text": "act",
+            "fontPx": 19,
+            "time": 34.489,
+            "seconds": 3.374
+          },
+          {
+            "selector": "#note",
+            "text": "act when confidence clears the ratio",
+            "fontPx": 19,
+            "time": 35.239,
+            "seconds": 2.624
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 7 text elements stay under it for 0.5 s or more, the smallest \"VERIFIER\" at 19 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "VERIFIER",
+        "selector": "#s5 > div:nth-of-type(1) > svg:nth-of-type(1) > g:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s5-pass.html",
+        "bbox": {
+          "x": 1014,
+          "y": 338,
+          "width": 114.02,
+          "height": 24
+        },
+        "time": 37.863,
+        "times": [
+          37.863,
+          37.863,
+          39.737,
+          40.612,
+          40.737,
+          41.862,
+          42.112
+        ],
+        "fontPx": 19,
+        "floorPx": 28,
+        "seconds": 8.622,
+        "elements": [
+          {
+            "selector": "#s5 > div:nth-of-type(1) > svg:nth-of-type(1) > g:nth-of-type(1) > text:nth-of-type(1)",
+            "text": "VERIFIER",
+            "fontPx": 19,
+            "time": 37.863,
+            "seconds": 8.622
+          },
+          {
+            "selector": "#plbl",
+            "text": "clear",
+            "fontPx": 19,
+            "time": 39.737,
+            "seconds": 6.748
+          },
+          {
+            "selector": "#ab > text:nth-of-type(1)",
+            "text": "ACT",
+            "fontPx": 19,
+            "time": 40.612,
+            "seconds": 5.873
+          },
+          {
+            "selector": "#s5 > div:nth-of-type(1) > svg:nth-of-type(1) > g:nth-of-type(4) > text:nth-of-type(2)",
+            "text": "of attempts clear the bar",
+            "fontPx": 19,
+            "time": 41.862,
+            "seconds": 4.623
+          },
+          {
+            "selector": "#s5 > div:nth-of-type(1) > svg:nth-of-type(1) > g:nth-of-type(1) > text:nth-of-type(2)",
+            "text": "2.1 ms",
+            "fontPx": 24,
+            "time": 37.863,
+            "seconds": 8.622
+          },
+          {
+            "selector": "#ab > text:nth-of-type(2)",
+            "text": "the action goes out",
+            "fontPx": 24,
+            "time": 40.737,
+            "seconds": 5.748
+          },
+          {
+            "selector": "#s5 > div:nth-of-type(1) > svg:nth-of-type(1) > g:nth-of-type(4) > text:nth-of-type(3)",
+            "text": "q > cS/cL on the first read",
+            "fontPx": 24,
+            "time": 42.112,
+            "seconds": 4.373
+          }
+        ]
+      },
+      {
+        "code": "dead_stretch",
+        "severity": "warning",
+        "message": "Nothing on screen changes for 3.87 s (42.49–46.36 s): start the next move within 3 s, or put data-hold on the element whose stillness is deliberate; see references/motion.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 42.486,
+        "seconds": 3.874,
+        "floorSeconds": 3,
+        "until": 46.36
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 10 text elements stay under it for 0.5 s or more, the smallest \"VERIFIER\" at 18 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "VERIFIER",
+        "selector": "#s6 > div:nth-of-type(1) > svg:nth-of-type(1) > g:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s6-lesson.html",
+        "bbox": {
+          "x": 972,
+          "y": 334,
+          "width": 108,
+          "height": 23
+        },
+        "time": 46.485,
+        "times": [
+          46.485,
+          46.485,
+          48.235,
+          49.109,
+          49.234,
+          50.609,
+          50.734,
+          51.608,
+          51.858,
+          53.983
+        ],
+        "fontPx": 18,
+        "floorPx": 28,
+        "seconds": 10.372,
+        "elements": [
+          {
+            "selector": "#s6 > div:nth-of-type(1) > svg:nth-of-type(1) > g:nth-of-type(1) > text:nth-of-type(1)",
+            "text": "VERIFIER",
+            "fontPx": 18,
+            "time": 46.485,
+            "seconds": 10.372
+          },
+          {
+            "selector": "#rejlbl",
+            "text": "reject",
+            "fontPx": 18,
+            "time": 48.235,
+            "seconds": 8.622
+          },
+          {
+            "selector": "#cb > text:nth-of-type(1)",
+            "text": "CAUGHT",
+            "fontPx": 18,
+            "time": 49.109,
+            "seconds": 7.748
+          },
+          {
+            "selector": "#s6 > div:nth-of-type(1) > svg:nth-of-type(1) > g:nth-of-type(6) > text:nth-of-type(2)",
+            "text": "never reach the act",
+            "fontPx": 18,
+            "time": 50.609,
+            "seconds": 6.248
+          },
+          {
+            "selector": "#ld > text:nth-of-type(1)",
+            "text": "LEDGER",
+            "fontPx": 18,
+            "time": 51.608,
+            "seconds": 5.249
+          },
+          {
+            "selector": "#looplbl",
+            "text": "and the gate learns",
+            "fontPx": 18,
+            "time": 53.983,
+            "seconds": 2.874
+          },
+          {
+            "selector": "#s6 > div:nth-of-type(1) > svg:nth-of-type(1) > g:nth-of-type(1) > text:nth-of-type(2)",
+            "text": "the gate",
+            "fontPx": 23,
+            "time": 46.485,
+            "seconds": 10.372
+          },
+          {
+            "selector": "#cb > text:nth-of-type(2)",
+            "text": "before it acts",
+            "fontPx": 23,
+            "time": 49.234,
+            "seconds": 7.623
+          },
+          {
+            "selector": "#s6 > div:nth-of-type(1) > svg:nth-of-type(1) > g:nth-of-type(6) > text:nth-of-type(3)",
+            "text": "each one is a lesson",
+            "fontPx": 23,
+            "time": 50.734,
+            "seconds": 6.123
+          },
+          {
+            "selector": "#ld > text:nth-of-type(2)",
+            "text": "the lesson, written",
+            "fontPx": 23,
+            "time": 51.858,
+            "seconds": 4.999
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 5 text elements stay under it for 0.5 s or more, the smallest \"reflex\" at 17 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "reflex",
+        "selector": "#sum > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s7-close.html",
+        "bbox": {
+          "x": 168.54,
+          "y": 737.25,
+          "width": 78.58,
+          "height": 22.6
+        },
+        "time": 57.107,
+        "times": [
+          57.107,
+          57.107,
+          57.107,
+          57.107,
+          57.107
+        ],
+        "fontPx": 17.01,
+        "floorPx": 28,
+        "seconds": 8.622,
+        "elements": [
+          {
+            "selector": "#sum > text:nth-of-type(1)",
+            "text": "reflex",
+            "fontPx": 17.01,
+            "time": 57.107,
+            "seconds": 8.622
+          },
+          {
+            "selector": "#sum > text:nth-of-type(2)",
+            "text": "verifier",
+            "fontPx": 17.01,
+            "time": 57.107,
+            "seconds": 8.622
+          },
+          {
+            "selector": "#sum > text:nth-of-type(3)",
+            "text": "act",
+            "fontPx": 17.01,
+            "time": 57.107,
+            "seconds": 8.622
+          },
+          {
+            "selector": "#sum > text:nth-of-type(4)",
+            "text": "caught",
+            "fontPx": 17.01,
+            "time": 57.107,
+            "seconds": 8.622
+          },
+          {
+            "selector": "#sum > text:nth-of-type(5)",
+            "text": "ledger",
+            "fontPx": 17.01,
+            "time": 57.107,
+            "seconds": 8.622
+          }
+        ]
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 550
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

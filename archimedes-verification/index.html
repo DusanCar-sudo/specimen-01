@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Archimedes · the verification layer</title>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    @font-face{font-family:'Geist';src:url('assets/fonts/geist.woff2') format('woff2');font-weight:400 700;font-display:block}
+    @font-face{font-family:'Geist Mono';src:url('assets/fonts/geist-mono.woff2') format('woff2');font-weight:400 500;font-display:block}
+    html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#07090a}
+    .clip{position:absolute;inset:0;overflow:hidden}
+    .scene-inner{position:absolute;inset:0}
+    .plate{position:absolute;inset:0;width:1920px;height:1080px;object-fit:cover;transform-origin:50% 45%;filter:brightness(1.02) contrast(1.04)}
+    .scrim-l{position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,9,10,.9) 0%,rgba(7,9,10,.55) 34%,rgba(7,9,10,.06) 66%,rgba(7,9,10,0) 100%)}
+    .scrim-b{position:absolute;inset:0;background:linear-gradient(0deg,rgba(7,9,10,.86) 0%,rgba(7,9,10,.2) 26%,rgba(7,9,10,0) 48%)}
+    .vignette{position:absolute;inset:0;background:radial-gradient(115% 95% at 52% 48%,rgba(7,9,10,0) 46%,rgba(7,9,10,.5) 100%)}
+    .grain{background-image:url('assets/ar/grain.png');background-repeat:repeat;opacity:.06;mix-blend-mode:overlay}
+    .t{position:absolute;left:120px;margin:0;font:600 68px/1.08 'Geist',sans-serif;letter-spacing:-.02em;color:#f2ecdc;max-width:1500px}
+    .s{position:absolute;left:120px;margin:0;font:400 30px/1.35 'Geist Mono',monospace;color:#a7a294;max-width:1500px}
+    .w{display:inline-block}
+    .amber{color:#f3a445}.green{color:#b9d3a6}
+    #diag-cam{position:absolute;left:120px;top:400px;width:1680px;height:620px;transform-origin:50% 40%}
+    svg text{font-family:'Geist Mono',monospace}
+    .nfill{fill:rgba(7,9,10,.78)}
+    .nstroke{fill:none;stroke:#d8d2c2;stroke-width:2}
+    .nhi{fill:none;stroke-width:4}
+    .lbl{font-size:30px;font-weight:500;fill:#f2ecdc;letter-spacing:.06em}
+    .sl{font-size:29px;fill:#a7a294}
+    .edge{fill:none;stroke:#8b897e;stroke-width:2.5}
+    .count{position:absolute;right:120px;text-align:right;font:400 30px/1.2 'Geist Mono',monospace;color:#a7a294}
+    .count b{display:inline-block;min-width:90px;font:600 64px/1 'Geist',sans-serif;color:#f2ecdc}
+  </style>
+</head>
+<body>
+<div data-hf-id="hf-bpb0" id="root" data-composition-id="archimedes-verification" data-start="0" data-width="1920" data-height="1080" data-duration="84" data-fps="30">
+
+  <!-- S0 · situation (frame 0 shows the plate, never black) -->
+  <section data-hf-id="hf-zhaw" class="clip" id="s0" data-start="0" data-duration="6.6" data-track-index="1" style="z-index:1">
+    <div data-hf-id="hf-ib9c" class="scene-inner" id="s0-in">
+      <img data-hf-id="hf-e1k9" class="plate" id="s0-img" src="assets/ar/hand-1920.png" alt="">
+      <div data-hf-id="hf-hg5h" class="scrim-l"></div><div data-hf-id="hf-cqdn" class="scrim-b"></div><div data-hf-id="hf-q7bi" class="vignette"></div>
+      <h1 data-hf-id="hf-pf1j" class="t" id="s0-t" data-split style="top:700px;font-size:84px">A robot hand reaches for a cup.</h1>
+      <p data-hf-id="hf-f4eb" class="s" id="s0-s" style="top:820px">AR-1 · one attempt, followed all the way through</p>
+    </div>
+  </section>
+
+  <!-- background plates under the diagram -->
+  <section data-hf-id="hf-qxov" class="clip" id="b1" data-start="6.4" data-duration="7" data-track-index="2" style="z-index:2"><div data-hf-id="hf-2scq" class="scene-inner" id="b1-in"><img data-hf-id="hf-gslg" class="plate" id="b1-img" src="assets/ar/arm-1920.png" alt=""><div data-hf-id="hf-8o0i" class="vignette"></div></div></section>
+  <section data-hf-id="hf-u5m5" class="clip" id="b2" data-start="12.8" data-duration="10.2" data-track-index="1" style="z-index:3"><div data-hf-id="hf-1qaj" class="scene-inner" id="b2-in"><img data-hf-id="hf-elau" class="plate" id="b2-img" src="assets/ar/servo-1920.png" alt=""><div data-hf-id="hf-92bj" class="vignette"></div></div></section>
+  <section data-hf-id="hf-pudd" class="clip" id="b3" data-start="22.4" data-duration="9.6" data-track-index="2" style="z-index:4"><div data-hf-id="hf-3ba8" class="scene-inner" id="b3-in"><img data-hf-id="hf-u6w6" class="plate" id="b3-img" src="assets/ar/hand-loop-1920.png" alt=""><div data-hf-id="hf-sm6x" class="scrim-l"></div><div data-hf-id="hf-9gmk" class="vignette"></div></div></section>
+  <section data-hf-id="hf-w47h" class="clip" id="b4" data-start="32" data-duration="10.2" data-track-index="1" style="z-index:5"><div data-hf-id="hf-xtgx" class="scene-inner" id="b4-in"><img data-hf-id="hf-1yht" class="plate" id="b4-img" src="assets/ar/joint-1920.png" alt=""><div data-hf-id="hf-9uxl" class="vignette"></div></div></section>
+  <section data-hf-id="hf-94sq" class="clip" id="b5" data-start="41.6" data-duration="10.2" data-track-index="2" style="z-index:6"><div data-hf-id="hf-kpri" class="scene-inner" id="b5-in"><img data-hf-id="hf-z861" class="plate" id="b5-img" src="assets/ar/blueprint-1920.png" alt=""><div data-hf-id="hf-a98m" class="vignette"></div></div></section>
+  <section data-hf-id="hf-h2qy" class="clip" id="b6" data-start="51.2" data-duration="12.8" data-track-index="1" style="z-index:7"><div data-hf-id="hf-tfen" class="scene-inner" id="b6-in"><img data-hf-id="hf-le2q" class="plate" id="b6-img" src="assets/ar/gantry-1920.png" alt=""><div data-hf-id="hf-anjn" class="vignette"></div></div></section>
+
+  <!-- the one diagram: grows one part per beat, 6.4 → 64 -->
+  <section data-hf-id="hf-4s4h" class="clip" id="diag" data-start="6.4" data-duration="57.6" data-track-index="3" style="z-index:20">
+    <div data-hf-id="hf-j0ge" id="diag-cam">
+      <svg data-hf-id="hf-ruyq" width="1680" height="620" viewBox="0 0 1680 620">
+        <path data-hf-id="hf-dq9f" class="edge" id="e-in" d="M240 170 H340"/>
+        <path data-hf-id="hf-qd5h" class="edge" id="e-try" d="M640 170 H740"/>
+        <path data-hf-id="hf-xard" class="edge" id="e-pass" d="M1100 170 H1200" style="stroke:#a3bd90"/>
+        <path data-hf-id="hf-92pu" class="edge" id="e-rej" d="M920 300 V400" style="stroke:#f3a445"/>
+        <path data-hf-id="hf-baun" class="edge" id="e-ans" d="M1100 470 H1350 V240"/>
+        <path data-hf-id="hf-szxh" class="edge" id="e-learn" d="M740 470 H640" style="stroke:#d8d2c2"/>
+        <path data-hf-id="hf-kgtg" class="edge" id="e-loop" d="M490 400 V240" style="stroke:#a3bd90"/>
+        <path data-hf-id="hf-i8hn" class="edge" id="e-skip" d="M120 240 V604 H920 V540"/>
+        <text data-hf-id="hf-7evp" class="sl" id="l-pass" x="1112" y="150" style="fill:#b9d3a6">pass</text>
+        <text data-hf-id="hf-iei0" class="sl" id="l-rej" x="940" y="362" style="fill:#f3a445">reject</text>
+        <text data-hf-id="hf-3z7q" class="sl" id="l-ans" x="1140" y="452">answer</text>
+        <text data-hf-id="hf-aqtm" class="sl" id="l-loop" x="512" y="332" style="fill:#b9d3a6">consolidate · λ &lt; 1</text>
+        <text data-hf-id="hf-m4nm" class="sl" id="l-skip" x="136" y="332">abstain</text>
+
+        <g data-hf-id="hf-jt5f" id="n-task"><path data-hf-id="hf-cxra" class="nfill" d="M0 100 H240 V240 H0 Z"/><path data-hf-id="hf-kzo5" class="nstroke" d="M0 100 H240 V240 H0 Z"/>
+          <g data-hf-id="hf-cl84" class="nl"><text data-hf-id="hf-3obk" class="lbl" x="24" y="152">TASK</text><text data-hf-id="hf-k70q" class="sl" x="24" y="200">grasp a cup</text></g></g>
+        <g data-hf-id="hf-8w8u" id="n-reflex"><path data-hf-id="hf-k0j4" class="nfill" d="M340 100 H640 V240 H340 Z"/><path data-hf-id="hf-s0pr" class="nstroke" d="M340 100 H640 V240 H340 Z"/>
+          <path data-hf-id="hf-to7s" class="nhi" id="hi-reflex-a" d="M340 100 H640 V240 H340 Z" style="stroke:#f3a445"/>
+          <path data-hf-id="hf-mjkw" class="nhi" id="hi-reflex-g" d="M340 100 H640 V240 H340 Z" style="stroke:#a3bd90"/>
+          <g data-hf-id="hf-4kgc" class="nl"><text data-hf-id="hf-uwue" class="lbl" x="364" y="152">REFLEX</text><text data-hf-id="hf-47ck" class="sl" x="364" y="200">1.5B · 0.6 ms</text></g></g>
+        <text data-hf-id="hf-6mst" class="sl" id="l-plus" x="364" y="80" style="fill:#b9d3a6">+1 reflex</text>
+        <g data-hf-id="hf-oxir" id="n-ver"><path data-hf-id="hf-350g" class="nfill" d="M740 40 H1100 V300 H740 Z"/><path data-hf-id="hf-jvdj" class="nstroke" d="M740 40 H1100 V300 H740 Z"/>
+          <g data-hf-id="hf-3dj9" class="nl"><text data-hf-id="hf-3r2b" class="lbl" x="764" y="92">VERIFIER</text><text data-hf-id="hf-hkc1" class="sl" x="764" y="136">2.1 ms · tier-blind</text></g></g>
+        <g data-hf-id="hf-3gje" id="row1"><text data-hf-id="hf-c1w9" class="sl" x="764" y="214" style="fill:#d8d2c2">contact</text></g>
+        <g data-hf-id="hf-zifd" id="row2"><text data-hf-id="hf-r80h" class="sl" x="764" y="254" style="fill:#d8d2c2">torque</text></g>
+        <g data-hf-id="hf-wj5s" id="row3"><text data-hf-id="hf-ugxn" class="sl" x="764" y="294" style="fill:#d8d2c2" dy="-4">friction cone</text></g>
+        <path data-hf-id="hf-5csq" id="m1" d="M1040 204 l7 7 l14 -16" fill="none" stroke="#a3bd90" stroke-width="3.5"/>
+        <path data-hf-id="hf-109d" id="m2" d="M1040 244 l7 7 l14 -16" fill="none" stroke="#a3bd90" stroke-width="3.5"/>
+        <text data-hf-id="hf-3lzw" id="m3q" class="sl" x="1044" y="290">?</text>
+        <path data-hf-id="hf-zbn3" id="m3x" d="M1042 272 l14 14 M1056 272 l-14 14" fill="none" stroke="#f3a445" stroke-width="3.5"/>
+        <path data-hf-id="hf-iyt8" id="m3v" d="M1040 280 l7 7 l14 -16" fill="none" stroke="#a3bd90" stroke-width="3.5"/>
+        <g data-hf-id="hf-agu0" id="n-act"><path data-hf-id="hf-mldm" class="nfill" d="M1200 100 H1500 V240 H1200 Z"/><path data-hf-id="hf-omfr" class="nstroke" d="M1200 100 H1500 V240 H1200 Z"/>
+          <g data-hf-id="hf-3rua" class="nl"><text data-hf-id="hf-oon0" class="lbl" x="1224" y="152">ACT</text><text data-hf-id="hf-gds1" class="sl" x="1224" y="200">the hand moves</text></g></g>
+        <g data-hf-id="hf-32qd" id="n-plan"><path data-hf-id="hf-8rc2" class="nfill" d="M740 400 H1100 V540 H740 Z"/><path data-hf-id="hf-t9w3" class="nstroke" d="M740 400 H1100 V540 H740 Z"/>
+          <g data-hf-id="hf-5rdf" class="nl"><text data-hf-id="hf-gxyr" class="lbl" x="764" y="452">PLANNER</text><text data-hf-id="hf-i2sa" class="sl" x="764" y="500">180 ms · on reject</text></g></g>
+        <g data-hf-id="hf-g91f" id="n-led"><path data-hf-id="hf-yjt6" class="nfill" d="M340 400 H640 V540 H340 Z"/><path data-hf-id="hf-606p" class="nstroke" d="M340 400 H640 V540 H340 Z"/>
+          <g data-hf-id="hf-65og" class="nl"><text data-hf-id="hf-2868" class="lbl" x="364" y="452">LEDGER</text><text data-hf-id="hf-4icb" class="sl" x="364" y="500">append-only</text></g></g>
+        <g data-hf-id="hf-bhn3" id="ticks"></g>
+
+        <circle data-hf-id="hf-iutf" id="tok" r="11" cx="120" cy="170" fill="#f3a445"/>
+        <circle data-hf-id="hf-atvf" id="ghost" r="9" cx="920" cy="170" fill="#a3bd90"/>
+        <circle data-hf-id="hf-iber" id="lesson" r="7" cx="920" cy="470" fill="#d8d2c2"/>
+        <circle data-hf-id="hf-4ct3" id="tok2" r="11" cx="120" cy="170" fill="#a3bd90"/>
+        <g data-hf-id="hf-j3h3" id="stream"></g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- titles over the diagram -->
+  <section data-hf-id="hf-nt4k" class="clip" id="x1" data-start="6.4" data-duration="6.4" data-track-index="5" style="z-index:30">
+    <h2 data-hf-id="hf-cuy4" class="t" id="x1-t" data-split style="top:110px">The reflex tries first.</h2>
+    <p data-hf-id="hf-4hqc" class="s" id="x1-s" style="top:200px">1.5B parameters · 0.6 ms · every attempt is recorded</p>
+  </section>
+  <section data-hf-id="hf-nule" class="clip" id="x2" data-start="12.8" data-duration="9.6" data-track-index="6" style="z-index:30">
+    <h2 data-hf-id="hf-ffbg" class="t" id="x2-t" data-split style="top:110px">Then a separate verifier checks it.</h2>
+    <p data-hf-id="hf-obqu" class="s" id="x2-s" style="top:200px">2.1 ms · never told which tier made the motion · false accept ≤ 2%</p>
+  </section>
+
+  <!-- S3 · friction cone cutaway -->
+  <section data-hf-id="hf-gydq" class="clip" id="cone" data-start="22.4" data-duration="9.6" data-track-index="4" style="z-index:21">
+    <div data-hf-id="hf-gyto" class="scene-inner" id="cone-in">
+      <h2 data-hf-id="hf-kxe3" class="t" id="c-t" style="top:110px">Will the grip hold?</h2>
+      <p data-hf-id="hf-16xx" class="s" id="c-s" style="top:200px">The push must stay inside the friction cone.</p>
+      <div data-hf-id="hf-csph" id="c-mu" style="position:absolute;left:120px;top:380px;font:600 132px/1 'Geist',sans-serif;color:#f2ecdc;letter-spacing:-.03em">μ 0.60</div>
+      <div data-hf-id="hf-57f9" id="c-phi" class="s" style="top:540px;font-size:40px;color:#d8d2c2">φ = arctan μ = 31.0°</div>
+      <div data-hf-id="hf-m5p1" id="c-in" class="s green" style="top:700px;font-size:34px">inside the cone: the grip holds</div>
+      <div data-hf-id="hf-9vbk" id="c-out" class="s amber" style="top:760px;font-size:34px">this attempt: outside → reject</div>
+      <svg data-hf-id="hf-u8rq" id="c-svg" width="700" height="700" viewBox="0 0 700 700" style="position:absolute;left:1080px;top:270px">
+        <path data-hf-id="hf-pcul" id="c-surf" d="M110 620 H590" fill="none" stroke="#d8d2c2" stroke-width="3"/>
+        <path data-hf-id="hf-4fdp" id="c-el" d="M350 620 L61.6 140" fill="none" stroke="#a7a294" stroke-width="2.5"/>
+        <path data-hf-id="hf-wmtr" id="c-er" d="M350 620 L638.4 140" fill="none" stroke="#a7a294" stroke-width="2.5"/>
+        <path data-hf-id="hf-te3j" id="c-ax" d="M350 620 V90" fill="none" stroke="#8b897e" stroke-width="2" stroke-dasharray="10 10"/>
+        <path data-hf-id="hf-erpo" id="c-arc" d="M350 450 A170 170 0 0 1 437.6 474.3" fill="none" stroke="#f2ecdc" stroke-width="2.5"/>
+        <text data-hf-id="hf-xl1o" id="c-arcl" x="452" y="436" style="font-size:30px;fill:#f2ecdc">φ 31.0°</text>
+        <text data-hf-id="hf-n6pu" id="c-surfl" x="110" y="668" style="font-size:28px;fill:#a7a294">contact</text>
+        <path data-hf-id="hf-o60k" id="c-vg" d="M350 620 L450 250" fill="none" stroke="#a3bd90" stroke-width="5"/>
+        <circle data-hf-id="hf-typk" id="c-vgd" cx="450" cy="250" r="9" fill="#a3bd90"/>
+        <text data-hf-id="hf-oc36" id="c-vgl" x="470" y="246" style="font-size:30px;fill:#b9d3a6">holds</text>
+        <path data-hf-id="hf-6mj0" id="c-va" d="M350 620 L680 400" fill="none" stroke="#f3a445" stroke-width="5"/>
+        <circle data-hf-id="hf-4ayi" id="c-vad" cx="680" cy="400" r="9" fill="#f3a445"/>
+        <text data-hf-id="hf-6apl" id="c-val" x="560" y="372" style="font-size:30px;fill:#f3a445">slips</text>
+      </svg>
+    </div>
+  </section>
+
+  <section data-hf-id="hf-7ig9" class="clip" id="x4" data-start="32" data-duration="9.6" data-track-index="5" style="z-index:30">
+    <h2 data-hf-id="hf-f96b" class="t" id="x4a-t" data-split style="top:110px">If it passes, the hand moves.</h2>
+    <h2 data-hf-id="hf-udn9" class="t" id="x4b-t" data-split style="top:110px">It failed. Only now does the planner wake.</h2>
+    <p data-hf-id="hf-kppw" class="s" id="x4-s" style="top:200px">180 ms · it solves the failure, not the task</p>
+  </section>
+  <section data-hf-id="hf-gln1" class="clip" id="x5" data-start="41.6" data-duration="9.6" data-track-index="6" style="z-index:30">
+    <div data-hf-id="hf-fdlz" id="x5-scrim" style="position:absolute;left:0;top:0;width:1200px;height:420px;background:linear-gradient(90deg,rgba(7,9,10,.82) 0%,rgba(7,9,10,0) 100%);opacity:0"></div>
+    <h2 data-hf-id="hf-jahb" class="t" id="x5a-t" style="top:110px">The failure is written down.</h2>
+    <p data-hf-id="hf-ogwm" class="s" id="x5a-s" style="top:200px">attempt + objection + pattern key → append-only ledger</p>
+    <h2 data-hf-id="hf-r5qw" class="t" id="x5b-t" data-split style="top:110px">Failure becomes reflex.</h2>
+    <p data-hf-id="hf-cfi5" class="s" id="x5b-s" style="top:200px">same task, next time: the reflex holds it</p>
+  </section>
+  <section data-hf-id="hf-ngns" class="clip" id="x6" data-start="51.2" data-duration="12.8" data-track-index="5" style="z-index:30">
+    <h2 data-hf-id="hf-sm77" class="t" id="x6a-t" data-split style="top:110px">Why the gate can stay loose.</h2>
+    <h2 data-hf-id="hf-zl9y" class="t" id="x6b-t" data-split style="top:110px;max-width:1150px">Every outcome pays: an answer, or training data.</h2>
+    <p data-hf-id="hf-yqm8" class="s" id="x6-s" style="top:270px">pass, fail or abstain: every path leaves a record</p>
+    <p data-hf-id="hf-6jyh" class="s" id="x6-f" style="top:1030px;font-size:28px;color:#8b897e">illustrative rates · 75% attempted · p .7 · ρ .9 · α .05</p>
+    <div data-hf-id="hf-n42d" class="count" id="cnt" style="top:104px">answers <b data-hf-id="hf-hqer" id="cnt-a">0</b><br data-hf-id="hf-x5px"><span data-hf-id="hf-1lck" style="display:inline-block;margin-top:14px">lessons <b data-hf-id="hf-ifmr" id="cnt-l" style="color:#d8d2c2">0</b></span></div>
+  </section>
+
+  <!-- S7 · the gate inequality -->
+  <section data-hf-id="hf-jgwh" class="clip" id="gate" data-start="64" data-duration="9.6" data-track-index="4" style="z-index:40">
+    <div data-hf-id="hf-oayk" class="scene-inner" id="gate-in">
+      <img data-hf-id="hf-ogay" class="plate" id="g-img" src="assets/ar/lab-1920.png" alt="" style="opacity:.26">
+      <div data-hf-id="hf-b1uo" class="vignette"></div>
+      <h2 data-hf-id="hf-65yj" class="t" id="g-t" style="top:110px">The bar to try is set low on purpose.</h2>
+      <p data-hf-id="hf-r1y5" class="s" id="g-s" style="top:200px">a cost inequality, not a confidence score</p>
+      <div data-hf-id="hf-i0ub" id="g-f" style="position:absolute;left:120px;top:300px;font:600 120px/1 'Geist',sans-serif;color:#f2ecdc;letter-spacing:-.02em">q &gt; c<sub data-hf-id="hf-0i23" style="font-size:.5em">S</sub> / c<sub data-hf-id="hf-vc2q" style="font-size:.5em">L</sub></div>
+      <div data-hf-id="hf-xmmk" id="g-q" class="s amber" style="top:470px;font-size:40px">q* = 0.18</div>
+      <svg data-hf-id="hf-uokl" width="1680" height="320" viewBox="0 0 1680 320" style="position:absolute;left:120px;top:590px">
+        <rect data-hf-id="hf-9hzq" id="g-fill" x="288" y="80" width="1312" height="140" fill="#a3bd90" fill-opacity=".14"/>
+        <path data-hf-id="hf-by7l" id="g-ax" d="M0 220 H1600" fill="none" stroke="#d8d2c2" stroke-width="3"/>
+        <path data-hf-id="hf-4dgw" id="g-qs" d="M288 40 V240" fill="none" stroke="#f3a445" stroke-width="3" stroke-dasharray="8 8"/>
+        <g data-hf-id="hf-23zb" id="g-ticks" style="font-size:28px;fill:#a7a294"><text data-hf-id="hf-na1b" x="0" y="272">0</text><text data-hf-id="hf-zrne" x="270" y="272" style="fill:#f3a445">0.18</text><text data-hf-id="hf-z781" x="782" y="272">0.5</text><text data-hf-id="hf-kewu" x="1588" y="272">1</text></g>
+        <text data-hf-id="hf-c4l2" id="g-ll" x="12" y="130" style="font-size:28px;fill:#d8d2c2">planner</text>
+        <text data-hf-id="hf-lzy1" id="g-ll2" x="12" y="170" style="font-size:28px;fill:#d8d2c2">answers</text>
+        <text data-hf-id="hf-tk1d" id="g-rl" x="320" y="140" style="font-size:30px;fill:#b9d3a6">the reflex attempts</text>
+        <g data-hf-id="hf-1h9o" id="g-m"><circle data-hf-id="hf-dfsg" cx="0" cy="220" r="13" fill="#f2ecdc"/><text data-hf-id="hf-k4s5" x="-9" y="196" style="font-size:30px;fill:#f2ecdc">q</text></g>
+      </svg>
+      <p data-hf-id="hf-byj8" class="s" id="g-e" data-split style="top:930px;font-size:34px;color:#f2ecdc">Below the bar, 5% still try (ε = 0.05), so nothing goes cold.</p>
+    </div>
+  </section>
+
+  <!-- S8 · close -->
+  <section data-hf-id="hf-aovw" class="clip" id="close" data-start="73.6" data-duration="10.4" data-track-index="7" style="z-index:50">
+    <div data-hf-id="hf-lxtp" class="scene-inner" id="close-in">
+      <img data-hf-id="hf-3lf6" class="plate" id="cl-img" src="assets/ar/chamber-1920.png" alt="">
+      <div data-hf-id="hf-tt40" class="scrim-l"></div><div data-hf-id="hf-5399" class="vignette"></div>
+      <h2 data-hf-id="hf-tuny" class="t" id="cl-a" data-split style="top:330px;font-size:124px">Reflex first.</h2>
+      <h2 data-hf-id="hf-y4fs" class="t" id="cl-b" data-split style="top:490px;font-size:72px">Deliberation only on rejection.</h2>
+      <p data-hf-id="hf-wshp" class="s" id="cl-c" style="top:640px;font-size:34px;color:#d8d2c2">Nothing exits the ledger.</p>
+      <p data-hf-id="hf-90dp" class="s amber" id="cl-u" style="top:720px;font-size:34px">archimedes-opal.vercel.app</p>
+    </div>
+  </section>
+
+  <div data-hf-id="hf-o4lr" class="clip grain" id="grain" data-start="0" data-duration="84" data-track-index="9" style="z-index:90"></div>
+
+  <!-- sound: bed enters on a bar of its build; hits sit on visible events -->
+  <audio data-hf-id="hf-bkhi" id="music" class="clip" src="assets/audio/checkpoint.mp3" data-start="0" data-duration="84" data-media-start="61.61" data-track-index="20" data-volume="1" data-fade-in="0.3" data-fade-out="1.5"></audio>
+  <audio data-hf-id="hf-imkb" id="sx-w1" class="clip" src="assets/audio/sfx/whoosh.mp3" data-start="6.15" data-track-index="21" data-volume="0.7"></audio>
+  <audio data-hf-id="hf-wxxc" id="sx-w2" class="clip" src="assets/audio/sfx/whoosh.mp3" data-start="22.15" data-track-index="21" data-volume="0.7"></audio>
+  <audio data-hf-id="hf-zvjx" id="sx-w3" class="clip" src="assets/audio/sfx/whoosh-short.mp3" data-start="28.15" data-track-index="21" data-volume="0.6"></audio>
+  <audio data-hf-id="hf-921a" id="sx-w4" class="clip" src="assets/audio/sfx/whoosh.mp3" data-start="50.95" data-track-index="21" data-volume="0.6"></audio>
+  <audio data-hf-id="hf-igz2" id="sx-w5" class="clip" src="assets/audio/sfx/whoosh-short.mp3" data-start="63.8" data-track-index="21" data-volume="0.6"></audio>
+  <audio data-hf-id="hf-6v21" id="sx-c1" class="clip" src="assets/audio/sfx/click-soft.mp3" data-start="8.25" data-track-index="22" data-volume="0.8"></audio>
+  <audio data-hf-id="hf-lcek" id="sx-c2" class="clip" src="assets/audio/sfx/click-soft.mp3" data-start="13.25" data-track-index="22" data-volume="0.8"></audio>
+  <audio data-hf-id="hf-fsra" id="sx-c3" class="clip" src="assets/audio/sfx/click-soft.mp3" data-start="17.33" data-track-index="22" data-volume="0.8"></audio>
+  <audio data-hf-id="hf-i92j" id="sx-c4" class="clip" src="assets/audio/sfx/click-soft.mp3" data-start="18.23" data-track-index="22" data-volume="0.8"></audio>
+  <audio data-hf-id="hf-36sn" id="sx-c5" class="clip" src="assets/audio/sfx/click-soft.mp3" data-start="35.65" data-track-index="22" data-volume="0.8"></audio>
+  <audio data-hf-id="hf-cqxb" id="sx-c6" class="clip" src="assets/audio/sfx/click-soft.mp3" data-start="41.85" data-track-index="22" data-volume="0.8"></audio>
+  <audio data-hf-id="hf-n5fi" id="sx-p1" class="clip" src="assets/audio/sfx/pop.mp3" data-start="33.85" data-track-index="23" data-volume="0.7"></audio>
+  <audio data-hf-id="hf-rp5v" id="sx-p2" class="clip" src="assets/audio/sfx/pop.mp3" data-start="40.65" data-track-index="23" data-volume="0.7"></audio>
+  <audio data-hf-id="hf-i4er" id="sx-p3" class="clip" src="assets/audio/sfx/pop.mp3" data-start="43.78" data-track-index="23" data-volume="0.7"></audio>
+  <audio data-hf-id="hf-jw22" id="sx-p4" class="clip" src="assets/audio/sfx/pop.mp3" data-start="49.83" data-track-index="23" data-volume="0.7"></audio>
+  <audio data-hf-id="hf-kq8n" id="sx-i1" class="clip" src="assets/audio/sfx/impact-bass-1.mp3" data-start="47.03" data-track-index="24" data-volume="0.8"></audio>
+  <audio data-hf-id="hf-knsm" id="sx-i2" class="clip" src="assets/audio/sfx/impact-bass-1.mp3" data-start="73.63" data-track-index="24" data-volume="0.9"></audio>
+  <audio data-hf-id="hf-myfs" id="sx-r1" class="clip" src="assets/audio/sfx/riser.mp3" data-start="63.6" data-duration="10" data-track-index="25" data-volume="0.45" data-fade-in="1"></audio>
+</div>
+
+<script>
+(() => {
+  const tl = gsap.timeline({ paused: true });
+  const $ = (s) => document.querySelector(s);
+  const NS = 'http://www.w3.org/2000/svg';
+  const INK = '#f2ecdc';
+  console.assert(Math.abs(Math.atan(0.6) * 180 / Math.PI - 31.0) < 0.05, 'φ = arctan μ');
+
+  document.querySelectorAll('[data-split]').forEach((el) => {
+    el.innerHTML = el.textContent.trim().split(/\s+/).map((w) => `<span class="w">${w}</span>`).join(' ');
+  });
+
+  // four title entrances, varied scene to scene; titles land and stay still
+  const enter = (sel, at, kind) => {
+    if (kind === 'blur') tl.fromTo(`${sel} .w`, { opacity: 0, filter: 'blur(6px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.7, stagger: 0.08, ease: 'expo.out' }, at);
+    else if (kind === 'ink') {
+      tl.fromTo(`${sel} .w`, { opacity: 0, color: '#4a4943' }, { opacity: 1, duration: 0.25, stagger: 0.09, ease: 'power2.out' }, at);
+      tl.fromTo(`${sel} .w`, { color: '#4a4943' }, { color: INK, duration: 0.6, stagger: 0.09, ease: 'power2.out', immediateRender: false }, at + 0.15);
+    } else if (kind === 'wipe') tl.fromTo(sel, { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'expo.out' }, at);
+    else tl.fromTo(sel, { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.8, ease: 'power4.out' }, at);
+  };
+  const out = (sel, at) => tl.fromTo(sel, { opacity: 1 }, { opacity: 0, duration: 0.35, ease: 'power3.in', immediateRender: false }, at);
+  const fade = (sel, at, d = 0.5, to = 1) => tl.fromTo(sel, { opacity: 0 }, { opacity: to, duration: d, ease: 'power2.out' }, at);
+
+  const draw = (el, at, d = 0.9) => {
+    const n = typeof el === 'string' ? $(el) : el;
+    const len = n.getTotalLength();
+    gsap.set(n, { strokeDasharray: len });
+    tl.fromTo(n, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: d, ease: 'power2.inOut' }, at);
+  };
+  const node = (id, at) => {
+    draw(`${id} .nstroke`, at);
+    tl.fromTo([`${id} .nfill`, `${id} .nl`], { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, at + 0.4);
+  };
+  const flash = (sel, at) => tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: 0.15, ease: 'expo.out', yoyo: true, repeat: 1 }, at);
+
+  // move a dot along straight segments at constant speed; returns arrival time
+  const move = (el, pts, at, speed) => {
+    let t = at;
+    for (let i = 1; i < pts.length; i++) {
+      const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
+      const d = Math.hypot(x1 - x0, y1 - y0) / speed;
+      tl.fromTo(el, { attr: { cx: x0, cy: y0 } }, { attr: { cx: x1, cy: y1 }, duration: d, ease: 'none', immediateRender: false }, t);
+      t += d;
+    }
+    return t;
+  };
+  const P = { task: [120, 170], reflex: [490, 170], ver: [920, 170], act: [1350, 170], plan: [920, 470], led: [490, 470] };
+  const ACCEPT = [P.task, P.reflex, P.ver, P.act];
+  const REJECT = [P.task, P.reflex, P.ver, P.plan, [1350, 470], P.act];
+  const SKIP = [P.task, [120, 604], [920, 604], P.plan, [1350, 470], P.act];
+
+  // plates: slow push-in on every plate; dim ones sit under the diagram
+  const plate = (id, at, dur, op, fadeIn) => {
+    tl.fromTo(`#${id}-in`, { opacity: fadeIn ? 0 : op }, { opacity: op, duration: fadeIn || 0.001, ease: 'power2.inOut' }, at);
+    tl.fromTo(`#${id}-img`, { scale: 1 }, { scale: 1.06, duration: dur, ease: 'none' }, at);
+  };
+  plate('s0', 0, 6.6, 1, 0);
+  plate('b1', 6.4, 7, 0.26, 0.6); plate('b2', 12.8, 10.2, 0.22, 0.6); plate('b3', 22.4, 9.6, 0.42, 0.7);
+  plate('b4', 32, 10.2, 0.22, 0); plate('b5', 41.6, 10.2, 0.24, 0.6); plate('b6', 51.2, 12.8, 0.2, 0.8);
+
+  // hidden-until-used diagram parts
+  ['#e-pass', '#e-rej', '#e-ans', '#e-learn', '#e-loop', '#e-skip', '#e-in', '#e-try'].forEach((e) => draw(e, 0, 0.001));
+  tl.fromTo(['#l-pass', '#l-rej', '#l-ans', '#l-loop', '#l-skip', '#l-plus', '#row1', '#row2', '#row3', '#m1', '#m2', '#m3q', '#m3x', '#m3v', '#tok', '#ghost', '#lesson', '#tok2', '.nhi'],
+    { opacity: 0 }, { opacity: 0, duration: 0.001 }, 0);
+
+  // S0 · situation
+  enter('#s0-t', 0.5, 'blur');
+  enter('#s0-s', 1.6, 'line');
+  out(['#s0-t', '#s0-s'], 6.0);
+
+  // S1 · reflex
+  tl.fromTo('#diag-cam', { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' }, 6.4);
+  enter('#x1-t', 6.9, 'blur'); enter('#x1-s', 7.6, 'line');
+  node('#n-task', 7.0); draw('#e-in', 7.8, 0.4); node('#n-reflex', 7.9);
+  fade('#tok', 9.2, 0.2);
+  flash('#hi-reflex-a', move('#tok', [P.task, P.reflex], 9.4, 400));
+  out(['#x1-t', '#x1-s'], 12.3);
+
+  // S2 · verifier
+  enter('#x2-t', 13.0, 'ink'); enter('#x2-s', 13.8, 'line');
+  draw('#e-try', 12.9, 0.4); node('#n-ver', 13.0);
+  move('#tok', [P.reflex, P.ver], 15.2, 400);
+  fade('#row1', 17.0); draw('#m1', 17.3, 0.3); fade('#m1', 17.3, 0.05);
+  fade('#row2', 17.9); draw('#m2', 18.2, 0.3); fade('#m2', 18.2, 0.05);
+  fade('#row3', 18.8); fade('#m3q', 19.1, 0.3);
+  out(['#x2-t', '#x2-s'], 21.9);
+
+  // S3 · friction cone (diagram blurs back, cone pushes in)
+  tl.fromTo('#diag-cam', { opacity: 1, filter: 'blur(0px)', scale: 1 }, { opacity: 0.1, filter: 'blur(6px)', scale: 0.96, duration: 0.7, ease: 'power2.inOut' }, 22.4);
+  tl.fromTo('#c-svg', { scale: 1.08, transformOrigin: '50% 90%' }, { scale: 1, duration: 1.4, ease: 'power4.out' }, 22.4);
+  enter('#c-t', 22.8, 'wipe'); enter('#c-s', 23.5, 'line');
+  draw('#c-surf', 22.8, 0.6); fade('#c-surfl', 23.2);
+  draw('#c-el', 23.2); draw('#c-er', 23.2); draw('#c-ax', 23.8, 0.6);
+  draw('#c-arc', 24.2, 0.5); fade('#c-arcl', 24.5);
+  enter('#c-mu', 24.4, 'line'); enter('#c-phi', 25.0, 'line');
+  draw('#c-vg', 26.0, 0.6); fade('#c-vgd', 26.5, 0.2); fade('#c-vgl', 26.6); enter('#c-in', 26.6, 'line');
+  draw('#c-va', 28.2, 0.5); fade('#c-vad', 28.6, 0.2); fade('#c-val', 28.8); enter('#c-out', 28.8, 'line');
+  out('#cone-in', 31.6);
+
+  // S4 · pass vs reject (hard cut back to the diagram)
+  tl.fromTo('#diag-cam', { opacity: 0.1, filter: 'blur(6px)', scale: 0.96 }, { opacity: 1, filter: 'blur(0px)', scale: 1, duration: 0.001 }, 32);
+  out('#m3q', 32.2); fade('#m3x', 32.3, 0.2);
+  enter('#x4a-t', 32.4, 'blur');
+  draw('#e-pass', 32.6, 0.4); fade('#l-pass', 32.8); node('#n-act', 32.7);
+  fade('#ghost', 33.1, 0.15, 0.6); move('#ghost', [P.ver, P.act], 33.2, 700); out('#ghost', 34.4);
+  out('#x4a-t', 35.0);
+  draw('#e-rej', 35.3, 0.5); fade('#l-rej', 35.5); node('#n-plan', 35.6);
+  enter('#x4b-t', 35.6, 'ink'); enter('#x4-s', 36.6, 'line');
+  move('#tok', [P.ver, P.plan], 35.8, 400);
+  draw('#e-ans', 38.6, 0.7); fade('#l-ans', 38.9);
+  move('#tok', [P.plan, [1350, 470], P.act], 39.0, 400);
+  out('#tok', 40.8);
+  out(['#x4b-t', '#x4-s'], 41.1);
+
+  // S5 · ledger, consolidation, replay
+  node('#n-led', 41.8); draw('#e-learn', 42.2, 0.4);
+  fade('#x5-scrim', 41.7, 0.8);
+  enter('#x5a-t', 41.9, 'line'); enter('#x5a-s', 42.6, 'line');
+  fade('#lesson', 42.6, 0.2);
+  const ticks = $('#ticks');
+  const addTick = (i, at) => {
+    const r = document.createElementNS(NS, 'rect');
+    Object.entries({ x: 352 + i * 14, y: 556, width: 6, height: 28, fill: i === 0 ? '#f3a445' : '#d8d2c2' }).forEach(([k, v]) => r.setAttribute(k, v));
+    ticks.appendChild(r);
+    tl.fromTo(r, { opacity: 0, scaleY: 0, transformOrigin: '50% 100%' }, { opacity: 1, scaleY: 1, duration: 0.3, ease: 'expo.out' }, at);
+  };
+  addTick(0, move('#lesson', [P.plan, P.led], 42.7, 400));
+  out(['#x5a-t', '#x5a-s'], 45.4);
+  draw('#e-loop', 45.6, 0.5); fade('#l-loop', 45.9);
+  const absorbed = move('#lesson', [P.led, P.reflex], 46.2, 400);
+  out('#lesson', absorbed); flash('#hi-reflex-g', absorbed); fade('#l-plus', absorbed + 0.1);
+  enter('#x5b-t', 47.0, 'blur'); enter('#x5b-s', 48.6, 'line');
+  fade('#tok2', 48.3, 0.15);
+  const replay = move('#tok2', ACCEPT, 48.4, 900);
+  out('#m3x', 49.2); draw('#m3v', 49.3, 0.3); fade('#m3v', 49.3, 0.05);
+  out('#tok2', replay);
+  out(['#x5b-t', '#x5b-s'], 50.7);
+
+  // S6 · why the gate can stay loose: a seeded stream of tasks
+  tl.fromTo('#diag-cam', { scale: 1 }, { scale: 0.97, duration: 1.4, ease: 'power2.inOut' }, 51.2);
+  out(['#row1', '#row2', '#row3', '#m1', '#m2', '#m3v', '#l-plus'], 51.3);
+  draw('#e-skip', 51.8, 0.9); fade('#l-skip', 52.2);
+  enter('#x6a-t', 51.6, 'blur'); out('#x6a-t', 55.3);
+  enter('#x6b-t', 55.6, 'ink'); enter('#x6-s', 57.2, 'line'); fade('#x6-f', 52.6); fade('#cnt', 52.0);
+
+  // mulberry32: seeded, so every render shows the same stream
+  const rng = (seed) => () => {
+    seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const rand = rng(20261022);
+  const stream = $('#stream');
+  const dot = (r, fill, stroke) => {
+    const c = document.createElementNS(NS, 'circle');
+    Object.entries({ r, cx: P.task[0], cy: P.task[1], fill, stroke: stroke || 'none', 'stroke-width': 3, opacity: 0 }).forEach(([k, v]) => c.setAttribute(k, v));
+    stream.appendChild(c);
+    return c;
+  };
+  const answers = [], lessons = [];
+  const SPEED = 1100;
+  for (let i = 0; i < 29; i++) {
+    const at = 52.4 + i * 0.3;
+    const uTry = rand(), uCorrect = rand(), uVerdict = rand(); // illustrative: 75% tried, p .7, ρ .9, α .05
+    let route, el;
+    if (uTry >= 0.75) { route = SKIP; el = dot(9, '#d8d2c2'); }
+    else {
+      const correct = uCorrect < 0.7;
+      const accepted = correct ? uVerdict < 0.9 : uVerdict < 0.05;
+      if (accepted) { route = ACCEPT; el = correct ? dot(9, '#a3bd90') : dot(8, 'none', '#f3a445'); }
+      else {
+        route = REJECT; el = dot(9, '#f3a445');
+        const atPlan = at + (370 + 430 + 300) / SPEED;
+        const l = dot(6, '#d8d2c2');
+        tl.fromTo(l, { opacity: 0 }, { opacity: 1, duration: 0.05 }, atPlan);
+        const landed = move(l, [P.plan, P.led], atPlan, SPEED);
+        lessons.push(landed);
+        addTick(lessons.length, landed);
+        out(l, move(l, [P.led, P.reflex], landed, SPEED));
+      }
+    }
+    tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.08 }, at);
+    const end = move(el, route, at, SPEED);
+    answers.push(end);
+    tl.fromTo(el, { opacity: 1 }, { opacity: 0, duration: 0.15, immediateRender: false }, end);
+  }
+  const cntA = $('#cnt-a'), cntL = $('#cnt-l');
+  tl.fromTo({ v: 0 }, { v: 0 }, {
+    v: 1, duration: 12.8, ease: 'none',
+    onUpdate() {
+      const now = tl.time();
+      cntA.textContent = answers.filter((t) => t <= now).length;
+      cntL.textContent = lessons.filter((t) => t <= now).length;
+    },
+  }, 51.2);
+  out(['#x6b-t', '#x6-s', '#x6-f', '#cnt'], 63.5);
+
+  // S7 · the gate (hard cut)
+  enter('#g-t', 64.3, 'wipe'); enter('#g-s', 65.0, 'line');
+  enter('#g-f', 65.8, 'line'); fade('#g-q', 66.4);
+  draw('#g-ax', 66.8, 0.8); fade('#g-ticks', 67.2);
+  tl.fromTo('#g-qs', { opacity: 0, scaleY: 0, transformOrigin: '50% 100%' }, { opacity: 1, scaleY: 1, duration: 0.6, ease: 'expo.out' }, 67.2);
+  tl.fromTo('#g-fill', { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, duration: 1.0, ease: 'power4.out' }, 67.6);
+  fade(['#g-ll', '#g-ll2'], 67.8); fade('#g-rl', 68.1);
+  fade('#g-m', 68.3, 0.3);
+  tl.fromTo('#g-m', { x: 96 }, { x: 880, duration: 2.0, ease: 'power2.inOut' }, 68.4);
+  enter('#g-e', 69.8, 'blur');
+  out('#gate-in', 73.25);
+
+  // S8 · close (wipe in)
+  tl.fromTo('#close-in', { clipPath: 'inset(0% 0% 0% 100%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'power4.out' }, 73.6);
+  tl.fromTo('#cl-img', { scale: 1.06 }, { scale: 1, duration: 10.4, ease: 'none' }, 73.6);
+  enter('#cl-a', 74.2, 'blur'); enter('#cl-b', 75.4, 'ink');
+  enter('#cl-c', 77.6, 'line'); enter('#cl-u', 79.0, 'wipe');
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines['archimedes-verification'] = tl;
+})();
+</script>
+</body>
+</html>

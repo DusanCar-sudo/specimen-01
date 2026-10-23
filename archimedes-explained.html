@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The verification layer — in simple words</title>
+<style>
+body{margin:0;padding:24px;background:#0b0e0a;color:#f2ebc9;font:400 18px/1.7 system-ui,sans-serif;max-width:720px;margin-inline:auto}
+h1{font-size:30px;letter-spacing:-.02em}
+h2{font-size:19px;color:#d8cb95;margin-top:36px}
+p,li{color:#e2dbb7}
+b{color:#f2ebc9}
+.step{border-left:3px solid #e7cf85;padding:4px 0 4px 18px;margin:22px 0}
+.note{background:#141a14;border:1px solid rgba(236,229,196,.15);border-radius:10px;padding:14px 18px;margin-top:36px}
+code{font-family:monospace;color:#e7cf85}
+</style>
+</head>
+<body>
+<h1>The verification layer</h1>
+<p>One rule: <b>nobody trusts their own work.</b> A cheap worker tries the job. A separate checker decides if the result is actually good. Only then is it accepted.</p>
+
+<h2>How it works</h2>
+<div class="step">
+<h2>Step 1 — the cheap worker goes first</h2>
+<p>A small, fast, cheap AI model tries the task. It costs almost nothing. Most of the time it gets it right.</p>
+</div>
+<div class="step">
+<h2>Step 2 — an independent checker judges</h2>
+<p>A <b>different</b> model — not the worker, not shown the worker's reasoning — looks at the result like a stranger: "Is this correct? Would this actually work?" Because it didn't do the work, it doesn't defend it.</p>
+</div>
+<div class="step">
+<h2>Step 3 — pass or fail</h2>
+<p><b>Pass</b> → accepted. You paid the cheap price.<br><b>Fail</b> → the task goes to a big, expensive model. You only pay that price when the cheap try truly failed.</p>
+</div>
+
+<h2>The specifics</h2>
+<ul>
+<li><b>Memory loop around it</b> — four stages per task: <code>execute</code> (worker runs), <code>capture</code> (episode saved), <code>consolidate</code> (lessons extracted into an episode store), <code>inject</code> (lessons re-enter context on the next task). The system's own history becomes its material.</li>
+<li><b>Three parts in the gate</b> — a <b>competence estimator</b> (per task-pattern: is the cheap tier likely admissible here?), the <b>cheap attempt</b>, and the <b>independent verifier</b> that adjudicates. The large tier runs only on failed verification.</li>
+<li><b>How the estimator estimates</b> — it counts, it doesn't predict. For a new task it finds past episodes of <b>similar</b> tasks where the cheap model actually attempted, and its score is simply the share the verifier accepted: <code>ŝ = accepts / n</code>. Neighborhoods with fewer than m₀ attempts are <b>padded with failures</b>: <code>ŝ = accepts / max(n, m₀)</code>. So one real attempt that passed reads 1/3 = 33%, never 100% — a single fluke can't open the gate. As real attempts accumulate they replace the padding, and the score climbs only on deserved data. Missing evidence counts as failure; nothing is faked. (Plus a small probe rate: even a thin neighborhood occasionally gets a cheap try, so no pattern is exiled forever.)</li>
+<li><b>Break-even rule</b> — the gate saves money only when the cheap tier's acceptance probability <code>q</code> beats the cost ratio: <code>q &gt; c<sub>cheap</sub> / c<sub>large</sub></code>. Below that line, skip the gate and always use the large tier.</li>
+<li><b>Safety bound</b> — even the worst gate degrades quality only in proportion to the verifier's <b>false-accept rate</b>. The verifier is the one component that can silently hurt you, so it's held to the strict standard.</li>
+<li><b>The failure mode to know about</b> — an audit of 1,225 real episodes found the gate fired <b>0 times in 153 decisions</b>: attempts that never happen are never recorded, so the estimator can never learn why (cold-start non-identifiability). Fix: force early cheap attempts so the estimator gets data.</li>
+</ul>
+
+<h2>Why the name "Archimedes"</h2>
+<p>Archimedes said: give me a place to stand and I will move the world. The checker is that place to stand — a fixed point outside the work. A model grading its own homework always gives itself the benefit of the doubt. The verification layer removes that.</p>
+
+<h2>Why it saves money</h2>
+<p>Cheap worker right 80% of the time at 20× lower cost → 8 of 10 tasks cost almost nothing, 2 pay full price. Same quality, much smaller bill.</p>
+
+<div class="note">
+<b>One sentence:</b> let the cheap model try, let an independent model judge, and only pay the expensive model when the judge says no.
+</div>
+</body>
+</html>

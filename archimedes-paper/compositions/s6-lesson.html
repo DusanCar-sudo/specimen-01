@@ -1,0 +1,100 @@
+<template>
+  <style>
+    #root{position:absolute;inset:0;background:var(--ground);overflow:hidden;
+      background-image:radial-gradient(circle at 1px 1px,rgba(20,26,30,.055) 1px,transparent 0);background-size:4px 4px}
+    .ink{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+    .hair{fill:none;stroke-width:1.8;stroke-linecap:round}
+    .t1{font-family:var(--font-display);font-size:74px;fill:var(--ink);letter-spacing:-.02em}
+    .mono{font-family:var(--font-mono);font-size:18px;letter-spacing:.15em;text-transform:uppercase}
+    .val{font-family:var(--font-mono);font-size:23px;fill:var(--muted)}
+    .big{font-family:var(--font-display);font-size:220px;fill:var(--warn);letter-spacing:-.04em}
+  </style>
+
+  <div id="root" data-composition-id="s6" data-width="1920" data-height="1080">
+    <svg width="1920" height="1080" viewBox="0 0 1920 1080">
+      <text id="l1" class="t1" x="150" y="192">The rest is caught.</text>
+
+      <g id="vb">
+        <rect class="ink" x="940" y="300" width="330" height="130"/>
+        <text class="mono" x="972" y="352" style="fill:var(--ink)">VERIFIER</text>
+        <text class="val" x="972" y="396">the gate</text>
+      </g>
+
+      <g id="rej">
+        <path id="p-rej" class="hair" d="M1020 430 C 1010 560, 900 640, 800 686" style="stroke:var(--warn)"/>
+        <path id="h-rej" class="hair" d="M826 668 L 796 690 L 822 706" style="stroke:var(--warn)"/>
+        <text id="rejlbl" class="mono" x="830" y="560" style="fill:var(--warn)">reject</text>
+      </g>
+
+      <g id="cb">
+        <rect class="ink" x="620" y="700" width="300" height="120" style="stroke:var(--warn)"/>
+        <text class="mono" x="652" y="750" style="fill:var(--warn)">CAUGHT</text>
+        <text class="val" x="652" y="790">before it acts</text>
+      </g>
+
+      <g id="ld">
+        <path id="p-l" class="hair" d="M620 760 H 540" style="stroke:var(--ink)"/>
+        <rect class="ink" x="240" y="700" width="300" height="120"/>
+        <text class="mono" x="272" y="750" style="fill:var(--ink)">LEDGER</text>
+        <text class="val" x="272" y="790">the lesson, written</text>
+      </g>
+      <g id="loop">
+        <path id="p-loop" class="hair" d="M240 760 H 90 V 196 H 1105 V 292" style="stroke:var(--pass)"/>
+        <path id="h-loop" class="hair" d="M1087 276 L 1105 298 L 1123 276" style="stroke:var(--pass)"/>
+        <text id="looplbl" class="mono" x="120" y="180" style="fill:var(--pass)">and the gate learns</text>
+      </g>
+
+      <g id="pct">
+        <text class="big" x="1420" y="600">0</text>
+        <text class="mono" x="1424" y="660">never reach the act</text>
+        <text class="val" x="1424" y="700">each one is a lesson</text>
+      </g>
+    </svg>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const draw = (sel, at, dur, ease) => {
+      const el = document.querySelector(sel);
+      const len = el.getTotalLength ? el.getTotalLength() : 1600;
+      gsap.set(el, { strokeDasharray: len, strokeDashoffset: len });
+      tl.to(el, { strokeDashoffset: 0, duration: dur, ease: ease || 'power2.out' }, at);
+    };
+
+    tl.fromTo('#l1', { opacity: 0, filter: 'blur(7px)' },
+      { opacity: 1, filter: 'blur(0px)', duration: .75, ease: 'expo.out' }, 0);
+
+    draw('#p-rej', .8, .7, 'power2.inOut');
+    draw('#h-rej', 1.4, .3);
+    tl.fromTo('#rejlbl', { opacity: 0 }, { opacity: 1, duration: .45 }, 1.6);
+
+    tl.fromTo('#cb', { opacity: 0 }, { opacity: 1, duration: .3 }, 2.0);
+    draw('#cb rect', 2.0, .7, 'power2.inOut');
+    tl.fromTo('#cb text', { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: .5, stagger: .14, ease: 'power3.out' }, 2.5);
+
+    const o = { v: 0 };
+    tl.to(o, {
+      v: 18, duration: 1.4, ease: 'power2.out',
+      onUpdate() { document.querySelector('#pct .big').textContent = Math.round(o.v) + '%'; }
+    }, 3.2);
+    tl.fromTo('#pct .big', { opacity: 0, y: 22 },
+      { opacity: 1, y: 0, duration: .6, ease: 'power4.out' }, 3.2);
+    tl.fromTo('#pct .mono, #pct .val', { opacity: 0 },
+      { opacity: 1, duration: .6, stagger: .16 }, 4.0);
+
+    draw('#p-l', 4.6, .5);
+    tl.fromTo('#ld', { opacity: 0 }, { opacity: 1, duration: .3 }, 4.6);
+    draw('#ld rect', 4.6, .7, 'power2.inOut');
+    tl.fromTo('#ld text', { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: .5, stagger: .14, ease: 'power3.out' }, 5.1);
+
+    tl.fromTo('#loop', { opacity: 0 }, { opacity: 1, duration: .3 }, 6.6);
+    draw('#p-loop', 6.6, 1.5, 'power2.inOut');
+    draw('#h-loop', 8.0, .3);
+    tl.fromTo('#looplbl', { opacity: 0 }, { opacity: 1, duration: .6 }, 7.4);
+
+    window.__timelines['s6'] = tl;
+    tl.seek(0);
+  </script>
+</template>

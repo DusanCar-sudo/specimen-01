@@ -1,0 +1,72 @@
+{
+ "hand": {
+  "source": "hand-307.png",
+  "mean": 0.141,
+  "p01": 0.02,
+  "p99": 0.961,
+  "bytes_webp": 86824
+ },
+ "joint": {
+  "source": "joint-101.png",
+  "mean": 0.213,
+  "p01": 0.024,
+  "p99": 0.957,
+  "bytes_webp": 94652
+ },
+ "servo": {
+  "source": "servo-101.png",
+  "mean": 0.18,
+  "p01": 0.02,
+  "p99": 0.957,
+  "bytes_webp": 116474
+ },
+ "gantry": {
+  "source": "gantry-307.png",
+  "mean": 0.153,
+  "p01": 0.02,
+  "p99": 0.957,
+  "bytes_webp": 149642
+ },
+ "lab": {
+  "source": "lab-211.png",
+  "mean": 0.183,
+  "p01": 0.024,
+  "p99": 0.961,
+  "bytes_webp": 71548
+ },
+ "arm": {
+  "source": "arm-211.png",
+  "mean": 0.16,
+  "p01": 0.024,
+  "p99": 0.957,
+  "bytes_webp": 44724
+ },
+ "mocap": {
+  "source": "mocap-211.png",
+  "mean": 0.13,
+  "p01": 0.016,
+  "p99": 0.961,
+  "bytes_webp": 63204
+ },
+ "blueprint": {
+  "source": "blueprint-307.png",
+  "mean": 0.18,
+  "p01": 0.024,
+  "p99": 0.957,
+  "bytes_webp": 170100
+ },
+ "chamber": {
+  "source": "hero-211.png",
+  "mean": 0.126,
+  "p01": 0.02,
+  "p99": 0.957,
+  "bytes_webp": 56098
+ },
+ "void": {
+  "source": "silhouette-211.png",
+  "mean": 0.159,
+  "p01": 0.016,
+  "p99": 0.961,
+  "bytes_webp": 40764
+ }
+}

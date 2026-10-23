@@ -1,0 +1,69 @@
+<template>
+  <style>
+    #root{position:absolute;inset:0;background:var(--ground);overflow:hidden;
+      background-image:radial-gradient(circle at 1px 1px,rgba(20,26,30,.055) 1px,transparent 0);background-size:4px 4px}
+    .ink{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .hair{fill:none;stroke:var(--ink);stroke-width:1.3;stroke-linecap:round}
+    .line{font-family:var(--font-display);font-size:86px;fill:var(--ink);letter-spacing:-.025em}
+    .line2{font-family:var(--font-display);font-size:86px;fill:var(--pass);letter-spacing:-.025em}
+    .mono{font-family:var(--font-mono);font-size:17px;letter-spacing:.15em;text-transform:uppercase;fill:var(--muted)}
+  </style>
+
+  <div id="root" data-composition-id="s7" data-width="1920" data-height="1080">
+    <svg width="1920" height="1080" viewBox="0 0 1920 1080">
+      <g id="cam">
+        <text id="l1" class="line" x="148" y="360">Every outcome is an answer,</text>
+        <text id="l2" class="line2" x="148" y="470" data-var-text="headline">or a lesson.</text>
+
+        <g id="sum" opacity=".95">
+          <rect class="ink" x="150" y="700" width="210" height="70"/>
+          <text class="mono" x="168" y="742">reflex</text>
+
+          <path class="hair" d="M360 735 H 470"/>
+          <path class="hair" d="M452 726 L 472 735 L 452 744"/>
+
+          <rect class="ink" x="470" y="700" width="230" height="70"/>
+          <text class="mono" x="490" y="742" style="fill:var(--ink)">verifier</text>
+
+          <path class="hair" d="M700 735 H 790" style="stroke:var(--pass)"/>
+          <path class="hair" d="M772 726 L 792 735 L 772 744" style="stroke:var(--pass)"/>
+
+          <rect class="ink" x="790" y="700" width="190" height="70" style="stroke:var(--pass)"/>
+          <text class="mono" x="812" y="742" style="fill:var(--pass)">act</text>
+
+          <path class="hair" d="M1090 770 V 850 H 790" style="stroke:var(--warn)"/>
+          <rect class="ink" x="580" y="815" width="210" height="70" style="stroke:var(--warn)"/>
+          <text class="mono" x="600" y="857" style="fill:var(--warn)">caught</text>
+
+          <path class="hair" d="M580 850 H 470" style="stroke:var(--warn)"/>
+          <rect class="ink" x="260" y="815" width="210" height="70"/>
+          <text class="mono" x="280" y="857">ledger</text>
+
+          <path class="hair" d="M260 850 H 150 V 650 H 585 V 700" style="stroke:var(--pass)"/>
+          <path class="hair" d="M568 684 L 585 704 L 602 684" style="stroke:var(--pass)"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // the camera settles: whole frame breathes down from 1.03 to 1.0
+    tl.fromTo('#cam', { scale: 1.03 }, { scale: 1.0, duration: 12, ease: 'power2.out' }, 0);
+
+    tl.fromTo('#sum', { opacity: 0 }, { opacity: .85, duration: 1.1, ease: 'power2.out' }, .1);
+
+    tl.fromTo('#l1', { opacity: 0, filter: 'blur(9px)' },
+      { opacity: 1, filter: 'blur(0px)', duration: .9, ease: 'expo.out' }, 1.2);
+
+    tl.fromTo('#l2', { clipPath: 'inset(0% 100% 0% 0%)' },
+      { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.0, ease: 'expo.out' }, 2.7);
+
+    // the diagram settles back, leaving the line alone
+    tl.to('#sum', { opacity: .45, duration: 2.2, ease: 'power2.inOut' }, 7.4);
+
+    window.__timelines['s7'] = tl;
+    tl.seek(0);
+  </script>
+</template>

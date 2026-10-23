@@ -1,0 +1,75 @@
+<template>
+  <style>
+    #root{position:absolute;inset:0;background:var(--ground);overflow:hidden;
+      background-image:radial-gradient(circle at 1px 1px,rgba(20,26,30,.055) 1px,transparent 0);background-size:4px 4px}
+    .hair{fill:none;stroke:var(--ink);stroke-width:1.4;stroke-linecap:round}
+    .t1{font-family:var(--font-display);font-size:76px;fill:var(--ink);letter-spacing:-.02em}
+    .mono{font-family:var(--font-mono);font-size:19px;letter-spacing:.15em;text-transform:uppercase;fill:var(--muted)}
+    .math{font-family:var(--font-display);fill:var(--ink)}
+  </style>
+
+  <div id="root" data-composition-id="s4" data-width="1920" data-height="1080">
+    <svg width="1920" height="1080" viewBox="0 0 1920 1080">
+      <text id="l1" class="t1" x="150" y="200">So the bar sits low.</text>
+
+      <g id="ineq">
+        <text class="math" x="400" y="520" style="font-size:150px;font-style:italic" id="q">q</text>
+        <text class="math" x="560" y="508" style="font-size:110px" id="gt">></text>
+        <g id="fr">
+        <text class="math" x="720" y="470" style="font-size:78px">cS</text>
+        <path class="hair" d="M716 492 H 900" style="stroke-width:2"/>
+        <text class="math" x="720" y="578" style="font-size:78px">cL</text>
+        </g>
+      </g>
+
+      <g id="axis">
+        <path class="hair" d="M400 760 H 1520" style="stroke-width:2"/>
+        <path class="hair" d="M400 750 V 770 M1520 750 V 770"/>
+        <rect id="actreg" x="601.6" y="738" width="918.4" height="24" style="fill:var(--pass)" opacity="0"/>
+        <path class="hair" id="qmark" d="M601.6 726 V 794" style="stroke:var(--warn);stroke-width:3"/>
+        <text id="qstar" class="mono" x="601.6" y="826" style="fill:var(--warn)">q* = 0.18</text>
+        <text class="mono" x="392" y="822" class="tick">0</text>
+        <text class="mono" x="1512" y="822" class="tick">1</text>
+        <text id="actlbl" class="mono" x="1240" y="712" style="fill:var(--pass)">act</text>
+      </g>
+
+      <text id="note" class="mono" x="400" y="920">act when confidence clears the ratio</text>
+    </svg>
+  </div>
+
+    </svg>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const draw = (sel, at, dur, ease) => {
+      const el = document.querySelector(sel);
+      const len = el.getTotalLength ? el.getTotalLength() : 1600;
+      gsap.set(el, { strokeDasharray: len, strokeDashoffset: len });
+      tl.to(el, { strokeDashoffset: 0, duration: dur, ease: ease || 'power2.out' }, at);
+    };
+
+    tl.fromTo('#l1', { opacity: 0, filter: 'blur(7px)' },
+      { opacity: 1, filter: 'blur(0px)', duration: .75, ease: 'expo.out' }, 0);
+
+    tl.fromTo('#q', { opacity: 0, y: 26 },
+      { opacity: 1, y: 0, duration: .6, ease: 'power4.out' }, .5);
+    tl.fromTo('#gt', { opacity: 0 }, { opacity: 1, duration: .4 }, .95);
+    tl.fromTo('#fr', { opacity: 0, x: -18 },
+      { opacity: 1, x: 0, duration: .6, ease: 'power3.out' }, 1.25);
+
+    draw('#axis path', 2.25, .8, 'power2.inOut');
+    tl.fromTo('.tick', { opacity: 0 }, { opacity: 1, duration: .35, stagger: .1 }, 2.95);
+
+    tl.fromTo('#qstar', { opacity: 0 }, { opacity: 1, duration: .4 }, 3.5);
+    tl.fromTo('#qmark', { opacity: 0 }, { opacity: 1, duration: .45, ease: 'power2.out' }, 3.55);
+    tl.fromTo('#actreg', { opacity: 0, scaleX: 0 },
+      { opacity: .16, scaleX: 1, duration: .9, ease: 'power3.out', transformOrigin: 'left center' }, 4.4);
+    tl.fromTo('#actlbl', { opacity: 0 }, { opacity: 1, duration: .5 }, 5.0);
+
+    tl.fromTo('#note', { opacity: 0 }, { opacity: 1, duration: .7, ease: 'power2.out' }, 5.8);
+
+    window.__timelines['s4'] = tl;
+    tl.seek(0);
+  </script>
+</template>
